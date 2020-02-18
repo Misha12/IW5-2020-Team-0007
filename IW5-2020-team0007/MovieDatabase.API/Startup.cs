@@ -28,16 +28,6 @@ namespace MovieDatabase.API
                 .AddOpenApiDocument(settings =>
                 {
                     settings.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.Null;
-                    
-                    settings.PostProcess = doc =>
-                    {
-                        doc.Info.Title = "MovieDatabase API";
-                        doc.Info.Version = "v1";
-                        doc.Info.Contact = new NSwag.OpenApiContact()
-                        {
-                            Name = "Michal Halabica, Jakub Koudelka, Konupèík Viktor"
-                        };
-                    };
                 })
                 .AddControllers();
         }
@@ -52,7 +42,20 @@ namespace MovieDatabase.API
             app
                 .UseRouting()
                 .UseAuthorization()
-                .UseOpenApi()
+                .UseOpenApi(settings =>
+                {
+                    settings.PostProcess = (doc, _) =>
+                    {
+                        doc.Info.Title = "MovieDatabase API";
+                        doc.Info.Version = "v1";
+                        doc.Info.Contact = new NSwag.OpenApiContact()
+                        {
+                            Name = "Michal Halabica, Jakub Koudelka, Konupèík Viktor"
+                        };
+
+                        doc.Servers.Add(new NSwag.OpenApiServer() { Url = "http://zakladna.eu:60001", Description = "Production" });
+                    };
+                })
                 .UseSwaggerUi3()
                 .UseEndpoints(endpoints =>
                 {
