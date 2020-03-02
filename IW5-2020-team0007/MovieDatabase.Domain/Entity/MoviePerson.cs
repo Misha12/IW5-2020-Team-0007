@@ -13,5 +13,7 @@ namespace MovieDatabase.Domain.Entity
 
         [ForeignKey("PersonID")]
         public Person Person { get; set; }
+
+        public MoviePersonType Type { get; set; }
     }
 }

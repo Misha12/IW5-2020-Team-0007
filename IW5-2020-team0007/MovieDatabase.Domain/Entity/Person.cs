@@ -14,13 +14,11 @@ namespace MovieDatabase.Domain.Entity
         public DateTime Birthdate { get; set; }
         public string ProfilePicture { get; set; }
 
-        public ISet<MoviePerson> ActorInMovies { get; set; }
-        public ISet<MoviePerson> DirectorOfMovies { get; set; }
+        public ISet<MoviePerson> InMovies { get; set; }
 
         public Person()
         {
-            ActorInMovies = new HashSet<MoviePerson>();
-            DirectorOfMovies = new HashSet<MoviePerson>();
+            InMovies = new HashSet<MoviePerson>();
         }
     }
 }

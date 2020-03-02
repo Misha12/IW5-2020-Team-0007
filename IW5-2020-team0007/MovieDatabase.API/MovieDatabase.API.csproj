@@ -6,13 +6,13 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>C:\Users\mhala\OneDrive\School\vutfit\IW5\IW5-2020-team0007\MovieDatabase.API\MovieDatabase.API.xml</DocumentationFile>
+    <DocumentationFile>MovieDatabase.API\MovieDatabase.API.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\mhala\OneDrive\School\vutfit\IW5\IW5-2020-team0007\MovieDatabase.API\MovieDatabase.API.xml</DocumentationFile>
+    <DocumentationFile>MovieDatabase.API\MovieDatabase.API.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>

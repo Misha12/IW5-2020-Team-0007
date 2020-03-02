@@ -18,11 +18,8 @@ namespace MovieDatabase.Domain
             modelBuilder.Entity<Movie>().HasMany(o => o.Rates).WithOne(o => o.Movie);
             modelBuilder.Entity<Movie>().HasOne(o => o.Genre).WithMany(o => o.Movies);
 
-            modelBuilder.Entity<Movie>().HasMany(o => o.Actors).WithOne(o => o.Movie);
-            modelBuilder.Entity<Movie>().HasMany(o => o.Directors).WithOne(o => o.Movie);
-
-            modelBuilder.Entity<Person>().HasMany(o => o.ActorInMovies).WithOne(o => o.Person);
-            modelBuilder.Entity<Person>().HasMany(o => o.DirectorOfMovies).WithOne(o => o.Person);
+            modelBuilder.Entity<Movie>().HasMany(o => o.Persons).WithOne(o => o.Movie);
+            modelBuilder.Entity<Person>().HasMany(o => o.InMovies).WithOne(o => o.Person);
         }
     }
 }
