@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDatabase.API", "MovieDatabase.API\MovieDatabase.API.csproj", "{D38D755F-850F-4624-9A04-C5CF955A8838}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDatabase.API", "MovieDatabase.API\MovieDatabase.API.csproj", "{D38D755F-850F-4624-9A04-C5CF955A8838}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDatabase.Domain", "MovieDatabase.Domain\MovieDatabase.Domain.csproj", "{351148C7-7B17-442C-9B75-E863C5671EE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D38D755F-850F-4624-9A04-C5CF955A8838}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D38D755F-850F-4624-9A04-C5CF955A8838}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D38D755F-850F-4624-9A04-C5CF955A8838}.Release|Any CPU.Build.0 = Release|Any CPU
+		{351148C7-7B17-442C-9B75-E863C5671EE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{351148C7-7B17-442C-9B75-E863C5671EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{351148C7-7B17-442C-9B75-E863C5671EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{351148C7-7B17-442C-9B75-E863C5671EE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
