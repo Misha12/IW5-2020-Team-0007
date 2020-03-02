@@ -4,5 +4,11 @@
         <name>MovieDatabase.API</name>
     </assembly>
     <members>
+        <member name="M:MovieDatabase.API.Controllers.GenresController.GetGenreList(System.String)">
+            <summary>
+            Získá seznam všech žánrů.
+            </summary>
+            <param name="search">Volitelný filtrační parametr nad názvem žánru.</param>
+        </member>
     </members>
 </doc>
