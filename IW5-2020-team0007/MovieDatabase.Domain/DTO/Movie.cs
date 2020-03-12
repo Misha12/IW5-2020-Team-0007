@@ -8,11 +8,10 @@
         public long Length { get; set; }
         public string Country { get; set; }
 
-        public Movie(Entity.Movie movie)
+        public Movie(Entity.Movie movie) : base(movie.ID)
         {
             Country = movie.Country;
             Genre = Genre.FromEntity(movie.Genre);
-            ID = movie.ID;
             Length = movie.Length;
             OriginalName = movie.OriginalName;
             TitleImageUrl = movie.TitleImage;
