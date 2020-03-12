@@ -68,6 +68,37 @@
             <param name="id">Jednoznačný identifikátor filmu.</param>
             <param name="data"></param>
         </member>
+        <member name="M:MovieDatabase.API.Controllers.PersonsController.GetPersons(System.String)">
+            <summary>
+            Získání seznamu všech osob.
+            </summary>
+            <param name="search">Volitelný filtrační parametr nad jménem a příjmením.</param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.PersonsController.GetPersonById(System.Int64)">
+            <summary>
+            Získání detailní informace o osobě.
+            </summary>
+            <param name="id">Jednoznačný identifikátor osoby.</param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.PersonsController.CreatePerson(MovieDatabase.API.Models.PersonInput)">
+            <summary>
+            Vytvoření osoby.
+            </summary>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.PersonsController.DeletePerson(System.Int64)">
+            <summary>
+            Smazání osoby.
+            </summary>
+            <param name="id">Jednoznačný identifikátor uživatele.</param>
+            <remarks>Pozor. Uživatel bude odebrán ze všech filmů, ve kterých režíroval, nebo hrál.</remarks>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.PersonsController.UpdatePerson(System.Int64,MovieDatabase.API.Models.PersonInput)">
+            <summary>
+            Aktualizace osoby.
+            </summary>
+            <param name="id">Jedinečný identifikátor osoby.</param>
+            <param name="data"></param>
+        </member>
         <member name="P:MovieDatabase.API.Models.GenreInput.Name">
             <summary>
             Název žánru.

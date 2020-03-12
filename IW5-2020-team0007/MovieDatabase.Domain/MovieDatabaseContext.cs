@@ -27,5 +27,6 @@ namespace MovieDatabase.Domain
 
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
     }
 }
