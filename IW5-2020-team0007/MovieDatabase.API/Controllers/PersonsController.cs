@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using MovieDatabase.API.Models;
 using MovieDatabase.API.Services;
 using MovieDatabase.Domain.DTO;
-using NSwag.Annotations;
 
 namespace MovieDatabase.API.Controllers
 {
