@@ -99,6 +99,48 @@
             <param name="id">Jedinečný identifikátor osoby.</param>
             <param name="data"></param>
         </member>
+        <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRates(System.Int64)">
+            <summary>
+            Získání seznamu hodnocení na daný film.
+            </summary>
+            <param name="movieID">Jednoznačný identifikátor filmu.</param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRateByRateId(System.Int64,System.Int64)">
+            <summary>
+            Získání hodnocení vč. základní informace o filmu.
+            </summary>
+            <param name="movieID"></param>
+            <param name="rateId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.RatesController.CreateMovieRate(System.Int64,MovieDatabase.API.Models.RateInput)">
+            <summary>
+            Vytvoření hodnocení.
+            </summary>
+            <param name="movieID">Jednoznačný identifikátor filmu.</param>
+            <param name="data"></param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.RatesController.UpdateMovieRate(System.Int64,System.Int64,MovieDatabase.API.Models.RateInput)">
+            <summary>
+            Úprava hodnocení.
+            </summary>
+            <param name="movieID">Jednoznačný identifikátor filmu.</param>
+            <param name="rateId">Jednoznačný identifkátor hodnocení.</param>
+            <param name="data"></param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.RatesController.DeleteMovieName(System.Int64,System.Int64)">
+            <summary>
+            Smazání hodnocení.
+            </summary>
+            <param name="movieID">Jedinečný identifikátor filmu.</param>
+            <param name="rateId">Jedinečný identifikátor hodnocení.</param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.RatesController.GetAllRates">
+            <summary>
+            Získání seznamu hodnocení na všechny filmy.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:MovieDatabase.API.Models.GenreInput.Name">
             <summary>
             Název žánru.

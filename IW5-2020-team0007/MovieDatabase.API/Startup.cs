@@ -44,7 +44,8 @@ namespace MovieDatabase.API
             services
                 .AddScoped<GenreManagementService>()
                 .AddScoped<MovieService>()
-                .AddScoped<PersonService>();
+                .AddScoped<PersonService>()
+                .AddScoped<RatesService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
