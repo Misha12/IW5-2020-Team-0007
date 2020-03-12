@@ -30,6 +30,10 @@ namespace MovieDatabase.API.Controllers
             return Ok(list);
         }
 
+        /// <summary>
+        /// Získání žánru na základě ID.
+        /// </summary>
+        /// <param name="id">Jedinečný identifikátor žánru.</param>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
@@ -39,6 +43,9 @@ namespace MovieDatabase.API.Controllers
             return genre == null ? NotFound(null) : (IActionResult)Ok(genre);
         }
 
+        /// <summary>
+        /// Vytvoření žánru.
+        /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Dictionary<string, string>), (int)HttpStatusCode.BadRequest)]
@@ -51,6 +58,10 @@ namespace MovieDatabase.API.Controllers
             return Ok(genre);
         }
 
+        /// <summary>
+        /// Aktualizace žánru.
+        /// </summary>
+        /// <param name="id">Jedinečný identifikátor žánru.</param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
@@ -64,6 +75,10 @@ namespace MovieDatabase.API.Controllers
             return genre == null ? NotFound(null) : (IActionResult)Ok(genre);
         }
 
+        /// <summary>
+        /// Smazání žánru.
+        /// </summary>
+        /// <param name="id">Jedinečný identifikátor žánru.</param>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
