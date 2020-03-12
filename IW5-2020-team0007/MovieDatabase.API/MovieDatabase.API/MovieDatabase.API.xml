@@ -10,6 +10,30 @@
             </summary>
             <param name="search">Volitelný filtrační parametr nad názvem žánru.</param>
         </member>
+        <member name="M:MovieDatabase.API.Controllers.GenresController.GetGenreById(System.Int32)">
+            <summary>
+            Získání žánru na základě ID.
+            </summary>
+            <param name="id">Jedinečný identifikátor žánru.</param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.GenresController.CreateGenre(MovieDatabase.API.Models.GenreInput)">
+            <summary>
+            Vytvoření žánru.
+            </summary>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.GenresController.UpdateGenre(System.Int32,MovieDatabase.API.Models.GenreInput)">
+            <summary>
+            Aktualizace žánru.
+            </summary>
+            <param name="id">Jedinečný identifikátor žánru.</param>
+            <param name="data"></param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.GenresController.DeleteGenre(System.Int32)">
+            <summary>
+            Smazání žánru.
+            </summary>
+            <param name="id">Jedinečný identifikátor žánru.</param>
+        </member>
         <member name="M:MovieDatabase.API.Controllers.MoviesController.GetMovies(System.String,System.Int32[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String[])">
             <summary>
             Získání seznamu všech dostupných filmů.
@@ -37,16 +61,12 @@
             </summary>
             <param name="id">Jednoznačný identifikátor filmu.</param>
         </member>
-        <member name="M:MovieDatabase.API.Controllers.MoviesController.UpdateMovie(System.Int64,System.String,System.Nullable{System.Int32},System.Nullable{System.Int64},System.String,System.String)">
+        <member name="M:MovieDatabase.API.Controllers.MoviesController.UpdateMovie(System.Int64,MovieDatabase.API.Models.MovieInput)">
             <summary>
             Úprava filmu.
             </summary>
             <param name="id">Jednoznačný identifikátor filmu.</param>
-            <param name="name">Nový název filmu.</param>
-            <param name="genreID">Nové ID žánru.</param>
-            <param name="length">Nová délka filmu.</param>
-            <param name="country">Nová země původu.</param>
-            <param name="description">Nový popis.</param>
+            <param name="data"></param>
         </member>
         <member name="P:MovieDatabase.API.Models.GenreInput.Name">
             <summary>
@@ -76,6 +96,16 @@
         <member name="P:MovieDatabase.API.Models.MovieInput.Description">
             <summary>
             Popis filmu.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.TitleImageUrl">
+            <summary>
+            URL odkaz na titulní obrázek.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.Names">
+            <summary>
+            Překlady názvů filmů.
             </summary>
         </member>
     </members>

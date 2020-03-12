@@ -39,7 +39,7 @@ namespace MovieDatabase.API.Controllers
         /// </summary>
         /// <param name="id">Jednoznačný identifikátor filmu.</param>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Movie), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MovieWithNames), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
         public IActionResult GetMovieById(long id)
         {
@@ -51,14 +51,14 @@ namespace MovieDatabase.API.Controllers
         /// Založení filmu.
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(Movie), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Dictionary<string, string>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(MovieWithNames), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public IActionResult CreateMovie([FromBody] MovieInput data)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!data.IsValid())
+                return BadRequest(new ErrorModel("Invalid input data. Check input.")); // TODO: něco rozumnějšího.
 
-            var movie = Service.CreateMovie(data.OriginalName, data.Genre, data.Length, data.Country, data.Description);
+            var movie = Service.CreateMovie(data);
             return Ok(movie);
         }
 
@@ -79,17 +79,13 @@ namespace MovieDatabase.API.Controllers
         /// Úprava filmu.
         /// </summary>
         /// <param name="id">Jednoznačný identifikátor filmu.</param>
-        /// <param name="name">Nový název filmu.</param>
-        /// <param name="genreID">Nové ID žánru.</param>
-        /// <param name="length">Nová délka filmu.</param>
-        /// <param name="country">Nová země původu.</param>
-        /// <param name="description">Nový popis.</param>
+        /// <param name="data"></param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MovieWithNames), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
-        public IActionResult UpdateMovie(long id, string name, int? genreID = null, long? length = null, string country = null, string description = null)
+        public IActionResult UpdateMovie(long id, [FromBody] MovieInput data)
         {
-            var movie = Service.UpdateMovie(id, name, genreID, length, country, description);
+            var movie = Service.UpdateMovie(id, data);
             return movie == null ? NotFound(null) : (IActionResult)Ok(movie);
         }
     }

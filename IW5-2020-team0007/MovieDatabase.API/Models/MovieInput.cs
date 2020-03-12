@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace MovieDatabase.API.Models
 {
@@ -7,31 +7,42 @@ namespace MovieDatabase.API.Models
         /// <summary>
         /// Název filmu.
         /// </summary>
-        [Required]
         public string OriginalName { get; set; }
 
         /// <summary>
         /// Identifikátor žánru.
         /// </summary>
-        [Required]
         public int Genre { get; set; }
 
         /// <summary>
         /// Délka filmu.
         /// </summary>
-        [Required]
         public long Length { get; set; }
 
         /// <summary>
         /// Země původu filmu.
         /// </summary>
-        [Required]
         public string Country { get; set; }
 
         /// <summary>
         /// Popis filmu.
         /// </summary>
-        [Required]
         public string Description { get; set; }
+
+        /// <summary>
+        /// URL odkaz na titulní obrázek.
+        /// </summary>
+        public string TitleImageUrl { get; set; }
+
+        /// <summary>
+        /// Překlady názvů filmů.
+        /// </summary>
+        public List<MovieNameInput> Names { get; set; }
+
+        public bool IsValid()
+        {
+            // Vlastni validace, protože používáme 1 model i pro editaci, kde jsou pole výše nepovinná.
+            return !string.IsNullOrEmpty(OriginalName) && Genre > 0 && Length > -1 && !string.IsNullOrEmpty(Country);
+        }
     }
 }

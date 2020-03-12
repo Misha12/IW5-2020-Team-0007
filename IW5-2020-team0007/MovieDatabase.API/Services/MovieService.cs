@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieDatabase.API.Models;
 using MovieDatabase.Domain;
 using MovieDatabase.Domain.DTO;
 using System;
@@ -17,9 +18,22 @@ namespace MovieDatabase.API.Services
             Context = context;
         }
 
+        private IQueryable<MovieEntity> GetBaseQuery(bool includeGenre = false, bool includeNames = false)
+        {
+            var query = Context.Movies.AsQueryable();
+
+            if (includeGenre)
+                query = query.Include(o => o.Genre);
+
+            if (includeNames)
+                query = query.Include(o => o.Names);
+
+            return query;
+        }
+
         public List<Movie> GetMovieList(string searchName, int[] genres, long? lengthFrom, long? lengthTo, string[] countries)
         {
-            var query = Context.Movies.Include(o => o.Genre).AsQueryable();
+            var query = GetBaseQuery(true);
 
             if (!string.IsNullOrEmpty(searchName))
                 query = query.Where(o => o.OriginalName.Contains(searchName));
@@ -37,30 +51,39 @@ namespace MovieDatabase.API.Services
                 query = query.Where(o => countries.Contains(o.Country));
 
             var data = query.ToList();
-            return data.Select(Movie.FromEntity).ToList();
+            return data.Select(o => new Movie(o)).ToList();
         }
 
         public Movie FindMovieById(long id)
         {
-            var item = Context.Movies.Include(o => o.Genre).FirstOrDefault(o => o.ID == id);
-            return item == null ? null : Movie.FromEntity(item);
+            var item = GetBaseQuery(true, true).FirstOrDefault(o => o.ID == id);
+            return item == null ? null : new MovieWithNames(item);
         }
 
-        public Movie CreateMovie(string originalName, int genreID, long length, string country, string description = null)
+        public Movie CreateMovie(MovieInput data)
         {
             var entity = new MovieEntity()
             {
-                Country = country,
-                Description = description,
-                GenreID = genreID,
-                Length = length,
-                OriginalName = originalName
+                Country = data.Country,
+                Description = data.Description,
+                GenreID = data.Genre,
+                Length = data.Length,
+                OriginalName = data.OriginalName,
+                TitleImage = data.TitleImageUrl
             };
+
+            if(data.Names?.Count > 0)
+            {
+                foreach(var name in data.Names)
+                {
+                    entity.Names.Add(new Domain.Entity.MovieName() { Lang = name.Lang, Name = name.Name });
+                }
+            }
 
             Context.Movies.Add(entity);
             Context.SaveChanges();
 
-            return Movie.FromEntity(entity);
+            return new MovieWithNames(entity);
         }
 
         public bool DeleteMovie(long id)
@@ -76,27 +99,44 @@ namespace MovieDatabase.API.Services
             return true;
         }
 
-        public Movie UpdateMovie(long id, string originalName = null, int? genre = null, long? length = null, string country = null, string description = null)
+        public Movie UpdateMovie(long id, MovieInput newData)
         {
-            var item = Context.Movies.FirstOrDefault(o => o.ID == id);
+            var item = GetBaseQuery(false, true).FirstOrDefault(o => o.ID == id);
 
             if (item == null)
                 return null;
 
-            if (!string.IsNullOrEmpty(originalName))
-                item.OriginalName = originalName;
+            if (!string.IsNullOrEmpty(newData.OriginalName))
+                item.OriginalName = newData.OriginalName;
 
-            if (genre != null)
-                item.GenreID = genre.Value;
+            if (newData.Genre > 0)
+                item.GenreID = newData.Genre;
 
-            if (length != null)
-                item.Length = length.Value;
+            if (newData.Length > 0)
+                item.Length = newData.Length;
 
-            if (!string.IsNullOrEmpty(country))
-                item.Country = country;
+            if (!string.IsNullOrEmpty(newData.Country))
+                item.Country = newData.Country;
 
-            if (!string.IsNullOrEmpty(description))
-                item.Description = description;
+            if (!string.IsNullOrEmpty(newData.Description))
+                item.Description = newData.Description;
+
+            if (!string.IsNullOrEmpty(newData.TitleImageUrl))
+                item.TitleImage = newData.TitleImageUrl;
+
+            if(newData.Names?.Count > 0)
+            {
+                item.Names.Clear();
+
+                foreach(var name in newData.Names)
+                {
+                    item.Names.Add(new Domain.Entity.MovieName()
+                    {
+                        Lang = name.Lang,
+                        Name = name.Name
+                    });
+                }
+            }
 
             Context.SaveChanges();
             return FindMovieById(id);

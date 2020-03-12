@@ -62,6 +62,7 @@ namespace MovieDatabase.API.Controllers
         /// Aktualizace žánru.
         /// </summary>
         /// <param name="id">Jedinečný identifikátor žánru.</param>
+        /// <param name="data"></param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
