@@ -42,7 +42,8 @@ namespace MovieDatabase.API
                 .AddControllers();
 
             services
-                .AddScoped<GenreManagementService>();
+                .AddScoped<GenreManagementService>()
+                .AddScoped<MovieService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

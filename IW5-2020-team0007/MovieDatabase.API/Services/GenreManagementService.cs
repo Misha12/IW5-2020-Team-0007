@@ -24,44 +24,25 @@ namespace MovieDatabase.API.Services
                 query = query.Where(o => o.Name.Contains(search));
             }
 
-            return query
-                .Select(o => new Genre()
-                {
-                    Name = o.Name,
-                    ID = o.ID
-                })
-                .ToList();
+            var data = query.ToList();
+            return data.Select(Genre.FromEntity).ToList();
         }
 
         public Genre FindGenreById(int id)
         {
             var item = Context.Genres.FirstOrDefault(o => o.ID == id);
 
-            if (item == null)
-                return null;
-
-            return new Genre()
-            {
-                ID = item.ID,
-                Name = item.Name
-            };
+            return item == null ? null : Genre.FromEntity(item);
         }
 
         public Genre CreateGenre(string name)
         {
-            var entity = new DBGenre()
-            {
-                Name = name
-            };
+            var entity = new DBGenre() { Name = name };
 
             Context.Add(entity);
             Context.SaveChanges();
 
-            return new Genre()
-            {
-                Name = entity.Name,
-                ID = entity.ID
-            };
+            return Genre.FromEntity(entity);
         }
 
         public bool DeleteGenre(int id)
@@ -87,12 +68,7 @@ namespace MovieDatabase.API.Services
             item.Name = newName;
 
             Context.SaveChanges();
-
-            return new Genre()
-            {
-                Name = item.Name,
-                ID = item.ID
-            };
+            return Genre.FromEntity(item);
         }
     }
 }

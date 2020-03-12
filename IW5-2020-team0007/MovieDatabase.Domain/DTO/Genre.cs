@@ -1,8 +1,19 @@
 ﻿namespace MovieDatabase.Domain.DTO
 {
-    public class Genre
+    public class Genre : ItemBase<int>
     {
-        public int ID { get; set; }
         public string Name { get; set; }
+
+        public static Genre FromEntity(Entity.Genre genre)
+        {
+            if (genre == null)
+                return null;
+
+            return new Genre()
+            {
+                ID = genre.ID,
+                Name = genre.Name
+            };
+        }
     }
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieDatabase.API.Models;
 using MovieDatabase.API.Services;
@@ -35,21 +31,17 @@ namespace MovieDatabase.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
         public IActionResult GetGenreById(int id)
         {
             var genre = Service.FindGenreById(id);
-
-            if (genre == null)
-                return NotFound();
-
-            return Ok(genre);
+            return genre == null ? NotFound(null) : (IActionResult)Ok(genre);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Dictionary<string, string>), (int)HttpStatusCode.BadRequest)]
         public IActionResult CreateGenre([FromBody] GenreInput data)
         {
             if (!ModelState.IsValid)
@@ -61,27 +53,24 @@ namespace MovieDatabase.API.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(Dictionary<string, string>), (int)HttpStatusCode.BadRequest)]
         public IActionResult UpdateGenre(int id, [FromBody] GenreInput data)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var genre = Service.UpdateGenre(id, data.Name);
-
-            if (genre == null)
-                return NotFound();
-
-            return Ok(genre);
+            return genre == null ? NotFound(null) : (IActionResult)Ok(genre);
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
         public IActionResult DeleteGenre(int id)
         {
             var success = Service.DeleteGenre(id);
-
-            return success ? Ok() : (IActionResult)NotFound();
+            return success ? Ok() : (IActionResult)NotFound(null);
         }
     }
 }

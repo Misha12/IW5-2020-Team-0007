@@ -10,5 +10,73 @@
             </summary>
             <param name="search">Volitelný filtrační parametr nad názvem žánru.</param>
         </member>
+        <member name="M:MovieDatabase.API.Controllers.MoviesController.GetMovies(System.String,System.Int32[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String[])">
+            <summary>
+            Získání seznamu všech dostupných filmů.
+            </summary>
+            <param name="searchName">Volitelný vyhledávací parametr pro název filmu.</param>
+            <param name="genres">Kolekce identifikátorů žánrů.</param>
+            <param name="lengthFrom">Minimální délka</param>
+            <param name="lengthTo">Maximální délka</param>
+            <param name="countries">Kolekce zemí původů.</param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.MoviesController.GetMovieById(System.Int64)">
+            <summary>
+            Získání filmu podle identifkátoru.
+            </summary>
+            <param name="id">Jednoznačný identifikátor filmu.</param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.MoviesController.CreateMovie(MovieDatabase.API.Models.MovieInput)">
+            <summary>
+            Založení filmu.
+            </summary>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.MoviesController.DeleteMovie(System.Int64)">
+            <summary>
+            Smazání filmu.
+            </summary>
+            <param name="id">Jednoznačný identifikátor filmu.</param>
+        </member>
+        <member name="M:MovieDatabase.API.Controllers.MoviesController.UpdateMovie(System.Int64,System.String,System.Nullable{System.Int32},System.Nullable{System.Int64},System.String,System.String)">
+            <summary>
+            Úprava filmu.
+            </summary>
+            <param name="id">Jednoznačný identifikátor filmu.</param>
+            <param name="name">Nový název filmu.</param>
+            <param name="genreID">Nové ID žánru.</param>
+            <param name="length">Nová délka filmu.</param>
+            <param name="country">Nová země původu.</param>
+            <param name="description">Nový popis.</param>
+        </member>
+        <member name="P:MovieDatabase.API.Models.GenreInput.Name">
+            <summary>
+            Název žánru.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.OriginalName">
+            <summary>
+            Název filmu.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.Genre">
+            <summary>
+            Identifikátor žánru.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.Length">
+            <summary>
+            Délka filmu.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.Country">
+            <summary>
+            Země původu filmu.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.Description">
+            <summary>
+            Popis filmu.
+            </summary>
+        </member>
     </members>
 </doc>
