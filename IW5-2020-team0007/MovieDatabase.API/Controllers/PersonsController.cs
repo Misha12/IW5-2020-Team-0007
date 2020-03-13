@@ -35,7 +35,7 @@ namespace MovieDatabase.API.Controllers
         /// </summary>
         /// <param name="id">Jednoznačný identifikátor osoby.</param>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Person), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(PersonDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
         public IActionResult GetPersonById(long id)
         {

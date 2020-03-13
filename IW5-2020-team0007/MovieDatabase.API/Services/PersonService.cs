@@ -28,10 +28,14 @@ namespace MovieDatabase.API.Services
             return data.Select(o => new Person(o)).ToList();
         }
 
-        public Person FindPersonByID(long id)
+        public PersonDetail FindPersonByID(long id)
         {
-            var person = Context.Persons.FirstOrDefault(o => o.ID == id);
-            return person == null ? null : new Person(person);
+            var person = Context.Persons
+                .Include(o => o.InMovies)
+                .ThenInclude(o => o.Movie)
+                .FirstOrDefault(o => o.ID == id);
+
+            return person == null ? null : new PersonDetail(person);
         }
 
         public Person CreatePerson(PersonInput data)
