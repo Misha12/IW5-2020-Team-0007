@@ -4,7 +4,11 @@ namespace MovieDatabase.API.Models
 {
     public class GenreInput
     {
-        [Required]
+        /// <summary>
+        /// Název žánru.
+        /// </summary>
         public string Name { get; set; }
+
+        public bool IsValid() => !string.IsNullOrEmpty(Name);
     }
 }

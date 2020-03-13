@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NSwag.Annotations;
+using MovieDatabase.API.Models;
+using MovieDatabase.API.Services;
+using MovieDatabase.Domain.DTO;
 
 namespace MovieDatabase.API.Controllers
 {
@@ -13,39 +11,82 @@ namespace MovieDatabase.API.Controllers
     [Route("movies")]
     public class MoviesController : ControllerBase
     {
+        private MovieService Service { get; }
+
+        public MoviesController(MovieService service)
+        {
+            Service = service;
+        }
+
+        /// <summary>
+        /// Získání seznamu všech dostupných filmů.
+        /// </summary>
+        /// <param name="searchName">Volitelný vyhledávací parametr pro název filmu.</param>
+        /// <param name="genres">Kolekce identifikátorů žánrů.</param>
+        /// <param name="lengthFrom">Minimální délka</param>
+        /// <param name="lengthTo">Maximální délka</param>
+        /// <param name="countries">Kolekce zemí původů.</param>
         [HttpGet]
-        [SwaggerResponse(HttpStatusCode.NotImplemented, typeof(NotImplementedException))]
-        public IActionResult GetMovies()
+        [ProducesResponseType(typeof(List<Movie>), (int)HttpStatusCode.OK)]
+        public IActionResult GetMovies(string searchName = null, [FromQuery] int[] genres = null, long? lengthFrom = null, long? lengthTo = null, [FromQuery] string[] countries = null)
         {
-            return StatusCode(501);
+            var data = Service.GetMovieList(searchName, genres, lengthFrom, lengthTo, countries);
+            return Ok(data);
         }
 
+        /// <summary>
+        /// Získání detailních informací o filmu.
+        /// </summary>
+        /// <param name="id">Jednoznačný identifikátor filmu.</param>
         [HttpGet("{id}")]
-        [SwaggerResponse(HttpStatusCode.NotImplemented, typeof(NotImplementedException))]
-        public IActionResult GetMovieById(long id)
+        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
+        public IActionResult GetMovieByID(long id)
         {
-            return StatusCode(501);
+            var data = Service.FindMovieByID(id);
+            return data == null ? NotFound(new ErrorModel("Požadovaný film neexistuje.")) : (IActionResult)Ok(data);
         }
 
+        /// <summary>
+        /// Založení filmu.
+        /// </summary>
         [HttpPost]
-        [SwaggerResponse(HttpStatusCode.NotImplemented, typeof(NotImplementedException))]
-        public IActionResult CreateMovie(/*TODO: Parametry*/)
+        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
+        public IActionResult CreateMovie([FromBody] MovieInput data)
         {
-            return StatusCode(501);
+            if (!data.IsValid(out string message))
+                return BadRequest(new ErrorModel(message));
+
+            var movie = Service.CreateMovie(data);
+            return Ok(movie);
         }
 
+        /// <summary>
+        /// Smazání filmu.
+        /// </summary>
+        /// <param name="id">Jednoznačný identifikátor filmu.</param>
         [HttpDelete("{id}")]
-        [SwaggerResponse(HttpStatusCode.NotImplemented, typeof(NotImplementedException))]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
         public IActionResult DeleteMovie(long id)
         {
-            return StatusCode(501);
+            var success = Service.DeleteMovie(id);
+            return success ? Ok(null) : (IActionResult)NotFound(null);
         }
 
+        /// <summary>
+        /// Úprava filmu.
+        /// </summary>
+        /// <param name="id">Jednoznačný identifikátor filmu.</param>
+        /// <param name="data"></param>
         [HttpPut("{id}")]
-        [SwaggerResponse(HttpStatusCode.NotImplemented, typeof(NotImplementedException))]
-        public IActionResult UpdateMovie(long id /*TODO: dalsi parametry z body*/)
+        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
+        public IActionResult UpdateMovie(long id, [FromBody] MovieInput data)
         {
-            return StatusCode(501);
+            var movie = Service.UpdateMovie(id, data);
+            return movie == null ? NotFound(new ErrorModel("Požadovaný film neexistuje.")) : (IActionResult)Ok(movie);
         }
     }
 }

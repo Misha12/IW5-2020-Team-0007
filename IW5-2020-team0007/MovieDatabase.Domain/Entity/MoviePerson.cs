@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDatabase.Domain.Entity
 {
+    [Table("MoviePersons")]
     public class MoviePerson
     {
         public long MovieID { get; set; }

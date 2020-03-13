@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# S1168: Empty arrays and collections should be returned instead of null
+dotnet_diagnostic.S1168.severity = none

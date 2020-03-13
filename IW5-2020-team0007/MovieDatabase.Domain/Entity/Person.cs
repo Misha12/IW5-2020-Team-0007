@@ -11,7 +11,6 @@ namespace MovieDatabase.Domain.Entity
 
         [StringLength(255)]
         public string Surname { get; set; }
-        public DateTime Birthdate { get; set; }
         public string ProfilePicture { get; set; }
 
         public ISet<MoviePerson> InMovies { get; set; }

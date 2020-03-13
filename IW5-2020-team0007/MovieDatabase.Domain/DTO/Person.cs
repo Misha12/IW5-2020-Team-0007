@@ -2,12 +2,19 @@
 
 namespace MovieDatabase.Domain.DTO
 {
-    public class Person
+    public class Person : ItemBase<long>
     {
-        public long ID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public DateTime Birthdate { get; set; }
-        public string ProfilePicture { get; set; }
+        public string ProfilePictureUrl { get; set; }
+
+        public Person(Entity.Person person) : base(person.ID)
+        {
+            Name = person.Name;
+            Surname = person.Surname;
+            ProfilePictureUrl = person.ProfilePicture;
+        }
+
+        public Person() { }
     }
 }

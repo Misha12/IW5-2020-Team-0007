@@ -22,10 +22,12 @@ namespace MovieDatabase.Domain
             modelBuilder.Entity<Person>().HasMany(o => o.InMovies).WithOne(o => o.Person);
 
             modelBuilder.Entity<MoviePerson>()
-                .HasKey(o => new { o.MovieID, o.PersonID });
+                .HasKey(o => new { o.MovieID, o.PersonID, o.Type });
         }
 
         public virtual DbSet<Genre> Genres { get; set; }
+        public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<Person> Persons { get; set; }
+        public virtual DbSet<Rate> Rates { get; set; }
     }
 }
