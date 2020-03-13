@@ -27,9 +27,9 @@ namespace MovieDatabase.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<Rate>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetMovieRates(long movieID)
+        public IActionResult GetMovieRates(long movieID, int? scoreFrom = null, int? scoreTo = null)
         {
-            var list = Service.GetRateList(movieID);
+            var list = Service.GetRateList(movieID, scoreFrom, scoreTo);
 
             if (list == null)
                 return NotFound(new ErrorModel("Požadovaný film nebyl nalezen."));
@@ -104,9 +104,9 @@ namespace MovieDatabase.API.Controllers
         /// <returns></returns>
         [HttpGet("/rates")]
         [ProducesResponseType(typeof(List<Rate>), (int)HttpStatusCode.OK)]
-        public IActionResult GetAllRates()
+        public IActionResult GetAllRates(int? scoreFrom = null, int? scoreTo = null)
         {
-            return Ok(Service.GetRateList(null));
+            return Ok(Service.GetRateList(null, scoreFrom, scoreTo));
         }
     }
 }

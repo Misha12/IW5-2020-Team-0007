@@ -99,7 +99,7 @@
             <param name="id">Jedinečný identifikátor osoby.</param>
             <param name="data"></param>
         </member>
-        <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRates(System.Int64)">
+        <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRates(System.Int64,System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
             Získání seznamu hodnocení na daný film.
             </summary>
@@ -135,7 +135,7 @@
             <param name="movieID">Jedinečný identifikátor filmu.</param>
             <param name="rateID">Jedinečný identifikátor hodnocení.</param>
         </member>
-        <member name="M:MovieDatabase.API.Controllers.RatesController.GetAllRates">
+        <member name="M:MovieDatabase.API.Controllers.RatesController.GetAllRates(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
             Získání seznamu hodnocení na všechny filmy.
             </summary>

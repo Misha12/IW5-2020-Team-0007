@@ -17,22 +17,38 @@ namespace MovieDatabase.API.Services
             Context = context;
         }
 
-        public List<Rate> GetRateList(long? movieID)
+        public List<Rate> GetRateList(long? movieID, int? scoreFrom, int? scoreTo)
         {
             List<DBRate> rates = null;
 
             if (movieID == null)
             {
-                rates = Context.Rates.ToList();
+                var query = Context.Rates.AsQueryable();
+
+                if (scoreFrom != null)
+                    query = query.Where(o => o.Score >= scoreFrom.Value);
+
+                if (scoreTo != null)
+                    query = query.Where(o => o.Score < scoreTo.Value);
+
+                rates = query.ToList();
             }
             else
             {
-                var movie = Context.Movies.Include(o => o.Rates).FirstOrDefault(o => o.ID == movieID.Value);
+                var movie = Context.Movies
+                    .Include(o => o.Rates)
+                    .FirstOrDefault(o => o.ID == movieID.Value);
 
                 if (movie == null)
                     return null;
 
                 rates = movie.Rates.ToList();
+
+                if (scoreFrom != null)
+                    rates = rates.Where(o => o.Score >= scoreFrom.Value).ToList();
+
+                if (scoreTo != null)
+                    rates = rates.Where(o => o.Score < scoreTo.Value).ToList();
             }
 
             return rates.Select(o => new Rate(o)).ToList();
