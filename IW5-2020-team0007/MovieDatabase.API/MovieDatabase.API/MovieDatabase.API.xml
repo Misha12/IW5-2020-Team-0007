@@ -46,7 +46,7 @@
         </member>
         <member name="M:MovieDatabase.API.Controllers.MoviesController.GetMovieById(System.Int64)">
             <summary>
-            Získání filmu podle identifkátoru.
+            Získání detailních informací o filmu.
             </summary>
             <param name="id">Jednoznačný identifikátor filmu.</param>
         </member>
@@ -179,6 +179,16 @@
         <member name="P:MovieDatabase.API.Models.MovieInput.Names">
             <summary>
             Překlady názvů filmů.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.Actors">
+            <summary>
+            Seznam identifikátorů osob, co ve filmu hrají.
+            </summary>
+        </member>
+        <member name="P:MovieDatabase.API.Models.MovieInput.Directors">
+            <summary>
+            Seznam identifikátorů osob, co film režírují.
             </summary>
         </member>
     </members>

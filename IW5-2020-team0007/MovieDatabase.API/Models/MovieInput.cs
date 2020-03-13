@@ -39,10 +39,46 @@ namespace MovieDatabase.API.Models
         /// </summary>
         public List<MovieNameInput> Names { get; set; }
 
-        public bool IsValid()
+        /// <summary>
+        /// Seznam identifikátorů osob, co ve filmu hrají.
+        /// </summary>
+        public List<long> Actors { get; set; }
+
+        /// <summary>
+        /// Seznam identifikátorů osob, co film režírují.
+        /// </summary>
+        public List<long> Directors { get; set; }
+
+        public bool IsValid(out string errorMessage)
         {
+            errorMessage = null;
+
+            if(string.IsNullOrEmpty(OriginalName))
+            {
+                errorMessage = "Originální jméno filmu nemůže být prádzné.";
+                return false;
+            }
+
+            if(Genre <= 0)
+            {
+                errorMessage = "Nebyl specifikován žánr.";
+                return false;
+            }
+
+            if(Length < 0)
+            {
+                errorMessage = "Nebyla specifikována délka filmu.";
+                return false;
+            }
+
+            if(string.IsNullOrEmpty(Country))
+            {
+                errorMessage = "Nebyla specifikována země původu.";
+                return false;
+            }
+
+            return true;
             // Vlastni validace, protože používáme 1 model i pro editaci, kde jsou pole výše nepovinná.
-            return !string.IsNullOrEmpty(OriginalName) && Genre > 0 && Length > -1 && !string.IsNullOrEmpty(Country);
         }
     }
 }

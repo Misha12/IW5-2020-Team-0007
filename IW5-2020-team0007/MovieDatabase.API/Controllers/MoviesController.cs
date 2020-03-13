@@ -35,11 +35,11 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání filmu podle identifkátoru.
+        /// Získání detailních informací o filmu.
         /// </summary>
         /// <param name="id">Jednoznačný identifikátor filmu.</param>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(MovieWithNames), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
         public IActionResult GetMovieById(long id)
         {
@@ -51,12 +51,12 @@ namespace MovieDatabase.API.Controllers
         /// Založení filmu.
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(MovieWithNames), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public IActionResult CreateMovie([FromBody] MovieInput data)
         {
-            if (!data.IsValid())
-                return BadRequest(new ErrorModel("Invalid input data. Check input.")); // TODO: něco rozumnějšího.
+            if (!data.IsValid(out string message))
+                return BadRequest(new ErrorModel(message));
 
             var movie = Service.CreateMovie(data);
             return Ok(movie);
@@ -81,7 +81,7 @@ namespace MovieDatabase.API.Controllers
         /// <param name="id">Jednoznačný identifikátor filmu.</param>
         /// <param name="data"></param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(MovieWithNames), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
         public IActionResult UpdateMovie(long id, [FromBody] MovieInput data)
         {

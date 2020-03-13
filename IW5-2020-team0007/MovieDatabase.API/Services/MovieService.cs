@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MovieEntity = MovieDatabase.Domain.Entity.Movie;
+using MoviePersonEntity = MovieDatabase.Domain.Entity.MoviePerson;
+using MoviePersonType = MovieDatabase.Domain.Entity.MoviePersonType;
 
 namespace MovieDatabase.API.Services
 {
@@ -18,22 +20,9 @@ namespace MovieDatabase.API.Services
             Context = context;
         }
 
-        private IQueryable<MovieEntity> GetBaseQuery(bool includeGenre = false, bool includeNames = false)
-        {
-            var query = Context.Movies.AsQueryable();
-
-            if (includeGenre)
-                query = query.Include(o => o.Genre);
-
-            if (includeNames)
-                query = query.Include(o => o.Names);
-
-            return query;
-        }
-
         public List<Movie> GetMovieList(string searchName, int[] genres, long? lengthFrom, long? lengthTo, string[] countries)
         {
-            var query = GetBaseQuery(true);
+            var query = Context.Movies.Include(o => o.Genre).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchName))
                 query = query.Where(o => o.OriginalName.Contains(searchName));
@@ -56,8 +45,14 @@ namespace MovieDatabase.API.Services
 
         public Movie FindMovieById(long id)
         {
-            var item = GetBaseQuery(true, true).FirstOrDefault(o => o.ID == id);
-            return item == null ? null : new MovieWithNames(item);
+            var item = Context.Movies
+                .Include(o => o.Genre)
+                .Include(o => o.Names)
+                .Include(o => o.Persons)
+                .ThenInclude(o => o.Person)
+                .FirstOrDefault(o => o.ID == id);
+
+            return item == null ? null : new MovieDetail(item);
         }
 
         public Movie CreateMovie(MovieInput data)
@@ -72,26 +67,45 @@ namespace MovieDatabase.API.Services
                 TitleImage = data.TitleImageUrl
             };
 
-            if(data.Names?.Count > 0)
+            if (data.Names?.Count > 0)
+                entity.Names = data.Names.Select(o => new Domain.Entity.MovieName() { Lang = o.Lang, Name = o.Name }).ToHashSet();
+
+            if (data.Actors?.Count > 0)
             {
-                foreach(var name in data.Names)
+                foreach (var actor in data.Actors)
                 {
-                    entity.Names.Add(new Domain.Entity.MovieName() { Lang = name.Lang, Name = name.Name });
+                    entity.Persons.Add(new MoviePersonEntity() { Type = MoviePersonType.Actor, PersonID = actor });
+                }
+            }
+
+            if (data.Directors?.Count > 0)
+            {
+                foreach (var director in data.Directors)
+                {
+                    entity.Persons.Add(new MoviePersonEntity() { PersonID = director, Type = MoviePersonType.Director });
                 }
             }
 
             Context.Movies.Add(entity);
             Context.SaveChanges();
 
-            return new MovieWithNames(entity);
+            return new MovieDetail(entity);
         }
 
         public bool DeleteMovie(long id)
         {
-            var item = Context.Movies.FirstOrDefault(o => o.ID == id);
+            var item = Context.Movies
+                .Include(o => o.Persons)
+                .Include(o => o.Names)
+                .Include(o => o.Rates)
+                .FirstOrDefault(o => o.ID == id);
 
             if (item == null)
                 return false;
+
+            item.Persons.Clear();
+            item.Names.Clear();
+            item.Rates.Clear();
 
             Context.Movies.Remove(item);
             Context.SaveChanges();
@@ -101,7 +115,10 @@ namespace MovieDatabase.API.Services
 
         public Movie UpdateMovie(long id, MovieInput newData)
         {
-            var item = GetBaseQuery(false, true).FirstOrDefault(o => o.ID == id);
+            var item = Context.Movies
+                .Include(o => o.Names)
+                .Include(o => o.Persons)
+                .FirstOrDefault(o => o.ID == id);
 
             if (item == null)
                 return null;
@@ -124,17 +141,35 @@ namespace MovieDatabase.API.Services
             if (!string.IsNullOrEmpty(newData.TitleImageUrl))
                 item.TitleImage = newData.TitleImageUrl;
 
-            if(newData.Names?.Count > 0)
+            if (newData.Names?.Count > 0)
             {
                 item.Names.Clear();
 
-                foreach(var name in newData.Names)
+                foreach (var name in newData.Names)
                 {
                     item.Names.Add(new Domain.Entity.MovieName()
                     {
                         Lang = name.Lang,
                         Name = name.Name
                     });
+                }
+            }
+
+            if (newData.Actors != null || newData.Directors != null)
+            {
+                var currentActors = item.Persons.Where(o => o.Type == MoviePersonType.Actor).Select(o => o.PersonID).ToList();
+                var currentDirectors = item.Persons.Where(o => o.Type == MoviePersonType.Director).Select(o => o.PersonID).ToList();
+
+                item.Persons.Clear();
+
+                foreach(var actor in newData.Actors ?? currentActors)
+                {
+                    item.Persons.Add(new MoviePersonEntity() { PersonID = actor, Type = MoviePersonType.Actor });
+                }
+
+                foreach(var director in newData.Directors ?? currentDirectors)
+                {
+                    item.Persons.Add(new MoviePersonEntity() { PersonID = director, Type = MoviePersonType.Director });
                 }
             }
 
