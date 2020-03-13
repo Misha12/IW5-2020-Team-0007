@@ -68,5 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MovieDatabase.DB.publish.xml" />
+    <None Include="Jester.publish.xml" />
   </ItemGroup>
 </Project>
