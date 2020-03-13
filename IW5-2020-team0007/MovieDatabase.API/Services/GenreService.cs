@@ -48,10 +48,20 @@ namespace MovieDatabase.API.Services
 
         public bool DeleteGenre(int id)
         {
-            var item = Context.Genres.FirstOrDefault(o => o.ID == id);
+            var item = Context.Genres
+                .Include(o => o.Movies)
+                .FirstOrDefault(o => o.ID == id);
 
             if (item == null)
                 return false;
+
+            if(item.Movies?.Count > 0)
+            {
+                foreach(var movie in item.Movies)
+                {
+                    movie.GenreID = 0;
+                }
+            }
 
             Context.Genres.Remove(item);
             Context.SaveChanges();
