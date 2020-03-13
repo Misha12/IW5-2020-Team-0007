@@ -37,7 +37,7 @@ namespace MovieDatabase.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(PersonDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetPersonById(long id)
+        public IActionResult GetPersonByID(long id)
         {
             var person = Service.FindPersonByID(id);
             return person == null ? (IActionResult)NotFound(new ErrorModel("Osoba s požadovaným ID neexistuje")) : Ok(person);

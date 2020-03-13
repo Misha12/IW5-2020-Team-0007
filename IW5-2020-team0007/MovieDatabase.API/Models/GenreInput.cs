@@ -7,7 +7,8 @@ namespace MovieDatabase.API.Models
         /// <summary>
         /// Název žánru.
         /// </summary>
-        [Required]
         public string Name { get; set; }
+
+        public bool IsValid() => !string.IsNullOrEmpty(Name);
     }
 }

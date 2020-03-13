@@ -43,7 +43,7 @@ namespace MovieDatabase.API.Services
             return data.Select(o => new Movie(o)).ToList();
         }
 
-        public Movie FindMovieById(long id)
+        public Movie FindMovieByID(long id)
         {
             var item = Context.Movies
                 .Include(o => o.Genre)
@@ -174,7 +174,7 @@ namespace MovieDatabase.API.Services
             }
 
             Context.SaveChanges();
-            return FindMovieById(id);
+            return FindMovieByID(id);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace MovieDatabase.API.Services
             return rates.Select(o => new Rate(o)).ToList();
         }
 
-        public RateDetail FindRateById(long movieID, long rateID)
+        public RateDetail FindRateByID(long movieID, long rateID)
         {
             var item = Context.Rates
                 .Include(o => o.Movie)

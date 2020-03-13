@@ -4,16 +4,11 @@
     {
         public string Name { get; set; }
 
-        public static Genre FromEntity(Entity.Genre genre)
+        public Genre(Entity.Genre genre) : base(genre.ID)
         {
-            if (genre == null)
-                return null;
-
-            return new Genre()
-            {
-                ID = genre.ID,
-                Name = genre.Name
-            };
+            Name = genre.Name;
         }
+
+        public Genre() { }
     }
 }

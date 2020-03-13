@@ -40,11 +40,11 @@ namespace MovieDatabase.API.Controllers
         /// <param name="id">Jednoznačný identifikátor filmu.</param>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetMovieById(long id)
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
+        public IActionResult GetMovieByID(long id)
         {
-            var data = Service.FindMovieById(id);
-            return data == null ? NotFound(null) : (IActionResult)Ok(data);
+            var data = Service.FindMovieByID(id);
+            return data == null ? NotFound(new ErrorModel("Požadovaný film neexistuje.")) : (IActionResult)Ok(data);
         }
 
         /// <summary>
@@ -82,11 +82,11 @@ namespace MovieDatabase.API.Controllers
         /// <param name="data"></param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
         public IActionResult UpdateMovie(long id, [FromBody] MovieInput data)
         {
             var movie = Service.UpdateMovie(id, data);
-            return movie == null ? NotFound(null) : (IActionResult)Ok(movie);
+            return movie == null ? NotFound(new ErrorModel("Požadovaný film neexistuje.")) : (IActionResult)Ok(movie);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace MovieDatabase.API
                 .AddControllers();
 
             services
-                .AddScoped<GenreManagementService>()
+                .AddScoped<GenreService>()
                 .AddScoped<MovieService>()
                 .AddScoped<PersonService>()
                 .AddScoped<RatesService>();

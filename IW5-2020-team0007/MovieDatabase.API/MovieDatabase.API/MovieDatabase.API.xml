@@ -10,7 +10,7 @@
             </summary>
             <param name="search">Volitelný filtrační parametr nad názvem žánru.</param>
         </member>
-        <member name="M:MovieDatabase.API.Controllers.GenresController.GetGenreById(System.Int32)">
+        <member name="M:MovieDatabase.API.Controllers.GenresController.GetGenreByID(System.Int32)">
             <summary>
             Získání žánru na základě ID.
             </summary>
@@ -44,7 +44,7 @@
             <param name="lengthTo">Maximální délka</param>
             <param name="countries">Kolekce zemí původů.</param>
         </member>
-        <member name="M:MovieDatabase.API.Controllers.MoviesController.GetMovieById(System.Int64)">
+        <member name="M:MovieDatabase.API.Controllers.MoviesController.GetMovieByID(System.Int64)">
             <summary>
             Získání detailních informací o filmu.
             </summary>
@@ -74,7 +74,7 @@
             </summary>
             <param name="search">Volitelný filtrační parametr nad jménem a příjmením.</param>
         </member>
-        <member name="M:MovieDatabase.API.Controllers.PersonsController.GetPersonById(System.Int64)">
+        <member name="M:MovieDatabase.API.Controllers.PersonsController.GetPersonByID(System.Int64)">
             <summary>
             Získání detailní informace o osobě.
             </summary>
@@ -105,12 +105,12 @@
             </summary>
             <param name="movieID">Jednoznačný identifikátor filmu.</param>
         </member>
-        <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRateByRateId(System.Int64,System.Int64)">
+        <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRateByRateID(System.Int64,System.Int64)">
             <summary>
             Získání hodnocení vč. základní informace o filmu.
             </summary>
             <param name="movieID"></param>
-            <param name="rateId"></param>
+            <param name="rateID"></param>
             <returns></returns>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.CreateMovieRate(System.Int64,MovieDatabase.API.Models.RateInput)">
@@ -125,7 +125,7 @@
             Úprava hodnocení.
             </summary>
             <param name="movieID">Jednoznačný identifikátor filmu.</param>
-            <param name="rateId">Jednoznačný identifkátor hodnocení.</param>
+            <param name="rateID">Jednoznačný identifkátor hodnocení.</param>
             <param name="data"></param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.DeleteMovieName(System.Int64,System.Int64)">
@@ -133,7 +133,7 @@
             Smazání hodnocení.
             </summary>
             <param name="movieID">Jedinečný identifikátor filmu.</param>
-            <param name="rateId">Jedinečný identifikátor hodnocení.</param>
+            <param name="rateID">Jedinečný identifikátor hodnocení.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.GetAllRates">
             <summary>

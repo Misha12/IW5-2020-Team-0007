@@ -11,7 +11,7 @@
         public Movie(Entity.Movie movie) : base(movie.ID)
         {
             Country = movie.Country;
-            Genre = Genre.FromEntity(movie.Genre);
+            Genre = new Genre(movie.Genre);
             Length = movie.Length;
             OriginalName = movie.OriginalName;
             TitleImageUrl = movie.TitleImage;

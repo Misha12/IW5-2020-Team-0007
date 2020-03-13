@@ -11,9 +11,9 @@ namespace MovieDatabase.API.Controllers
     [Route("genres")]
     public class GenresController : ControllerBase
     {
-        private GenreManagementService Service { get; }
+        private GenreService Service { get; }
 
-        public GenresController(GenreManagementService service)
+        public GenresController(GenreService service)
         {
             Service = service;
         }
@@ -35,12 +35,12 @@ namespace MovieDatabase.API.Controllers
         /// </summary>
         /// <param name="id">Jedinečný identifikátor žánru.</param>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetGenreById(int id)
+        [ProducesResponseType(typeof(GenreDetail), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
+        public IActionResult GetGenreByID(int id)
         {
-            var genre = Service.FindGenreById(id);
-            return genre == null ? NotFound(null) : (IActionResult)Ok(genre);
+            var genre = Service.FindGenreByID(id);
+            return genre == null ? NotFound(new ErrorModel("Požadovaný žánr neexistuje.")) : (IActionResult)Ok(genre);
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace MovieDatabase.API.Controllers
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Dictionary<string, string>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public IActionResult CreateGenre([FromBody] GenreInput data)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!data.IsValid())
+                return BadRequest(new ErrorModel("Nebyl zadán platný název žánru."));
 
             var genre = Service.CreateGenre(data.Name);
             return Ok(genre);
@@ -64,16 +64,16 @@ namespace MovieDatabase.API.Controllers
         /// <param name="id">Jedinečný identifikátor žánru.</param>
         /// <param name="data"></param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(Dictionary<string, string>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(GenreDetail), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
         public IActionResult UpdateGenre(int id, [FromBody] GenreInput data)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!data.IsValid())
+                return BadRequest(new ErrorModel("Nový název žánru má neplatný formát."));
 
             var genre = Service.UpdateGenre(id, data.Name);
-            return genre == null ? NotFound(null) : (IActionResult)Ok(genre);
+            return genre == null ? NotFound(new ErrorModel("Žánr nebyl nalezen.")) : (IActionResult)Ok(genre);
         }
 
         /// <summary>

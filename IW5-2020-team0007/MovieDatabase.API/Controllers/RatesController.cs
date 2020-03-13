@@ -41,14 +41,14 @@ namespace MovieDatabase.API.Controllers
         /// Získání hodnocení vč. základní informace o filmu.
         /// </summary>
         /// <param name="movieID"></param>
-        /// <param name="rateId"></param>
+        /// <param name="rateID"></param>
         /// <returns></returns>
-        [HttpGet("{rateId}")]
+        [HttpGet("{rateID}")]
         [ProducesResponseType(typeof(RateDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetMovieRateByRateId(long movieID, long rateId)
+        public IActionResult GetMovieRateByRateID(long movieID, long rateID)
         {
-            var rate = Service.FindRateById(movieID, rateId);
+            var rate = Service.FindRateByID(movieID, rateID);
             return rate == null ? (IActionResult)NotFound(new ErrorModel("Požadované hodnocení k filmu se nepodařilo najít.")) : Ok(rate);
         }
 
@@ -73,14 +73,14 @@ namespace MovieDatabase.API.Controllers
         /// Úprava hodnocení.
         /// </summary>
         /// <param name="movieID">Jednoznačný identifikátor filmu.</param>
-        /// <param name="rateId">Jednoznačný identifkátor hodnocení.</param>
+        /// <param name="rateID">Jednoznačný identifkátor hodnocení.</param>
         /// <param name="data"></param>
-        [HttpPut("{rateId}")]
+        [HttpPut("{rateID}")]
         [ProducesResponseType(typeof(RateDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult UpdateMovieRate(long movieID, long rateId, RateInput data)
+        public IActionResult UpdateMovieRate(long movieID, long rateID, RateInput data)
         {
-            var rate = Service.UpdateRate(movieID, rateId, data);
+            var rate = Service.UpdateRate(movieID, rateID, data);
             return rate == null ? (IActionResult)NotFound(new ErrorModel("Nelze aktualizovat hodnocení, protože neexistuje.")) : Ok(rate);
         }
 
@@ -88,13 +88,13 @@ namespace MovieDatabase.API.Controllers
         /// Smazání hodnocení.
         /// </summary>
         /// <param name="movieID">Jedinečný identifikátor filmu.</param>
-        /// <param name="rateId">Jedinečný identifikátor hodnocení.</param>
-        [HttpDelete("{rateId}")]
+        /// <param name="rateID">Jedinečný identifikátor hodnocení.</param>
+        [HttpDelete("{rateID}")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
-        public IActionResult DeleteMovieName(long movieID, long rateId)
+        public IActionResult DeleteMovieName(long movieID, long rateID)
         {
-            var success = Service.DeleteRate(movieID, rateId);
+            var success = Service.DeleteRate(movieID, rateID);
             return success ? Ok(null) : (IActionResult)NotFound(null);
         }
 
