@@ -24,7 +24,8 @@ namespace MovieDatabase.API.Controllers
         [SwaggerResponse(HttpStatusCode.NotImplemented, typeof(NotImplementedException))]
         public IActionResult GetPersonById(long id)
         {
-            return StatusCode(501);
+            var person = Service.FindPersonById(id);
+            return Ok(person);
         }
 
         [HttpPost]
