@@ -21,11 +21,11 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání seznamu hodnocení na daný film.
+        /// Get all rates for movie.
         /// </summary>
-        /// <param name="movieID">Jednoznačný identifikátor filmu.</param>
-        /// <param name="scoreFrom">Volitelný filtrační parametr pro minimální skóre.</param>
-        /// <param name="scoreTo">Volitelný filtrační parametr pro nejvyšší skóre.</param>
+        /// <param name="movieID">Unique ID of movie.</param>
+        /// <param name="scoreFrom">Optional parametr for minimal rate.</param>
+        /// <param name="scoreTo">Optional parametr for maximal rate.</param>
         [HttpGet]
         [ProducesResponseType(typeof(List<Rate>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
@@ -40,10 +40,10 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání hodnocení vč. základní informace o filmu.
+        /// Get rate with information about movie.
         /// </summary>
-        /// <param name="movieID"></param>
-        /// <param name="rateID"></param>
+        /// <param name="movieID">Unique ID of movie.</param>
+        /// <param name="rateID">Unique ID of rate.</param>
         /// <returns></returns>
         [HttpGet("{rateID}")]
         [ProducesResponseType(typeof(RateDetail), (int)HttpStatusCode.OK)]
@@ -55,9 +55,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Vytvoření hodnocení.
+        /// Create rate.
         /// </summary>
-        /// <param name="movieID">Jednoznačný identifikátor filmu.</param>
+        /// <param name="movieID">Unique ID of movie.</param>
         /// <param name="data"></param>
         [HttpPost]
         [ProducesResponseType(typeof(RateDetail), (int)HttpStatusCode.OK)]
@@ -72,10 +72,10 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Úprava hodnocení.
+        /// Change rate.
         /// </summary>
-        /// <param name="movieID">Jednoznačný identifikátor filmu.</param>
-        /// <param name="rateID">Jednoznačný identifkátor hodnocení.</param>
+        /// <param name="movieID">Unique ID of movie.</param>
+        /// <param name="rateID">Unique ID of rate.</param>
         /// <param name="data"></param>
         [HttpPut("{rateID}")]
         [ProducesResponseType(typeof(RateDetail), (int)HttpStatusCode.OK)]
@@ -87,10 +87,10 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Smazání hodnocení.
+        /// Delete rate.
         /// </summary>
-        /// <param name="movieID">Jedinečný identifikátor filmu.</param>
-        /// <param name="rateID">Jedinečný identifikátor hodnocení.</param>
+        /// <param name="movieID">Unique ID of movie.</param>
+        /// <param name="rateID">Unique ID of rate.</param>
         [HttpDelete("{rateID}")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
@@ -101,7 +101,7 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání seznamu hodnocení na všechny filmy.
+        /// Get all rates fo all movies.
         /// </summary>
         /// <returns></returns>
         [HttpGet("/rates")]
