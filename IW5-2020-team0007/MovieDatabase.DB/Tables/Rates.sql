@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Rates]
+(
+	[ID] BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[MovieID] BIGINT NOT NULL,
+	[Score] INT NOT NULL,
+	[Text] NVARCHAR(MAX) NULL,
+
+	CONSTRAINT [FK_Rates_Movie] FOREIGN KEY ([MovieID]) REFERENCES [dbo].[Movies]([ID])
+)
