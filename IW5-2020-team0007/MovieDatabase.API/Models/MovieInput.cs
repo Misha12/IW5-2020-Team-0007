@@ -5,47 +5,47 @@ namespace MovieDatabase.API.Models
     public class MovieInput
     {
         /// <summary>
-        /// Název filmu.
+        /// Movie name.
         /// </summary>
         public string OriginalName { get; set; }
 
         /// <summary>
-        /// Identifikátor žánru.
+        /// Genre ID.
         /// </summary>
         public int Genre { get; set; }
 
         /// <summary>
-        /// Délka filmu.
+        /// Movie lengh.
         /// </summary>
         public long Length { get; set; }
 
         /// <summary>
-        /// Země původu filmu.
+        /// Country of origins.
         /// </summary>
         public string Country { get; set; }
 
         /// <summary>
-        /// Popis filmu.
+        /// Description of movie.
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// URL odkaz na titulní obrázek.
+        /// URL link for title image.
         /// </summary>
         public string TitleImageUrl { get; set; }
 
         /// <summary>
-        /// Překlady názvů filmů.
+        /// Translation for movie names .
         /// </summary>
         public List<MovieNameInput> Names { get; set; }
 
         /// <summary>
-        /// Seznam identifikátorů osob, co ve filmu hrají.
+        /// Collection of actros IDs in movie.
         /// </summary>
         public List<long> Actors { get; set; }
 
         /// <summary>
-        /// Seznam identifikátorů osob, co film režírují.
+        /// Collection of directors IDs in movie.
         /// </summary>
         public List<long> Directors { get; set; }
 

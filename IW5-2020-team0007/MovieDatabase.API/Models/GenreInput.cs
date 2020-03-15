@@ -5,7 +5,7 @@ namespace MovieDatabase.API.Models
     public class GenreInput
     {
         /// <summary>
-        /// Název žánru.
+        /// Name of genre.
         /// </summary>
         public string Name { get; set; }
 
