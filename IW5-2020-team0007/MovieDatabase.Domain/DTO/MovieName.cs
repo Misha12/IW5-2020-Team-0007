@@ -11,13 +11,5 @@
         /// Překlad názvu filmu ve specifikovaném jazyce.
         /// </summary>
         public string Name { get; set; }
-
-        public MovieName(Entity.MovieName name)
-        {
-            Lang = name.Lang;
-            Name = name.Name;
-        }
-
-        public MovieName() { }
     }
 }

@@ -24,6 +24,8 @@ namespace MovieDatabase.API.Controllers
         /// Získání seznamu hodnocení na daný film.
         /// </summary>
         /// <param name="movieID">Jednoznačný identifikátor filmu.</param>
+        /// <param name="scoreFrom">Volitelný filtrační parametr pro minimální skóre.</param>
+        /// <param name="scoreTo">Volitelný filtrační parametr pro nejvyšší skóre.</param>
         [HttpGet]
         [ProducesResponseType(typeof(List<Rate>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]

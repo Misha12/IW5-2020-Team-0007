@@ -104,6 +104,8 @@
             Získání seznamu hodnocení na daný film.
             </summary>
             <param name="movieID">Jednoznačný identifikátor filmu.</param>
+            <param name="scoreFrom">Volitelný filtrační parametr pro minimální skóre.</param>
+            <param name="scoreTo">Volitelný filtrační parametr pro nejvyšší skóre.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRateByRateID(System.Int64,System.Int64)">
             <summary>

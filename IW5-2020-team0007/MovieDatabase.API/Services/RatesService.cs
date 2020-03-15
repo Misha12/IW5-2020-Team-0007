@@ -14,10 +14,10 @@ namespace MovieDatabase.API.Services
         private MovieDatabaseContext Context { get; }
         private IMapper Mapper { get; }
 
-
-        public RatesService(MovieDatabaseContext context)
+        public RatesService(MovieDatabaseContext context, IMapper mapper)
         {
             Context = context;
+            Mapper = mapper;
         }
 
         public List<Rate> GetRateList(long? movieID, int? scoreFrom, int? scoreTo)
@@ -64,7 +64,6 @@ namespace MovieDatabase.API.Services
                 .ThenInclude(o => o.Genre)
                 .FirstOrDefault(o => o.MovieID == movieID && o.ID == rateID);
 
-
             return Mapper.Map<RateDetail>(item);
         }
 
@@ -88,7 +87,7 @@ namespace MovieDatabase.API.Services
             movie.Rates.Add(entity);
             Context.SaveChanges();
 
-            return Mapper.Map<RateDetail>(movie);
+            return FindRateByID(movieID, entity.ID);
         }
 
         public bool DeleteRate(long movieID, long rateID)

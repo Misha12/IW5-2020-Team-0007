@@ -17,9 +17,10 @@ namespace MovieDatabase.API.Services
         private MovieDatabaseContext Context { get; }
         private IMapper Mapper { get; }
 
-        public MovieService(MovieDatabaseContext context)
+        public MovieService(MovieDatabaseContext context, IMapper mapper)
         {
             Context = context;
+            Mapper = mapper;
         }
 
         public List<Movie> GetMovieList(string searchName, int[] genres, long? lengthFrom, long? lengthTo, string[] countries)
@@ -54,7 +55,15 @@ namespace MovieDatabase.API.Services
                 .ThenInclude(o => o.Person)
                 .FirstOrDefault(o => o.ID == id);
 
-            return item == null ? null : new MovieDetail(item);
+            var mapped = Mapper.Map<MovieDetail>(item);
+
+            if(item.Persons?.Count > 0)
+            {
+                mapped.Actors = item.Persons.Where(o => o.Type == MoviePersonType.Actor).Select(o => Mapper.Map<Person>(o.Person)).ToList();
+                mapped.Directors = item.Persons.Where(o => o.Type == MoviePersonType.Director).Select(o => Mapper.Map<Person>(o.Person)).ToList();
+            }
+
+            return mapped;
         }
 
         public Movie CreateMovie(MovieInput data)
@@ -91,8 +100,7 @@ namespace MovieDatabase.API.Services
             Context.Movies.Add(entity);
             Context.SaveChanges();
 
-            return Mapper.Map<MovieDetail>(entity);
-
+            return FindMovieByID(entity.ID);
         }
 
         public bool DeleteMovie(long id)

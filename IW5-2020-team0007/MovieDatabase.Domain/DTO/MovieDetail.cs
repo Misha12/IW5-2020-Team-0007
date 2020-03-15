@@ -10,17 +10,5 @@ namespace MovieDatabase.Domain.DTO
 
         public List<Person> Actors { get; set; }
         public List<Person> Directors { get; set; }
-
-        public MovieDetail(Entity.Movie movie) : base(movie)
-        {
-            Names = movie.Names?.Select(o => new MovieName(o)).ToList();
-
-            if (movie.Persons?.Count > 0)
-            {
-                //TODO: ToAutomapper
-                //Actors = movie.Persons.Where(o => o.Type == MoviePersonType.Actor).Select(o => new Person(o.Person)).ToList();
-                //Directors = movie.Persons.Where(o => o.Type == MoviePersonType.Director).Select(o => new Person(o.Person)).ToList();
-            }
-        }
     }
 }
