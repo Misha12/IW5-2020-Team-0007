@@ -19,13 +19,13 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání seznamu všech dostupných filmů.
+        /// Get dictionary od all movies.
         /// </summary>
-        /// <param name="searchName">Volitelný vyhledávací parametr pro název filmu.</param>
-        /// <param name="genres">Kolekce identifikátorů žánrů.</param>
-        /// <param name="lengthFrom">Minimální délka</param>
-        /// <param name="lengthTo">Maximální délka</param>
-        /// <param name="countries">Kolekce zemí původů.</param>
+        /// <param name="searchName">Optional parametr for movie name.</param>
+        /// <param name="genres">Collection of movies IDs.</param>
+        /// <param name="lengthFrom">Minimal lenght</param>
+        /// <param name="lengthTo">Maximal lenght</param>
+        /// <param name="countries">Collection of countries.</param>
         [HttpGet]
         [ProducesResponseType(typeof(List<Movie>), (int)HttpStatusCode.OK)]
         public IActionResult GetMovies(string searchName = null, [FromQuery] int[] genres = null, long? lengthFrom = null, long? lengthTo = null, [FromQuery] string[] countries = null)
@@ -35,9 +35,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání detailních informací o filmu.
+        /// Get all information about movie.
         /// </summary>
-        /// <param name="id">Jednoznačný identifikátor filmu.</param>
+        /// <param name="id">Unique ID of movie.</param>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
@@ -48,7 +48,7 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Založení filmu.
+        /// Create movie.
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
@@ -63,9 +63,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Smazání filmu.
+        /// Delete movie.
         /// </summary>
-        /// <param name="id">Jednoznačný identifikátor filmu.</param>
+        /// <param name="id">Unique ID of movie.</param>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
@@ -76,9 +76,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Úprava filmu.
+        /// Update of movie.
         /// </summary>
-        /// <param name="id">Jednoznačný identifikátor filmu.</param>
+        /// <param name="id">Unique ID of movie.</param>
         /// <param name="data"></param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
