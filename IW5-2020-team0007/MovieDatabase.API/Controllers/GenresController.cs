@@ -19,9 +19,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získá seznam všech žánrů.
+        /// Get dictionary of all genres.
         /// </summary>
-        /// <param name="search">Volitelný filtrační parametr nad názvem žánru.</param>
+        /// <param name="search">Optional argument for filter with name of genre.</param>
         [HttpGet]
         [ProducesResponseType(typeof(List<Genre>), (int)HttpStatusCode.OK)]
         public IActionResult GetGenreList(string search = null)
@@ -31,9 +31,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání žánru na základě ID.
+        /// Get genre by ID.
         /// </summary>
-        /// <param name="id">Jedinečný identifikátor žánru.</param>
+        /// <param name="id">Unique ID of genre.</param>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(GenreDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
@@ -44,7 +44,7 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Vytvoření žánru.
+        /// Create genre.
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
@@ -59,9 +59,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Aktualizace žánru.
+        /// Update of genre.
         /// </summary>
-        /// <param name="id">Jedinečný identifikátor žánru.</param>
+        /// <param name="id">Unique ID of genre.</param>
         /// <param name="data"></param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(GenreDetail), (int)HttpStatusCode.OK)]
@@ -77,9 +77,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Smazání žánru.
+        /// Delete genre.
         /// </summary>
-        /// <param name="id">Jedinečný identifikátor žánru.</param>
+        /// <param name="id">Unique ID of genre</param>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
