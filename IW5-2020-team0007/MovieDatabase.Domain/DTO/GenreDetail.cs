@@ -5,7 +5,7 @@ namespace MovieDatabase.Domain.DTO
 {
     public class GenreDetail : Genre
     {
-        public List<Movie> Movies { get; }
+        public List<Movie> Movies { get; set; }
 
         public GenreDetail(Entity.Genre genre) : base(genre)
         {

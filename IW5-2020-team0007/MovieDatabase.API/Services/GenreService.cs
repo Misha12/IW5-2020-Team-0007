@@ -3,6 +3,7 @@ using MovieDatabase.Domain;
 using MovieDatabase.Domain.DTO;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using DBGenre = MovieDatabase.Domain.Entity.Genre;
 
 namespace MovieDatabase.API.Services
@@ -10,6 +11,7 @@ namespace MovieDatabase.API.Services
     public class GenreService
     {
         private MovieDatabaseContext Context { get; }
+        private IMapper Mapper { get; }
 
         public GenreService(MovieDatabaseContext context)
         {
@@ -24,7 +26,7 @@ namespace MovieDatabase.API.Services
                 query = query.Where(o => o.Name.Contains(search));
 
             var data = query.ToList();
-            return data.Select(o => new Genre(o)).ToList();
+            return Mapper.Map<List<Genre>>(data);
         }
 
         public GenreDetail FindGenreByID(int id)
@@ -32,8 +34,15 @@ namespace MovieDatabase.API.Services
             var item = Context.Genres
                 .Include(o => o.Movies)
                 .FirstOrDefault(o => o.ID == id);
+            var mapped = Mapper.Map<GenreDetail>(item);
 
-            return item == null ? null : new GenreDetail(item);
+            if (item.Movies?.Count > 0)
+            {
+                mapped.Movies = item.Movies.Where(o => o.GenreID == item.ID).Select(o => Mapper.Map<Movie>(o)).ToList();
+            }
+
+            return mapped;
+
         }
 
         public Genre CreateGenre(string name)
@@ -43,7 +52,7 @@ namespace MovieDatabase.API.Services
             Context.Add(entity);
             Context.SaveChanges();
 
-            return new Genre(entity);
+            return Mapper.Map<Genre>(entity);
         }
 
         public bool DeleteGenre(int id)
@@ -81,7 +90,7 @@ namespace MovieDatabase.API.Services
             item.Name = newName;
 
             Context.SaveChanges();
-            return new GenreDetail(item);
+            return Mapper.Map<GenreDetail>(item);
         }
     }
 }
