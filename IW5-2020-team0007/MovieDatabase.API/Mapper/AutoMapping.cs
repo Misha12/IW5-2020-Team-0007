@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 
 namespace MovieDatabase.API.Mapper
 {
@@ -11,6 +7,8 @@ namespace MovieDatabase.API.Mapper
         public AutoMapping()
         {
             CreateMap<Domain.Entity.Person, Domain.DTO.Person>();
+            CreateMap<Domain.Entity.Person, Domain.DTO.PersonDetail>();
+            CreateMap<Domain.Entity.Movie, Domain.DTO.Movie>();
         }
     }
 }

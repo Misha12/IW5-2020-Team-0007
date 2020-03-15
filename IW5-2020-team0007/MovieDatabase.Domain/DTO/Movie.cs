@@ -16,5 +16,7 @@
             OriginalName = movie.OriginalName;
             TitleImageUrl = movie.TitleImage;
         }
+
+        public Movie() { }
     }
 }

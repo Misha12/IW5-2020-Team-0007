@@ -1,20 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MovieDatabase.API.Models;
 using MovieDatabase.Domain;
 using MovieDatabase.Domain.DTO;
 using System.Collections.Generic;
 using System.Linq;
 using DBPerson = MovieDatabase.Domain.Entity.Person;
+using MoviePersonType = MovieDatabase.Domain.Entity.MoviePersonType;
 
 namespace MovieDatabase.API.Services
 {
     public class PersonService
     {
         private MovieDatabaseContext Context { get; }
+        private IMapper Mapper { get; }
 
-        public PersonService(MovieDatabaseContext context)
+        public PersonService(MovieDatabaseContext context, IMapper mapper)
         {
             Context = context;
+            Mapper = mapper;
         }
 
         public List<Person> GetPersons(string search = null)
@@ -25,7 +29,7 @@ namespace MovieDatabase.API.Services
                 query = query.Where(o => o.Name.Contains(search) || o.Surname.Contains(search));
 
             var data = query.ToList();
-            return data.Select(o => new Person(o)).ToList();
+            return Mapper.Map<List<Person>>(data);
         }
 
         public PersonDetail FindPersonByID(long id)
@@ -35,7 +39,15 @@ namespace MovieDatabase.API.Services
                 .ThenInclude(o => o.Movie)
                 .FirstOrDefault(o => o.ID == id);
 
-            return person == null ? null : new PersonDetail(person);
+            var mapped = Mapper.Map<PersonDetail>(person);
+
+            if(person.InMovies?.Count > 0)
+            {
+                mapped.ActingIn = person.InMovies.Where(o => o.Type == MoviePersonType.Actor).Select(o => Mapper.Map<Movie>(o.Movie)).ToList();
+                mapped.DirectedIn = person.InMovies.Where(o => o.Type == MoviePersonType.Director).Select(o => Mapper.Map<Movie>(o.Movie)).ToList();
+            }
+
+            return mapped;
         }
 
         public Person CreatePerson(PersonInput data)
@@ -50,7 +62,7 @@ namespace MovieDatabase.API.Services
             Context.Persons.Add(entity);
             Context.SaveChanges();
 
-            return new Person(entity);
+            return Mapper.Map<Person>(entity);
         }
 
         public bool DeletePerson(long id)
@@ -84,7 +96,7 @@ namespace MovieDatabase.API.Services
                 person.ProfilePicture = data.ProfilePictureUrl;
 
             Context.SaveChanges();
-            return new Person(person);
+            return Mapper.Map<Person>(person);
         }
     }
 }
