@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using MovieDatabase.API.Services;
 using MovieDatabase.Domain;
 using NJsonSchema.Generation;
+using AutoMapper;
 
 namespace MovieDatabase.API
 {
@@ -33,7 +34,7 @@ namespace MovieDatabase.API
             {
                 options.UseSqlServer(connectionString);
             });
-
+            services.AddAutoMapper(typeof(Startup));
             services
                 .AddOpenApiDocument(settings =>
                 {
