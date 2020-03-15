@@ -55,25 +55,25 @@ namespace MovieDatabase.API.Models
 
             if(string.IsNullOrEmpty(OriginalName))
             {
-                errorMessage = "Originální jméno filmu nemůže být prádzné.";
+                errorMessage = "Original name of movie can't be empty.";
                 return false;
             }
 
             if(Genre <= 0)
             {
-                errorMessage = "Nebyl specifikován žánr.";
+                errorMessage = "Genre was not specified.";
                 return false;
             }
 
             if(Length < 0)
             {
-                errorMessage = "Nebyla specifikována délka filmu.";
+                errorMessage = "Movie lenght was not specified.";
                 return false;
             }
 
             if(string.IsNullOrEmpty(Country))
             {
-                errorMessage = "Nebyla specifikována země původu.";
+                errorMessage = "Country of origins was not specified.";
                 return false;
             }
 

@@ -63,10 +63,10 @@ namespace MovieDatabase.API.Controllers
         public IActionResult CreateMovieRate(long movieID, [FromBody] RateInput data)
         {
             if (!data.IsValid())
-                return BadRequest(new ErrorModel("Nebylo zadán popis hodnocení."));
+                return BadRequest(new ErrorModel("Rates description was not specified."));
 
             var rate = Service.CreateRate(movieID, data);
-            return rate == null ? (IActionResult)NotFound(new ErrorModel("Hodnocení k filmu nelze přidat, protože film nebyl nalezen.")) : Ok(rate);
+            return rate == null ? (IActionResult)NotFound(new ErrorModel("Movie rate couldn't be added, because the movie is not in database.")) : Ok(rate);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult UpdateMovieRate(long movieID, long rateID, RateInput data)
         {
             var rate = Service.UpdateRate(movieID, rateID, data);
-            return rate == null ? (IActionResult)NotFound(new ErrorModel("Nelze aktualizovat hodnocení, protože neexistuje.")) : Ok(rate);
+            return rate == null ? (IActionResult)NotFound(new ErrorModel("Movie rate couldn't be changed, because it's not in database.")) : Ok(rate);
         }
 
         /// <summary>
