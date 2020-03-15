@@ -4,6 +4,7 @@ using MovieDatabase.Domain;
 using MovieDatabase.Domain.DTO;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using DBRate = MovieDatabase.Domain.Entity.Rate;
 
 namespace MovieDatabase.API.Services
@@ -11,6 +12,8 @@ namespace MovieDatabase.API.Services
     public class RatesService
     {
         private MovieDatabaseContext Context { get; }
+        private IMapper Mapper { get; }
+
 
         public RatesService(MovieDatabaseContext context)
         {
@@ -51,7 +54,7 @@ namespace MovieDatabase.API.Services
                     rates = rates.Where(o => o.Score < scoreTo.Value).ToList();
             }
 
-            return rates.Select(o => new Rate(o)).ToList();
+            return Mapper.Map<List<Rate>>(rates);
         }
 
         public RateDetail FindRateByID(long movieID, long rateID)
@@ -61,7 +64,8 @@ namespace MovieDatabase.API.Services
                 .ThenInclude(o => o.Genre)
                 .FirstOrDefault(o => o.MovieID == movieID && o.ID == rateID);
 
-            return item == null ? null : new RateDetail(item);
+
+            return Mapper.Map<RateDetail>(item);
         }
 
         public RateDetail CreateRate(long movieID, RateInput data)
@@ -84,7 +88,7 @@ namespace MovieDatabase.API.Services
             movie.Rates.Add(entity);
             Context.SaveChanges();
 
-            return new RateDetail(entity);
+            return Mapper.Map<RateDetail>(movie);
         }
 
         public bool DeleteRate(long movieID, long rateID)
@@ -118,7 +122,7 @@ namespace MovieDatabase.API.Services
                 rate.Score = input.GetScore();
 
             Context.SaveChanges();
-            return new RateDetail(rate);
+            return Mapper.Map<RateDetail>(rate);
         }
     }
 }

@@ -5,6 +5,7 @@ using MovieDatabase.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using MovieEntity = MovieDatabase.Domain.Entity.Movie;
 using MoviePersonEntity = MovieDatabase.Domain.Entity.MoviePerson;
 using MoviePersonType = MovieDatabase.Domain.Entity.MoviePersonType;
@@ -14,6 +15,7 @@ namespace MovieDatabase.API.Services
     public class MovieService
     {
         private MovieDatabaseContext Context { get; }
+        private IMapper Mapper { get; }
 
         public MovieService(MovieDatabaseContext context)
         {
@@ -40,7 +42,7 @@ namespace MovieDatabase.API.Services
                 query = query.Where(o => countries.Contains(o.Country));
 
             var data = query.ToList();
-            return data.Select(o => new Movie(o)).ToList();
+            return Mapper.Map<List<Movie>>(data);
         }
 
         public Movie FindMovieByID(long id)
@@ -89,7 +91,8 @@ namespace MovieDatabase.API.Services
             Context.Movies.Add(entity);
             Context.SaveChanges();
 
-            return new MovieDetail(entity);
+            return Mapper.Map<MovieDetail>(entity);
+
         }
 
         public bool DeleteMovie(long id)
