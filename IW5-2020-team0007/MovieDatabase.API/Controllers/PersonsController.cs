@@ -19,9 +19,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání seznamu všech osob.
+        /// Get collection of all persons.
         /// </summary>
-        /// <param name="search">Volitelný filtrační parametr nad jménem a příjmením.</param>
+        /// <param name="search">Optional parametr for movie name and surname.</param>
         [HttpGet]
         [ProducesResponseType(typeof(List<Person>), (int)HttpStatusCode.OK)]
         public IActionResult GetPersons(string search = null)
@@ -31,9 +31,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Získání detailní informace o osobě.
+        /// Get all information about person.
         /// </summary>
-        /// <param name="id">Jednoznačný identifikátor osoby.</param>
+        /// <param name="id">Unique ID of person.</param>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(PersonDetail), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
@@ -44,7 +44,7 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Vytvoření osoby.
+        /// Create person.
         /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(Person), (int)HttpStatusCode.OK)]
@@ -59,10 +59,10 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Smazání osoby.
+        /// Delete person.
         /// </summary>
-        /// <param name="id">Jednoznačný identifikátor uživatele.</param>
-        /// <remarks>Pozor. Uživatel bude odebrán ze všech filmů, ve kterých režíroval, nebo hrál.</remarks>
+        /// <param name="id">Unique ID of person.</param>
+        /// <remarks>Warning. Peson will be deleted from all movies on which he/she participated.</remarks>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
@@ -73,9 +73,9 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Aktualizace osoby.
+        /// Update of person.
         /// </summary>
-        /// <param name="id">Jedinečný identifikátor osoby.</param>
+        /// <param name="id">Unique ID of person.</param>
         /// <param name="data"></param>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Person), (int)HttpStatusCode.OK)]
