@@ -32,7 +32,7 @@ namespace MovieDatabase.API.Controllers
             var list = Service.GetRateList(movieID, scoreFrom, scoreTo);
 
             if (list == null)
-                return NotFound(new ErrorModel("Požadovaný film nebyl nalezen."));
+                return NotFound(new ErrorModel("Requested movie was not found."));
 
             return Ok(list);
         }
@@ -49,7 +49,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult GetMovieRateByRateID(long movieID, long rateID)
         {
             var rate = Service.FindRateByID(movieID, rateID);
-            return rate == null ? (IActionResult)NotFound(new ErrorModel("Požadované hodnocení k filmu se nepodařilo najít.")) : Ok(rate);
+            return rate == null ? (IActionResult)NotFound(new ErrorModel("Requested movie rate was not found.")) : Ok(rate);
         }
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult GetMovieByID(long id)
         {
             var data = Service.FindMovieByID(id);
-            return data == null ? NotFound(new ErrorModel("Požadovaný film neexistuje.")) : (IActionResult)Ok(data);
+            return data == null ? NotFound(new ErrorModel("Requested movie was not found.")) : (IActionResult)Ok(data);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult UpdateMovie(long id, [FromBody] MovieInput data)
         {
             var movie = Service.UpdateMovie(id, data);
-            return movie == null ? NotFound(new ErrorModel("Požadovaný film neexistuje.")) : (IActionResult)Ok(movie);
+            return movie == null ? NotFound(new ErrorModel("Requested movie was not found.")) : (IActionResult)Ok(movie);
         }
     }
 }

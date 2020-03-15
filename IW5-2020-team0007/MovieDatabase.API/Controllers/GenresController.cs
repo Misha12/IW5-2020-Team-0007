@@ -40,7 +40,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult GetGenreByID(int id)
         {
             var genre = Service.FindGenreByID(id);
-            return genre == null ? NotFound(new ErrorModel("Požadovaný žánr neexistuje.")) : (IActionResult)Ok(genre);
+            return genre == null ? NotFound(new ErrorModel("Requested genre was not found.")) : (IActionResult)Ok(genre);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult CreateGenre([FromBody] GenreInput data)
         {
             if (!data.IsValid())
-                return BadRequest(new ErrorModel("Nebyl zadán platný název žánru."));
+                return BadRequest(new ErrorModel("Name of genre is in wrong format."));
 
             var genre = Service.CreateGenre(data.Name);
             return Ok(genre);
@@ -70,10 +70,10 @@ namespace MovieDatabase.API.Controllers
         public IActionResult UpdateGenre(int id, [FromBody] GenreInput data)
         {
             if (!data.IsValid())
-                return BadRequest(new ErrorModel("Nový název žánru má neplatný formát."));
+                return BadRequest(new ErrorModel("New name of genre is in wrong format."));
 
             var genre = Service.UpdateGenre(id, data.Name);
-            return genre == null ? NotFound(new ErrorModel("Žánr nebyl nalezen.")) : (IActionResult)Ok(genre);
+            return genre == null ? NotFound(new ErrorModel("Requested genre was not found.")) : (IActionResult)Ok(genre);
         }
 
         /// <summary>
