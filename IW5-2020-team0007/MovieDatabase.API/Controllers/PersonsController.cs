@@ -40,7 +40,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult GetPersonByID(long id)
         {
             var person = Service.FindPersonByID(id);
-            return person == null ? (IActionResult)NotFound(new ErrorModel("Osoba s požadovaným ID neexistuje")) : Ok(person);
+            return person == null ? (IActionResult)NotFound(new ErrorModel("Person with this ID is not in database.")) : Ok(person);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult CreatePerson([FromBody] PersonInput data)
         {
             if (!data.IsValid())
-                return BadRequest(new ErrorModel("Požadovaná data jsou v nesprávném formátu."));
+                return BadRequest(new ErrorModel("Requested data are in wrong format."));
 
             var person = Service.CreatePerson(data);
             return Ok(person);
@@ -83,7 +83,7 @@ namespace MovieDatabase.API.Controllers
         public IActionResult UpdatePerson(long id, PersonInput data)
         {
             var person = Service.UpdatePerson(id, data);
-            return person == null ? NotFound(new ErrorModel("Požadovaná osoba nebyla nalezena.")) : (IActionResult)Ok(person);
+            return person == null ? NotFound(new ErrorModel("Requested person was not found.")) : (IActionResult)Ok(person);
         }
     }
 }
