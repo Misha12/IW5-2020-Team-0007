@@ -13,9 +13,10 @@ namespace MovieDatabase.API.Services
         private MovieDatabaseContext Context { get; }
         private IMapper Mapper { get; }
 
-        public GenreService(MovieDatabaseContext context)
+        public GenreService(MovieDatabaseContext context, IMapper mapper)
         {
             Context = context;
+            Mapper = mapper;
         }
 
         public List<Genre> GetFullList(string search = null)
@@ -34,6 +35,7 @@ namespace MovieDatabase.API.Services
             var item = Context.Genres
                 .Include(o => o.Movies)
                 .FirstOrDefault(o => o.ID == id);
+
             var mapped = Mapper.Map<GenreDetail>(item);
 
             if (item.Movies?.Count > 0)
@@ -42,7 +44,6 @@ namespace MovieDatabase.API.Services
             }
 
             return mapped;
-
         }
 
         public Genre CreateGenre(string name)
@@ -64,9 +65,9 @@ namespace MovieDatabase.API.Services
             if (item == null)
                 return false;
 
-            if(item.Movies?.Count > 0)
+            if (item.Movies?.Count > 0)
             {
-                foreach(var movie in item.Movies)
+                foreach (var movie in item.Movies)
                 {
                     movie.GenreID = 0;
                 }
