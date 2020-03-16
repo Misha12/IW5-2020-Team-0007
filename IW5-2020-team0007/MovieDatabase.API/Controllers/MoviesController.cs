@@ -23,8 +23,8 @@ namespace MovieDatabase.API.Controllers
         /// </summary>
         /// <param name="searchName">Optional parametr for movie name.</param>
         /// <param name="genres">Collection of movies IDs.</param>
-        /// <param name="lengthFrom">Minimal lenght</param>
-        /// <param name="lengthTo">Maximal lenght</param>
+        /// <param name="lengthFrom">Minimal lenght.</param>
+        /// <param name="lengthTo">Maximal lenght.</param>
         /// <param name="countries">Collection of countries.</param>
         [HttpGet]
         [ProducesResponseType(typeof(List<Movie>), (int)HttpStatusCode.OK)]
