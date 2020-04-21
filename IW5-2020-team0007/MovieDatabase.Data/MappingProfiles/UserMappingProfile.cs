@@ -10,7 +10,6 @@ namespace MovieDatabase.Data.MappingProfiles
         public UserMappingProfile()
         {
             CreateMap<UserEntity, User>()
-                .MapMember(dst => dst.RatingsCount, src => src.Ratings.Count)
                 .MapMember(dst => dst.Role, src => src.Role.ToString());
 
             CreateMap<UserEntity, SimpleUser>()

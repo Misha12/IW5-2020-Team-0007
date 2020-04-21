@@ -19,6 +19,8 @@ namespace MovieDatabase.Data.Entity
 
         public string Description { get; set; }
 
+        public int CreatedYear { get; set; }
+
         public ISet<MoviePerson> Persons { get; set; }
         public ISet<Rating> Ratings { get; set; }
         public ISet<MovieName> Names { get; set; }

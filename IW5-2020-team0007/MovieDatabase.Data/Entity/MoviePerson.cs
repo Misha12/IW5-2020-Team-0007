@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MovieDatabase.Data.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDatabase.Data.Entity
 {
@@ -13,5 +14,7 @@ namespace MovieDatabase.Data.Entity
 
         [ForeignKey("MovieID")]
         public Movie Movie { get; set; }
+
+        public MoviePersonType Type { get; set; }
     }
 }

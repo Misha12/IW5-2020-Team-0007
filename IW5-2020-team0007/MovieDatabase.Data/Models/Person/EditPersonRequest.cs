@@ -7,6 +7,8 @@ namespace MovieDatabase.Data.Models.Person
     {
         public string Name { get; set; }
         public string Surname { get; set; }
+
+        [Url(ErrorMessage = "Neplatný formát adresy profilového obrázku.")]
         public string ProfilePictureUrl { get; set; }
 
         [DataType(DataType.DateTime)]
