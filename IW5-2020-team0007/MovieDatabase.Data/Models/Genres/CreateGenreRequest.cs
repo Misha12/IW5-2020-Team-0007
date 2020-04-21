@@ -2,7 +2,7 @@
 
 namespace MovieDatabase.Data.Models.Genres
 {
-    public class GenreRequest
+    public class CreateGenreRequest
     {
         [Required(ErrorMessage = "Název žánru je povinný.")]
         public string Name { get; set; }
