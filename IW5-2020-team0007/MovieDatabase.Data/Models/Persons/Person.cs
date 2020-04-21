@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MovieDatabase.Data.Models.Person
+namespace MovieDatabase.Data.Models.Persons
 {
     public class Person : SimplePerson
     {

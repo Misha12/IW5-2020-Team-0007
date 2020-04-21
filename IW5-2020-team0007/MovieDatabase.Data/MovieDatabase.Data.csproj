@@ -15,4 +15,8 @@
     <ProjectReference Include="..\MovieDatabase.Common\MovieDatabase.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\NewFolder\" />
+  </ItemGroup>
+
 </Project>

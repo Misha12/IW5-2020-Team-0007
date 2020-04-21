@@ -1,4 +1,4 @@
-﻿namespace MovieDatabase.Data.Models.Person
+﻿namespace MovieDatabase.Data.Models.Persons
 {
     public class SimplePerson
     {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MovieDatabase.Common.Extensions;
 using MovieDatabase.Data.Enums;
-using MovieDatabase.Data.Models.Person;
+using MovieDatabase.Data.Models.Persons;
 using System;
 using System.Linq;
 using PersonEntity = MovieDatabase.Data.Entity.Person;
