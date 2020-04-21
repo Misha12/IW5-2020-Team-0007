@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Genres\" />
     <Folder Include="Models\Movies\" />
     <Folder Include="Repository\" />
   </ItemGroup>
