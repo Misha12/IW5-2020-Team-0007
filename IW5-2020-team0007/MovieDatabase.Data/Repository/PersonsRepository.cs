@@ -11,7 +11,18 @@ namespace MovieDatabase.Data.Repository
 
         public bool AllPersonsExists(List<long> personIds)
         {
-            return Context.Persons.All(o => personIds.Contains(o.ID));
+            var persons = Context.Persons
+                .Where(o => personIds.Contains(o.ID))
+                .Select(o => o.ID)
+                .ToList();
+
+            foreach(var id in personIds)
+            {
+                if (!persons.Contains(id))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

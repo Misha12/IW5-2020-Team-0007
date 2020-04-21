@@ -1,4 +1,4 @@
-﻿using MovieDatabase.Data.Models.Person;
+﻿using MovieDatabase.Data.Models.Persons;
 using System.Collections.Generic;
 
 namespace MovieDatabase.Data.Models.Movies

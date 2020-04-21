@@ -11,7 +11,18 @@ namespace MovieDatabase.Data.Repository
 
         public bool AllGenresExists(List<int> genreIds)
         {
-            return Context.Genres.All(o => genreIds.Contains(o.ID));
+            var genres = Context.Genres
+                .Where(o => genreIds.Contains(o.ID))
+                .Select(o => o.ID)
+                .ToList();
+
+            foreach(var id in genreIds)
+            {
+                if (!genres.Contains(id))
+                    return false;
+            }
+
+            return true;
         }
     }
 }
