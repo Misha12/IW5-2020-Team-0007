@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +23,19 @@ namespace MovieDatabase.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(builder =>
+            {
+                builder
+                    .SetMinimumLevel(LogLevel.Information)
+                    .AddConsole(options =>
+                    {
+                        options.IncludeScopes = true;
+                        options.TimestampFormat = "[dd. MM. yyyy HH:mm:ss]\t";    
+                    });
+            });
+
+            services.AddCors();
+
             var connectionString = Configuration.GetConnectionString("Default");
 
             services.AddDbContext<MovieDatabaseContext>(options =>
@@ -57,8 +65,11 @@ namespace MovieDatabase.API
             }
 
             app
+                .UseCors(o => o.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
                 .UseRouting()
+                .UseAuthentication()
                 .UseAuthorization()
+                .UseStaticFiles()
                 .UseOpenApi(settings =>
                 {
                     settings.PostProcess = (doc, _) =>
