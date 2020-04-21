@@ -37,5 +37,5 @@
     <ProjectReference Include="..\MovieDatabase.Domain\MovieDatabase.Domain.csproj" />
   </ItemGroup>
 
-
+  
 </Project>
