@@ -1,14 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MovieDatabase.API.Services;
-using MovieDatabase.Domain;
 using NJsonSchema.Generation;
-using AutoMapper;
+using MovieDatabase.Data;
+using Microsoft.AspNetCore.HttpOverrides;
+using MovieDatabase.Data.MappingProfiles;
+using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
+using MovieDatabase.API.Models.Auth;
 
 namespace MovieDatabase.API
 {
@@ -23,6 +26,9 @@ namespace MovieDatabase.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AuthSettings>(Configuration.GetSection("Auth"));
+
+            // Logger
             services.AddLogging(builder =>
             {
                 builder
@@ -30,31 +36,37 @@ namespace MovieDatabase.API
                     .AddConsole(options =>
                     {
                         options.IncludeScopes = true;
-                        options.TimestampFormat = "[dd. MM. yyyy HH:mm:ss]\t";    
+                        options.TimestampFormat = "[dd. MM. yyyy HH:mm:ss]\t";
                     });
             });
 
-            services.AddCors();
+            // Database and mapping
+            services
+                .AddDatabase(Configuration.GetConnectionString("Default"))
+                .AddAutoMapping();
 
-            var connectionString = Configuration.GetConnectionString("Default");
+            services
+                .AddCors()
+                .AddControllers()
+                .AddJsonOptions(opt =>
+                {
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
 
-            services.AddDbContext<MovieDatabaseContext>(options =>
+            services.Configure<ForwardedHeadersOptions>(opt =>
             {
-                options.UseSqlServer(connectionString);
+                opt.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
-            services.AddAutoMapper(typeof(Startup));
+
             services
                 .AddOpenApiDocument(settings =>
                 {
                     settings.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.Null;
-                })
-                .AddControllers();
+                });
 
             services
-                .AddScoped<GenreService>()
-                .AddScoped<MovieService>()
-                .AddScoped<PersonService>()
-                .AddScoped<RatesService>();
+                .AddScoped<UsersService>()
+                .AddTransient<AuthService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -81,15 +93,10 @@ namespace MovieDatabase.API
                             Name = "Michal Halabica, Jakub Koudelka, Konupèík Viktor",
                             Url = ""
                         };
-
-                        doc.Servers.Add(new NSwag.OpenApiServer() { Url = "http://zakladna.eu:60001", Description = "Production" });
                     };
                 })
                 .UseSwaggerUi3()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

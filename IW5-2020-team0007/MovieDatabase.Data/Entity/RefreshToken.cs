@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MovieDatabase.Data.Entity
@@ -14,5 +15,7 @@ namespace MovieDatabase.Data.Entity
 
         [ForeignKey("UserID")]
         public User User { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

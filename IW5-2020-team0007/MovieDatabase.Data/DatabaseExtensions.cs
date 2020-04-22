@@ -13,7 +13,8 @@ namespace MovieDatabase.Data
             services
                 .AddScoped<GenresRepository>()
                 .AddScoped<PersonsRepository>()
-                .AddScoped<MoviesRepository>();
+                .AddScoped<MoviesRepository>()
+                .AddScoped<UsersRepository>();
 
             return services;
         }

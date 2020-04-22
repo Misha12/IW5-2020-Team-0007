@@ -17,12 +17,14 @@ namespace MovieDatabase.Data
             {
                 builder.HasOne(o => o.Movie).WithMany(o => o.Genres);
                 builder.HasOne(o => o.Genre).WithMany(o => o.Movies);
+                builder.HasKey(o => new { o.MovieID, o.GenreID });
             });
 
             modelBuilder.Entity<MoviePerson>(builder =>
             {
                 builder.HasOne(o => o.Movie).WithMany(o => o.Persons);
                 builder.HasOne(o => o.Person).WithMany(o => o.Movies);
+                builder.HasKey(o => new { o.MovieID, o.PersonID });
             });
 
             modelBuilder.Entity<Movie>(builder =>
