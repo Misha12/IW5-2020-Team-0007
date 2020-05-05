@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieDatabase.API.Services;
 using MovieDatabase.Data.Enums;
@@ -16,7 +11,7 @@ namespace MovieDatabase.API.Controllers
     [Authorize]
     [Route("auth")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : Controller
     {
         private AuthService AuthService { get; }
 
@@ -40,6 +35,16 @@ namespace MovieDatabase.API.Controllers
             }
 
             return Ok(token.Token);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                AuthService.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }
