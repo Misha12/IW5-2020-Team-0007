@@ -9,9 +9,13 @@ using NJsonSchema.Generation;
 using MovieDatabase.Data;
 using Microsoft.AspNetCore.HttpOverrides;
 using MovieDatabase.Data.MappingProfiles;
-using Newtonsoft.Json.Converters;
 using System.Text.Json.Serialization;
 using MovieDatabase.API.Models.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 
 namespace MovieDatabase.API
 {
@@ -26,24 +30,45 @@ namespace MovieDatabase.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AuthSettings>(Configuration.GetSection("Auth"));
+            services
+                .Configure<AuthSettings>(Configuration.GetSection("Auth"))
+                .Configure<ForwardedHeadersOptions>(opt =>
+                {
+                    opt.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                });
 
-            // Logger
-            services.AddLogging(builder =>
-            {
-                builder
-                    .SetMinimumLevel(LogLevel.Information)
-                    .AddConsole(options =>
-                    {
-                        options.IncludeScopes = true;
-                        options.TimestampFormat = "[dd. MM. yyyy HH:mm:ss]\t";
-                    });
-            });
-
-            // Database and mapping
+            // Database, mapping, logger
             services
                 .AddDatabase(Configuration.GetConnectionString("Default"))
-                .AddAutoMapping();
+                .AddAutoMapping()
+                .AddLogging(builder =>
+                {
+                    builder
+                        .SetMinimumLevel(LogLevel.Information)
+                        .AddConsole(options =>
+                        {
+                            options.IncludeScopes = true;
+                            options.TimestampFormat = "[dd. MM. yyyy HH:mm:ss]\t";
+                        });
+                })
+                .AddAuthentication(builder =>
+                {
+                    builder.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    builder.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(builder =>
+                {
+                    builder.RequireHttpsMetadata = false;
+                    builder.SaveToken = true;
+                    builder.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Auth")["Secret"])),
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        ValidIssuer = Configuration.GetSection("Auth")["Issuer"]
+                    };
+                });
 
             services
                 .AddCors()
@@ -53,15 +78,20 @@ namespace MovieDatabase.API
                     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
-            services.Configure<ForwardedHeadersOptions>(opt =>
-            {
-                opt.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            });
-
             services
                 .AddOpenApiDocument(settings =>
                 {
                     settings.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.Null;
+
+                    settings.AddSecurity(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        Name = "Authorization",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Type = OpenApiSecuritySchemeType.ApiKey
+                    });
+
+                    settings.OperationProcessors.Add(new OperationSecurityScopeProcessor());
                 });
 
             services

@@ -4,13 +4,7 @@ using MovieDatabase.Data.Enums;
 using MovieDatabase.Data.Models.Auth;
 using MovieDatabase.Data.Repository;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BCrypt.Net;
-using MovieDatabase.Data.Entity;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Options;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +12,7 @@ using System.Security.Claims;
 
 namespace MovieDatabase.API.Services
 {
-    public class AuthService
+    public class AuthService : IDisposable
     {
         private UsersRepository UsersRepository { get; }
         private AuthSettings AuthSettings { get; }
@@ -74,7 +68,8 @@ namespace MovieDatabase.API.Services
                     new Claim(ClaimTypes.Name, user.ID.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(AuthSettings.ExpirationDays),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Issuer = AuthSettings.Issuer
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -88,6 +83,11 @@ namespace MovieDatabase.API.Services
             UsersRepository.AddRefreshToken(user, base64);
 
             return base64;
+        }
+
+        public void Dispose()
+        {
+            UsersRepository.Dispose();
         }
     }
 }
