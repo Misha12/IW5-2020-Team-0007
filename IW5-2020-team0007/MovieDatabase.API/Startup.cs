@@ -114,15 +114,21 @@ namespace MovieDatabase.API
                 .UseStaticFiles()
                 .UseOpenApi(settings =>
                 {
-                    settings.PostProcess = (doc, _) =>
+                    settings.PostProcess = (doc, request) =>
                     {
                         doc.Info.Title = "MovieDatabase API";
                         doc.Info.Version = "v1";
                         doc.Info.Contact = new NSwag.OpenApiContact()
                         {
                             Name = "Michal Halabica, Jakub Koudelka, Konupèík Viktor",
-                            Url = ""
+                            Url = "https://dev.azure.com/iw5-2020-team0007/project"
                         };
+
+                        doc.Servers.Add(new OpenApiServer() 
+                        { 
+                            Url = "https://iw5.zakladna.eu",
+                            Description = "Production"
+                        });
                     };
                 })
                 .UseSwaggerUi3()

@@ -1,5 +1,3 @@
-Build started...
-Build succeeded.
 CREATE TABLE [Genres] (
     [ID] int NOT NULL IDENTITY,
     [Name] nvarchar(255) NULL,
