@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using MovieDatabase.API.Models.Email;
 
 namespace MovieDatabase.API
 {
@@ -32,6 +33,7 @@ namespace MovieDatabase.API
         {
             services
                 .Configure<AuthSettings>(Configuration.GetSection("Auth"))
+                .Configure<EmailSettings>(Configuration.GetSection("Email"))
                 .Configure<ForwardedHeadersOptions>(opt =>
                 {
                     opt.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -95,6 +97,7 @@ namespace MovieDatabase.API
                 });
 
             services
+                .AddScoped<MailService>()
                 .AddScoped<UsersService>()
                 .AddTransient<AuthService>();
         }

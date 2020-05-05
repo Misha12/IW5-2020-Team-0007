@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MovieDatabase.Data.Validators;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieDatabase.Data.Models.Users
 {
     public class ConfirmRegisterRequest
     {
         [Required(ErrorMessage = "Autorizační kód je vyžadován.")]
-        [StringLength(50, ErrorMessage = "Neplatný formát registračního kódu.", MinimumLength = 10)]
+        [AuthorizationCodeExists]
         public string Code { get; set; }
     }
 }

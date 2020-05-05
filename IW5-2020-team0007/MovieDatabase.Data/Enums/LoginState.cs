@@ -5,6 +5,7 @@
         OK,
         UserNotFound,
         InvalidPassword,
-        Unverified
+        Unverified,
+        RefreshTokenNotFound
     }
 }

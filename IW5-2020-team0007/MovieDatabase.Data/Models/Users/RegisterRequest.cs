@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MovieDatabase.Data.Validators;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieDatabase.Data.Models.Users
 {
@@ -6,6 +7,7 @@ namespace MovieDatabase.Data.Models.Users
     {
         [Required(ErrorMessage = "Uživatelské jméno je vyžadováno.")]
         [StringLength(255, ErrorMessage = "Povolená délka uživatelského jména je mezi 5 až 255 znaků.", MinimumLength = 5)]
+        [UsernameNotExists]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Heslo je vyžadováno")]
@@ -19,8 +21,8 @@ namespace MovieDatabase.Data.Models.Users
         [Compare("Password", ErrorMessage = "Zadaná hesla nejsou stejná.")]
         public string PasswordConfirm { get; set; }
 
-        [EmailAddress]
         [Required(ErrorMessage = "Email je vyžadován.")]
+        [EmailAddress(ErrorMessage = "Email není v platném formátu.")]
         public string Email { get; set; }
     }
 }

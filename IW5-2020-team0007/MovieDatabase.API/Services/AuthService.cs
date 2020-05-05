@@ -26,7 +26,7 @@ namespace MovieDatabase.API.Services
         public AuthResult Authenticate(string username, string password)
         {
             UsersRepository.ClearExpiredTokens(AuthSettings.ExpirationDays);
-            
+
             var user = UsersRepository.FindUserByUsername(username);
 
             if (user == null)
@@ -65,7 +65,8 @@ namespace MovieDatabase.API.Services
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(new[] {
-                    new Claim(ClaimTypes.Name, user.ID.ToString())
+                    new Claim(ClaimTypes.Name, user.ID.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(AuthSettings.ExpirationDays),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
@@ -83,6 +84,43 @@ namespace MovieDatabase.API.Services
             UsersRepository.AddRefreshToken(user, base64);
 
             return base64;
+        }
+
+        public AuthResult GetRefreshedToken(string refreshToken)
+        {
+            UsersRepository.ClearExpiredTokens(AuthSettings.ExpirationDays);
+
+            var token = UsersRepository.FindRefreshToken(refreshToken);
+
+            if (token == null)
+                return new AuthResult() { State = LoginState.RefreshTokenNotFound };
+
+            var jwt = GenerateJwt(token.User);
+
+            return new AuthResult()
+            {
+                State = LoginState.OK,
+                Token = new AuthToken()
+                {
+                    AccessToken = jwt,
+                    ExpiresAt = DateTime.UtcNow.AddDays(AuthSettings.ExpirationDays),
+                    Type = "Bearer",
+                    RefreshToken = refreshToken
+                }
+            };
+        }
+
+        public DeleteAllTokensResponse DeleteAllRefreshTokens(long userID)
+        {
+            var count = UsersRepository.DeleteAllRefreshTokens(userID);
+
+            if (count == null)
+                return null;
+
+            return new DeleteAllTokensResponse()
+            {
+                DeletedTokensCount = count.Value
+            };
         }
 
         public void Dispose()

@@ -34,7 +34,7 @@ namespace MovieDatabase.Data.Validators
             if (!IsValidListType(value))
                 return new ValidationResult("Neplatný typ. Očekáván list.");
 
-            using var repository = GetRepository(validationContext);
+            var repository = GetRepository(validationContext);
 
             if (!RecordsExists(repository, value))
                 return new ValidationResult(ErrorMessage);

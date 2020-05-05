@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieDatabase.API.Services;
@@ -29,17 +31,40 @@ namespace MovieDatabase.API.Controllers
         {
             var token = AuthService.Authenticate(request.Username, request.Password);
 
-            if(token.State != LoginState.OK)
-            {
+            if (token.State != LoginState.OK)
                 return Unauthorized(new UnauthorizedResponse { State = token.State });
-            }
 
             return Ok(token.Token);
         }
 
+        [HttpPost("refresh")]
+        [Authorize(Roles = "User,ContentManager,Administrator")]
+        [OpenApiOperation("refreshToken")]
+        [ProducesResponseType(typeof(AuthToken), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(UnauthorizedResponse), (int)HttpStatusCode.NotFound)]
+        public IActionResult RefreshToken([FromQuery] string refreshToken)
+        {
+            var token = AuthService.GetRefreshedToken(refreshToken);
+
+            if (token == null)
+                return NotFound(new UnauthorizedResponse { State = token.State });
+
+            return Ok(token.Token);
+        }
+
+        [HttpDelete("refresh")]
+        [Authorize(Roles = "User,ContentManager,Administrator")]
+        [OpenApiOperation("deleteAllTokens")]
+        [ProducesResponseType(typeof(DeleteAllTokensResponse), (int)HttpStatusCode.OK)]
+        public IActionResult DeleteAllTokens()
+        {
+            var currentUserID = Convert.ToInt64(HttpContext.User.FindFirstValue(ClaimTypes.Name));
+            return Ok(AuthService.DeleteAllRefreshTokens(currentUserID));
+        }
+
         protected override void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 AuthService.Dispose();
             }
