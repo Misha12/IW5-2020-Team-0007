@@ -26,8 +26,8 @@ namespace MovieDatabase.API.Controllers
         }
 
         [HttpGet]
-        [OpenApiOperation("getUsersList")]
         [Authorize(Roles = "Administrator")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(GetUsersList))]
         [ProducesResponseType(typeof(PaginatedData<SimpleUser>), (int)HttpStatusCode.OK)]
         public IActionResult GetUsersList([FromQuery] UserSearchRequest request)
         {
@@ -37,7 +37,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [OpenApiOperation("register")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(Register))]
         [ProducesResponseType(typeof(SimpleUser), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
@@ -48,7 +48,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpGet("register")]
         [AllowAnonymous]
-        [OpenApiOperation("confirmRegistration")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(ConfirmRegistration))]
         [ProducesResponseType((int)HttpStatusCode.Redirect)]
         public IActionResult ConfirmRegistration([FromQuery] ConfirmRegisterRequest request)
         {
@@ -58,7 +58,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpGet("{id}")]
         [Authorize(Roles = "Administrator")]
-        [OpenApiOperation("getUserDetail")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(GetUserDetail))]
         [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult GetUserDetail(long id)
@@ -73,7 +73,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpGet("me")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
-        [OpenApiOperation("getCurrentUserDetail")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(GetCurrentUserDetail))]
         [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
         public IActionResult GetCurrentUserDetail()
         {
@@ -83,7 +83,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrator")]
-        [OpenApiOperation("updateUser")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(UpdateUser))]
         [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
@@ -99,7 +99,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpPut("me")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
-        [OpenApiOperation("updateCurrentUser")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(UpdateCurrentUser))]
         [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.OK)]
         public IActionResult UpdateCurrentUser([FromBody] UserEditRequest request)
@@ -110,7 +110,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpPut("{id}/password")]
         [Authorize(Roles = "Administrator")]
-        [OpenApiOperation("changePassword")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(ChangePassword))]
         [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
@@ -126,7 +126,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpPut("me/password")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
-        [OpenApiOperation("changeCurrentUserPassword")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(ChangeCurrentUserPassword))]
         [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public IActionResult ChangeCurrentUserPassword([FromBody] PasswordChangeRequest request)
@@ -137,7 +137,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrator")]
-        [OpenApiOperation("deleteUser")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(DeleteUser))]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult DeleteUser(long id)
@@ -152,7 +152,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpDelete("me")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
-        [OpenApiOperation("deleteCurrentUser")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(DeleteCurrentUser))]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public IActionResult DeleteCurrentUser()
         {
@@ -163,7 +163,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpPut("{id}/role")]
         [Authorize(Roles = "Administrator")]
-        [OpenApiOperation("changeRole")]
+        [OpenApiOperation(nameof(UsersController) + "_" + nameof(ChangeRole))]
         [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
