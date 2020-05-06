@@ -7,16 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDatabase.API", "MovieD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDatabase.Domain", "MovieDatabase.Domain\MovieDatabase.Domain.csproj", "{351148C7-7B17-442C-9B75-E863C5671EE7}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MovieDatabase.DB", "MovieDatabase.DB\MovieDatabase.DB.sqlproj", "{B24A3AF5-8AE2-4BED-9007-9B6E083B020E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{76FD8263-383F-480E-8332-B390FB44BC18}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDatabase.Common", "MovieDatabase.Common\MovieDatabase.Common.csproj", "{A104420D-B0B3-485C-AE15-3C7A416C0CF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDatabase.Common", "MovieDatabase.Common\MovieDatabase.Common.csproj", "{A104420D-B0B3-485C-AE15-3C7A416C0CF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieDatabase.Data", "MovieDatabase.Data\MovieDatabase.Data.csproj", "{8A562BA6-31EB-4C3C-984D-63233602BCC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieDatabase.Data", "MovieDatabase.Data\MovieDatabase.Data.csproj", "{8A562BA6-31EB-4C3C-984D-63233602BCC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,12 +30,6 @@ Global
 		{351148C7-7B17-442C-9B75-E863C5671EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{351148C7-7B17-442C-9B75-E863C5671EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{351148C7-7B17-442C-9B75-E863C5671EE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B24A3AF5-8AE2-4BED-9007-9B6E083B020E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B24A3AF5-8AE2-4BED-9007-9B6E083B020E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B24A3AF5-8AE2-4BED-9007-9B6E083B020E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{B24A3AF5-8AE2-4BED-9007-9B6E083B020E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B24A3AF5-8AE2-4BED-9007-9B6E083B020E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B24A3AF5-8AE2-4BED-9007-9B6E083B020E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{A104420D-B0B3-485C-AE15-3C7A416C0CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A104420D-B0B3-485C-AE15-3C7A416C0CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A104420D-B0B3-485C-AE15-3C7A416C0CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
