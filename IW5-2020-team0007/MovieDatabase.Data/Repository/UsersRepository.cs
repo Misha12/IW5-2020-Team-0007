@@ -49,7 +49,8 @@ namespace MovieDatabase.Data.Repository
 
         public User FindUserByUsername(string username)
         {
-            return GetQuery(false).SingleOrDefault(o => o.Username == username);
+            return GetQuery(false)
+                .SingleOrDefault(o => o.Username == username);
         }
 
         public void AddRefreshToken(User user, string refreshToken)
@@ -114,10 +115,10 @@ namespace MovieDatabase.Data.Repository
             if (user == null)
                 return null;
 
-            if (!string.IsNullOrEmpty(newEmail) && user.Email != newEmail)
+            if (!string.IsNullOrEmpty(newEmail))
                 user.Email = newEmail;
 
-            if (!string.IsNullOrEmpty(newUsername) && user.Username != newUsername)
+            if (!string.IsNullOrEmpty(newUsername))
                 user.Username = newUsername;
 
             Context.SaveChanges();
@@ -176,7 +177,7 @@ namespace MovieDatabase.Data.Repository
             if (user == null)
                 return null;
 
-            if (newRole > Roles.Registered && user.Role != newRole)
+            if (newRole > Roles.Registered)
                 user.Role = newRole;
 
             Context.SaveChanges();

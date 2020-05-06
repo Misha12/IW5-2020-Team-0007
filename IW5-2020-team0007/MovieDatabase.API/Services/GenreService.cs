@@ -33,10 +33,6 @@ namespace MovieDatabase.API.Services
         public Genre UpdateGenre(int id, EditGenreRequest request)
         {
             var updatedGenre = GenresRepository.UpdateGenre(id, request.Name);
-
-            if (updatedGenre == null)
-                return null;
-
             return Mapper.Map<Genre>(updatedGenre);
         }
 

@@ -46,7 +46,7 @@ namespace MovieDatabase.API.Controllers
         {
             var token = AuthService.GetRefreshedToken(refreshToken);
 
-            if (token == null)
+            if (token.State != LoginState.OK)
                 return NotFound(new UnauthorizedResponse { State = token.State });
 
             return Ok(token.Token);
@@ -65,9 +65,7 @@ namespace MovieDatabase.API.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
                 AuthService.Dispose();
-            }
 
             base.Dispose(disposing);
         }

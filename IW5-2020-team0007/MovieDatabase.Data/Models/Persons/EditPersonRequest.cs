@@ -12,6 +12,6 @@ namespace MovieDatabase.Data.Models.Persons
         public string ProfilePictureUrl { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
     }
 }

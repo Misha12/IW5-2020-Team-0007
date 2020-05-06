@@ -5,6 +5,7 @@ using MovieDatabase.Common.Helpers;
 using MovieDatabase.Data.Models.Common;
 using MovieDatabase.Data.Models.Users;
 using MovieDatabase.Data.Repository;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,22 +30,8 @@ namespace MovieDatabase.API.Services
 
         public PaginatedData<SimpleUser> GetUsersList(UserSearchRequest request)
         {
-            var result = new PaginatedData<SimpleUser>()
-            {
-                PageNumber = request.Page
-            };
-            
             var query = Repository.GetUserList(request.Username);
-            result.TotalItemsCount = query.Count();
-
-            var skip = request.Page * request.Limit;
-            query = query.Skip(skip).Take(request.Limit);
-
-            result.CanNext = skip + request.Limit < result.TotalItemsCount;
-            result.CanPrev = skip != 0;
-
-            result.Data = Mapper.Map<List<SimpleUser>>(query.ToList());
-            return result;
+            return PaginatedData<SimpleUser>.Create(query, request, entityList => Mapper.Map<List<SimpleUser>>(entityList));
         }
 
         public async Task<SimpleUser> RegisterAsync(RegisterRequest request)
@@ -66,20 +53,20 @@ namespace MovieDatabase.API.Services
         public User GetUserDetail(long id)
         {
             var user = Repository.FindUserById(id);
-            return user == null ? null : Mapper.Map<User>(user);
+            return Mapper.Map<User>(user);
         }
 
         public User UpdateUser(long id, UserEditRequest request)
         {
             var user = Repository.UpdateUser(id, request.Email, request.Username);
-            return user == null ? null : Mapper.Map<User>(user);
+            return Mapper.Map<User>(user);
         }
 
         public User ChangePassword(long id, PasswordChangeRequest request)
         {
             var password = BCrypt.Net.BCrypt.HashPassword(request.Password);
             var user = Repository.ChangePassword(id, password);
-            return user == null ? null : Mapper.Map<User>(user);
+            return Mapper.Map<User>(user);
         }
 
         public bool DeleteUser(long id)
@@ -94,7 +81,7 @@ namespace MovieDatabase.API.Services
         public User ChangeUserRole(long id, RoleChangeRequest request)
         {
             var user = Repository.ChangeUserRole(id, request.Role);
-            return user == null ? null : Mapper.Map<User>(user);
+            return Mapper.Map<User>(user);
         }
 
         public void Dispose()

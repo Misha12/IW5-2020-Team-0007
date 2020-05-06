@@ -1,63 +1,89 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieDatabase.API.Models;
 using MovieDatabase.API.Services;
-using MovieDatabase.Domain.DTO;
+using MovieDatabase.Data.Models.Common;
+using MovieDatabase.Data.Models.Persons;
+using NSwag.Annotations;
+using System.Net;
 
 namespace MovieDatabase.API.Controllers
 {
     [ApiController]
     [Route("persons")]
-    public class PersonsController : ControllerBase
+    public class PersonsController : Controller
     {
-        private PersonService Service { get; }
+        private PersonService PersonService { get; }
 
-        public PersonsController(PersonService service)
+        public PersonsController(PersonService personService)
         {
-            Service = service;
+            PersonService = personService;
         }
 
         /// <summary>
-        /// Get collection of all persons.
+        /// Get paginated collection of all persons.
         /// </summary>
-        /// <param name="search">Optional parametr for movie name and surname.</param>
         [HttpGet]
-        [ProducesResponseType(typeof(List<Person>), (int)HttpStatusCode.OK)]
-        public IActionResult GetPersons(string search = null)
+        [AllowAnonymous]
+        [OpenApiOperation(nameof(PersonsController) + "_" + nameof(GetPersonList))]
+        [ProducesResponseType(typeof(PaginatedData<SimplePerson>), (int)HttpStatusCode.OK)]
+        public IActionResult GetPersonList([FromQuery] PersonSearchRequest request)
         {
-            var data = Service.GetPersons(search);
-            return Ok(data);
-        }
-
-        /// <summary>
-        /// Get all information about person.
-        /// </summary>
-        /// <param name="id">Unique ID of person.</param>
-        [HttpGet("{id}")]
-        [ProducesResponseType(typeof(PersonDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetPersonByID(long id)
-        {
-            var person = Service.FindPersonByID(id);
-            return person == null ? (IActionResult)NotFound(new ErrorModel("Person with this ID is not in database.")) : Ok(person);
+            var persons = PersonService.GetPersonList(request);
+            return Ok(persons);
         }
 
         /// <summary>
         /// Create person.
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(Person), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
-        public IActionResult CreatePerson([FromBody] PersonInput data)
+        [Authorize(Roles = "ContentManager,Administrator")]
+        [OpenApiOperation(nameof(PersonsController) + "_" + nameof(CreatePerson))]
+        [ProducesResponseType(typeof(SimplePerson), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult CreatePerson([FromBody] CreatePersonRequest request)
         {
-            if (!data.IsValid())
-                return BadRequest(new ErrorModel("Requested data are in wrong format."));
-
-            var person = Service.CreatePerson(data);
+            var person = PersonService.CreatePerson(request);
             return Ok(person);
         }
 
+        /// <summary>
+        /// Get all information about person.
+        /// </summary>
+        [HttpGet("{id}")]
+        [AllowAnonymous]
+        [OpenApiOperation(nameof(PersonsController) + "_" + nameof(GetPersonDetail))]
+        [ProducesResponseType(typeof(Person), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult GetPersonDetail(long id)
+        {
+            var person = PersonService.GetPersonDetail(id);
+
+            if (person == null)
+                return NotFound();
+
+            return Ok(person);
+        }
+
+        /// <summary>
+        /// Update of person.
+        /// </summary>
+        [HttpPut("{id}")]
+        [Authorize(Roles = "ContentManager,Administrator")]
+        [OpenApiOperation(nameof(PersonsController) + "_" + nameof(UpdatePerson))]
+        [ProducesResponseType(typeof(Person), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult UpdatePerson(long id, [FromBody] EditPersonRequest request)
+        {
+            var person = PersonService.UpdatePerson(id, request);
+
+            if (person == null)
+                return NotFound();
+
+            return Ok(person);
+        }
+
+        /*
         /// <summary>
         /// Delete person.
         /// </summary>
@@ -71,19 +97,14 @@ namespace MovieDatabase.API.Controllers
             var success = Service.DeletePerson(id);
             return success ? Ok(null) : (IActionResult)NotFound(null);
         }
+        */
 
-        /// <summary>
-        /// Update of person.
-        /// </summary>
-        /// <param name="id">Unique ID of person.</param>
-        /// <param name="data"></param>
-        [HttpPut("{id}")]
-        [ProducesResponseType(typeof(Person), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult UpdatePerson(long id, PersonInput data)
+        protected override void Dispose(bool disposing)
         {
-            var person = Service.UpdatePerson(id, data);
-            return person == null ? NotFound(new ErrorModel("Requested person was not found.")) : (IActionResult)Ok(person);
+            if (disposing)
+                PersonService.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

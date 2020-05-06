@@ -97,6 +97,7 @@ namespace MovieDatabase.API
                 });
 
             services
+                .AddScoped<PersonService>()
                 .AddScoped<GenreService>()
                 .AddScoped<MailService>()
                 .AddScoped<UsersService>()

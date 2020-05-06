@@ -28,7 +28,7 @@ namespace MovieDatabase.Data.Repository
 
         public bool AllGenresExists(List<int> genreIds)
         {
-            var genres = Context.Genres
+            var genres = GetQuery(false)
                 .Where(o => genreIds.Contains(o.ID))
                 .Select(o => o.ID)
                 .ToList();
