@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieDatabase.Data.Models.Genres
 {
-    public class CreateGenreRequest
+    public class EditGenreRequest
     {
-        [Required(ErrorMessage = "Název žánru je povinný.")]
-        [GenreNameNotExists]
+        [Required(ErrorMessage = "Nový název žánru je povinný.")]
+        [UsernameNotExists]
         public string Name { get; set; }
     }
 }

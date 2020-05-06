@@ -1,97 +1,57 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MovieDatabase.Domain;
-using MovieDatabase.Domain.DTO;
+﻿using AutoMapper;
+using MovieDatabase.Data.Models.Genres;
+using MovieDatabase.Data.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using DBGenre = MovieDatabase.Domain.Entity.Genre;
 
 namespace MovieDatabase.API.Services
 {
-    public class GenreService
+    public class GenreService : IDisposable
     {
-        private MovieDatabaseContext Context { get; }
+        private GenresRepository GenresRepository { get; }
         private IMapper Mapper { get; }
 
-        public GenreService(MovieDatabaseContext context, IMapper mapper)
+        public GenreService(GenresRepository repository, IMapper mapper)
         {
-            Context = context;
             Mapper = mapper;
+            GenresRepository = repository;
         }
 
-        public List<Genre> GetFullList(string search = null)
+        public List<Genre> GetFullList(GenresSearchRequest request)
         {
-            var query = Context.Genres.AsQueryable();
-
-            if (!string.IsNullOrEmpty(search))
-                query = query.Where(o => o.Name.Contains(search));
-
-            var data = query.ToList();
-            return Mapper.Map<List<Genre>>(data);
+            var genres = GenresRepository.GetGenreList(request.Search).ToList();
+            return Mapper.Map<List<Genre>>(genres);
         }
 
-        public GenreDetail FindGenreByID(int id)
+        public SimpleGenre CreateGenre(CreateGenreRequest request)
         {
-            var item = Context.Genres
-                .Include(o => o.Movies)
-                .FirstOrDefault(o => o.ID == id);
-
-            var mapped = Mapper.Map<GenreDetail>(item);
-
-            if (item.Movies?.Count > 0)
-            {
-                mapped.Movies = item.Movies.Where(o => o.GenreID == item.ID).Select(o => Mapper.Map<Movie>(o)).ToList();
-            }
-
-            return mapped;
+            var genre = GenresRepository.CreateGenre(request.Name);
+            return Mapper.Map<SimpleGenre>(genre);
         }
 
-        public Genre CreateGenre(string name)
+        public Genre UpdateGenre(int id, EditGenreRequest request)
         {
-            var entity = new DBGenre() { Name = name };
+            var updatedGenre = GenresRepository.UpdateGenre(id, request.Name);
 
-            Context.Add(entity);
-            Context.SaveChanges();
+            if (updatedGenre == null)
+                return null;
 
-            return Mapper.Map<Genre>(entity);
+            return Mapper.Map<Genre>(updatedGenre);
         }
 
         public bool DeleteGenre(int id)
         {
-            var item = Context.Genres
-                .Include(o => o.Movies)
-                .FirstOrDefault(o => o.ID == id);
-
-            if (item == null)
+            if (!GenresRepository.GenreExists(id))
                 return false;
 
-            if (item.Movies?.Count > 0)
-            {
-                foreach (var movie in item.Movies)
-                {
-                    movie.GenreID = 0;
-                }
-            }
-
-            Context.Genres.Remove(item);
-            Context.SaveChanges();
-
+            GenresRepository.DeleteGenre(id);
             return true;
         }
 
-        public GenreDetail UpdateGenre(int id, string newName)
+        public void Dispose()
         {
-            var item = Context.Genres
-                .Include(o => o.Movies)
-                .FirstOrDefault(o => o.ID == id);
-
-            if (item == null)
-                return null;
-
-            item.Name = newName;
-
-            Context.SaveChanges();
-            return Mapper.Map<GenreDetail>(item);
+            GenresRepository.Dispose();
         }
     }
 }

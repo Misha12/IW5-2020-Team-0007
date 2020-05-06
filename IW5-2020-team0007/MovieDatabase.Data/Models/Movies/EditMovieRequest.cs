@@ -9,7 +9,7 @@ namespace MovieDatabase.Data.Models.Movies
     {
         public string OriginalName { get; set; }
 
-        [GenresExists(AllowNulls = true, ErrorMessage = "Neplatný seznam žánrů. Některý ze žánrů neexistuje.")]
+        [GenreIDsExists(AllowNulls = true, ErrorMessage = "Neplatný seznam žánrů. Některý ze žánrů neexistuje.")]
         public List<int> GenreIds { get; set; }
 
         [Range(0, long.MaxValue, ErrorMessage = "Neplatná délka filmu. Záporné hodnoty nejsou povoleny.")]

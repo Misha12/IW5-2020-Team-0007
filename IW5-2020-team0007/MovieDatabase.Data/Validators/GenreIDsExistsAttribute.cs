@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieDatabase.Data.Validators
 {
-    public class GenresExistsAttribute : ExistsValidationBaseAttribute
+    public class GenreIDsExistsAttribute : ExistsValidationBaseAttribute
     {
-        public GenresExistsAttribute() : base(typeof(int))
+        public GenreIDsExistsAttribute() : base(typeof(int))
         {
         }
 
