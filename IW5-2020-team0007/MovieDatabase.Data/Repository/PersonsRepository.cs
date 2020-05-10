@@ -93,5 +93,24 @@ namespace MovieDatabase.Data.Repository
             Context.SaveChanges();
             return person;
         }
+
+        public void DeletePerson(long id)
+        {
+            var person = FindPersonById(id);
+
+            if (person == null)
+                return;
+
+            if (person.Movies.Count > 0)
+                person.Movies.Clear();
+
+            Context.Persons.Remove(person);
+            Context.SaveChanges();
+        }
+
+        public bool PersonExists(long id)
+        {
+            return GetQuery(false).Any(o => o.ID == id);
+        }
     }
 }

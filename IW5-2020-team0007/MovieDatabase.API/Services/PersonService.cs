@@ -42,26 +42,18 @@ namespace MovieDatabase.API.Services
             return Mapper.Map<Person>(person);
         }
 
+        public bool DeletePerson(long id)
+        {
+            if (!PersonsRepository.PersonExists(id))
+                return false;
+
+            PersonsRepository.DeletePerson(id);
+            return true;
+        }
+
         public void Dispose()
         {
             PersonsRepository.Dispose();
         }
-
-        /*
-
-        public bool DeletePerson(long id)
-        {
-            var person = Context.Persons.Include(o => o.InMovies).FirstOrDefault(o => o.ID == id);
-
-            if (person == null)
-                return false;
-
-            person.InMovies.Clear();
-            Context.Persons.Remove(person);
-            Context.SaveChanges();
-
-            return true;
-        }
-        */
     }
 }

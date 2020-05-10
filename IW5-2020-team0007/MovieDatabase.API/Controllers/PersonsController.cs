@@ -21,7 +21,7 @@ namespace MovieDatabase.API.Controllers
 
         /// <summary>
         /// Get paginated collection of all persons.
-        /// </summary>
+        /// </summary> 
         [HttpGet]
         [AllowAnonymous]
         [OpenApiOperation(nameof(PersonsController) + "_" + nameof(GetPersonList))]
@@ -83,21 +83,23 @@ namespace MovieDatabase.API.Controllers
             return Ok(person);
         }
 
-        /*
         /// <summary>
         /// Delete person.
         /// </summary>
-        /// <param name="id">Unique ID of person.</param>
-        /// <remarks>Warning. Peson will be deleted from all movies on which he/she participated.</remarks>
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
+        [Authorize(Roles = "ContentManager,Administrator")]
+        [OpenApiOperation(nameof(PersonsController) + "_" + nameof(DeletePerson))]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult DeletePerson(long id)
         {
-            var success = Service.DeletePerson(id);
-            return success ? Ok(null) : (IActionResult)NotFound(null);
+            var success = PersonService.DeletePerson(id);
+
+            if (!success)
+                return NotFound();
+
+            return Ok();
         }
-        */
 
         protected override void Dispose(bool disposing)
         {
