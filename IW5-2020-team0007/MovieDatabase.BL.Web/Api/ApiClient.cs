@@ -1491,71 +1491,63 @@ namespace MovieDatabase.Web
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v12.0.0.0))")]
-    public partial interface IPersonsClient
+    public partial interface IPersonsControllerClient
     {
-        /// <summary>Get collection of all persons.</summary>
-        /// <param name="search">Optional parametr for movie name and surname.</param>
+        /// <summary>Get paginated collection of all persons.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.IList<Person>> GetPersonsAsync(string search);
+        System.Threading.Tasks.Task<PaginatedDataOfSimplePerson> GetPersonListAsync(string nameSurname, int? limit, int? page);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Get collection of all persons.</summary>
-        /// <param name="search">Optional parametr for movie name and surname.</param>
+        /// <summary>Get paginated collection of all persons.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.IList<Person>> GetPersonsAsync(string search, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<PaginatedDataOfSimplePerson> GetPersonListAsync(string nameSurname, int? limit, int? page, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Create person.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Person> CreatePersonAsync(PersonInput data);
+        System.Threading.Tasks.Task<SimplePerson> CreatePersonAsync(CreatePersonRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Create person.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Person> CreatePersonAsync(PersonInput data, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<SimplePerson> CreatePersonAsync(CreatePersonRequest request, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Get all information about person.</summary>
-        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonDetail> GetPersonByIDAsync(long id);
+        System.Threading.Tasks.Task<Person2> GetPersonDetailAsync(long id);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get all information about person.</summary>
-        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<PersonDetail> GetPersonByIDAsync(long id, System.Threading.CancellationToken cancellationToken);
-    
-        /// <summary>Delete person.</summary>
-        /// <param name="id">Unique ID of person.</param>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<object> DeletePersonAsync(long id);
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Delete person.</summary>
-        /// <param name="id">Unique ID of person.</param>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<object> DeletePersonAsync(long id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<Person2> GetPersonDetailAsync(long id, System.Threading.CancellationToken cancellationToken);
     
         /// <summary>Update of person.</summary>
-        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Person> UpdatePersonAsync(long id, PersonInput data);
+        System.Threading.Tasks.Task<Person2> UpdatePersonAsync(long id, EditPersonRequest request);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Update of person.</summary>
-        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<Person> UpdatePersonAsync(long id, PersonInput data, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<Person2> UpdatePersonAsync(long id, EditPersonRequest request, System.Threading.CancellationToken cancellationToken);
+    
+        /// <summary>Delete person.</summary>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeletePersonAsync(long id);
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Delete person.</summary>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task DeletePersonAsync(long id, System.Threading.CancellationToken cancellationToken);
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v12.0.0.0))")]
-    public partial class PersonsClient : IPersonsClient
+    public partial class PersonsControllerClient : IPersonsControllerClient
     {
         private string _baseUrl = "http://localhost:5000";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
-        public PersonsClient(System.Net.Http.HttpClient httpClient)
+        public PersonsControllerClient(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient; 
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
@@ -1581,25 +1573,31 @@ namespace MovieDatabase.Web
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
-        /// <summary>Get collection of all persons.</summary>
-        /// <param name="search">Optional parametr for movie name and surname.</param>
+        /// <summary>Get paginated collection of all persons.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<System.Collections.Generic.IList<Person>> GetPersonsAsync(string search)
+        public System.Threading.Tasks.Task<PaginatedDataOfSimplePerson> GetPersonListAsync(string nameSurname, int? limit, int? page)
         {
-            return GetPersonsAsync(search, System.Threading.CancellationToken.None);
+            return GetPersonListAsync(nameSurname, limit, page, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Get collection of all persons.</summary>
-        /// <param name="search">Optional parametr for movie name and surname.</param>
+        /// <summary>Get paginated collection of all persons.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<System.Collections.Generic.IList<Person>> GetPersonsAsync(string search, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<PaginatedDataOfSimplePerson> GetPersonListAsync(string nameSurname, int? limit, int? page, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/persons?");
-            if (search != null) 
+            if (nameSurname != null) 
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("search") + "=").Append(System.Uri.EscapeDataString(ConvertToString(search, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("NameSurname") + "=").Append(System.Uri.EscapeDataString(ConvertToString(nameSurname, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (limit != null) 
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("Limit") + "=").Append(System.Uri.EscapeDataString(ConvertToString(limit, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (page != null) 
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("Page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
     
@@ -1631,7 +1629,7 @@ namespace MovieDatabase.Web
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.IList<Person>>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PaginatedDataOfSimplePerson>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -1641,7 +1639,7 @@ namespace MovieDatabase.Web
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(System.Collections.Generic.IList<Person>);
+                        return default(PaginatedDataOfSimplePerson);
                     }
                     finally
                     {
@@ -1657,18 +1655,18 @@ namespace MovieDatabase.Web
     
         /// <summary>Create person.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Person> CreatePersonAsync(PersonInput data)
+        public System.Threading.Tasks.Task<SimplePerson> CreatePersonAsync(CreatePersonRequest request)
         {
-            return CreatePersonAsync(data, System.Threading.CancellationToken.None);
+            return CreatePersonAsync(request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Create person.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Person> CreatePersonAsync(PersonInput data, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<SimplePerson> CreatePersonAsync(CreatePersonRequest request, System.Threading.CancellationToken cancellationToken)
         {
-            if (data == null)
-                throw new System.ArgumentNullException("data");
+            if (request == null)
+                throw new System.ArgumentNullException("request");
     
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/persons");
@@ -1678,7 +1676,7 @@ namespace MovieDatabase.Web
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(data, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
@@ -1704,14 +1702,14 @@ namespace MovieDatabase.Web
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Person>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<SimplePerson>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
                         if (status_ == "400") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ErrorModel>(response_, headers_).ConfigureAwait(false);
-                            throw new ApiException<ErrorModel>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            var objectResponse_ = await ReadObjectResponseAsync<ValidationProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            throw new ApiException<ValidationProblemDetails>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1720,7 +1718,7 @@ namespace MovieDatabase.Web
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(Person);
+                        return default(SimplePerson);
                     }
                     finally
                     {
@@ -1735,18 +1733,16 @@ namespace MovieDatabase.Web
         }
     
         /// <summary>Get all information about person.</summary>
-        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<PersonDetail> GetPersonByIDAsync(long id)
+        public System.Threading.Tasks.Task<Person2> GetPersonDetailAsync(long id)
         {
-            return GetPersonByIDAsync(id, System.Threading.CancellationToken.None);
+            return GetPersonDetailAsync(id, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get all information about person.</summary>
-        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<PersonDetail> GetPersonByIDAsync(long id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<Person2> GetPersonDetailAsync(long id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -1783,14 +1779,14 @@ namespace MovieDatabase.Web
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<PersonDetail>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Person2>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
                         if (status_ == "404") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ErrorModel>(response_, headers_).ConfigureAwait(false);
-                            throw new ApiException<ErrorModel>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            throw new ApiException<ProblemDetails>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1799,86 +1795,7 @@ namespace MovieDatabase.Web
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(PersonDetail);
-                    }
-                    finally
-                    {
-                        if (response_ != null)
-                            response_.Dispose();
-                    }
-                }
-            }
-            finally
-            {
-            }
-        }
-    
-        /// <summary>Delete person.</summary>
-        /// <param name="id">Unique ID of person.</param>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<object> DeletePersonAsync(long id)
-        {
-            return DeletePersonAsync(id, System.Threading.CancellationToken.None);
-        }
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Delete person.</summary>
-        /// <param name="id">Unique ID of person.</param>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<object> DeletePersonAsync(long id, System.Threading.CancellationToken cancellationToken)
-        {
-            if (id == null)
-                throw new System.ArgumentNullException("id");
-    
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/persons/{id}");
-            urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
-    
-            var client_ = _httpClient;
-            try
-            {
-                using (var request_ = new System.Net.Http.HttpRequestMessage())
-                {
-                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
-    
-                    PrepareRequest(client_, request_, urlBuilder_);
-                    var url_ = urlBuilder_.ToString();
-                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
-                    PrepareRequest(client_, request_, url_);
-    
-                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-                    try
-                    {
-                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
-                        if (response_.Content != null && response_.Content.Headers != null)
-                        {
-                            foreach (var item_ in response_.Content.Headers)
-                                headers_[item_.Key] = item_.Value;
-                        }
-    
-                        ProcessResponse(client_, response_);
-    
-                        var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200") 
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
-                            return objectResponse_.Object;
-                        }
-                        else
-                        if (status_ == "404") 
-                        {
-                            var objectResponse_ = await ReadObjectResponseAsync<object>(response_, headers_).ConfigureAwait(false);
-                            throw new ApiException<object>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
-                        }
-                        else
-                        if (status_ != "200" && status_ != "204")
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
-                        }
-            
-                        return default(object);
+                        return default(Person2);
                     }
                     finally
                     {
@@ -1893,24 +1810,22 @@ namespace MovieDatabase.Web
         }
     
         /// <summary>Update of person.</summary>
-        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Person> UpdatePersonAsync(long id, PersonInput data)
+        public System.Threading.Tasks.Task<Person2> UpdatePersonAsync(long id, EditPersonRequest request)
         {
-            return UpdatePersonAsync(id, data, System.Threading.CancellationToken.None);
+            return UpdatePersonAsync(id, request, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Update of person.</summary>
-        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<Person> UpdatePersonAsync(long id, PersonInput data, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<Person2> UpdatePersonAsync(long id, EditPersonRequest request, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
     
-            if (data == null)
-                throw new System.ArgumentNullException("data");
+            if (request == null)
+                throw new System.ArgumentNullException("request");
     
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/persons/{id}");
@@ -1921,7 +1836,7 @@ namespace MovieDatabase.Web
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(data, _settings.Value));
+                    var content_ = new System.Net.Http.StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value));
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("PUT");
@@ -1947,14 +1862,20 @@ namespace MovieDatabase.Web
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Person>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<Person2>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
                         if (status_ == "404") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ErrorModel>(response_, headers_).ConfigureAwait(false);
-                            throw new ApiException<ErrorModel>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            throw new ApiException<ProblemDetails>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ == "400") 
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ValidationProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            throw new ApiException<ValidationProblemDetails>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -1963,7 +1884,80 @@ namespace MovieDatabase.Web
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(Person);
+                        return default(Person2);
+                    }
+                    finally
+                    {
+                        if (response_ != null)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+            }
+        }
+    
+        /// <summary>Delete person.</summary>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public System.Threading.Tasks.Task DeletePersonAsync(long id)
+        {
+            return DeletePersonAsync(id, System.Threading.CancellationToken.None);
+        }
+    
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Delete person.</summary>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async System.Threading.Tasks.Task DeletePersonAsync(long id, System.Threading.CancellationToken cancellationToken)
+        {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+    
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/persons/{id}");
+            urlBuilder_.Replace("{id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
+    
+            var client_ = _httpClient;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("DELETE");
+    
+                    PrepareRequest(client_, request_, urlBuilder_);
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+                    PrepareRequest(client_, request_, url_);
+    
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+    
+                        ProcessResponse(client_, response_);
+    
+                        var status_ = ((int)response_.StatusCode).ToString();
+                        if (status_ == "200") 
+                        {
+                            return;
+                        }
+                        else
+                        if (status_ == "404") 
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_).ConfigureAwait(false);
+                            throw new ApiException<ProblemDetails>("A server side error occurred.", (int)response_.StatusCode, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        if (status_ != "200" && status_ != "204")
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
+                            throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
+                        }
                     }
                     finally
                     {
@@ -4217,20 +4211,32 @@ namespace MovieDatabase.Web
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class PersonDetail : Person
+    public partial class PaginatedDataOfSimplePerson 
     {
-        [Newtonsoft.Json.JsonProperty("actingIn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IList<Movie> ActingIn { get; set; }
+        [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.IList<SimplePerson> Data { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("directedIn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IList<Movie> DirectedIn { get; set; }
+        [Newtonsoft.Json.JsonProperty("page", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Page { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("totalItemsCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long TotalItemsCount { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("canNext", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanNext { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("canPrev", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool CanPrev { get; set; }
     
     
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class PersonInput 
+    public partial class SimplePerson 
     {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Id { get; set; }
+    
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Name { get; set; }
     
@@ -4239,6 +4245,90 @@ namespace MovieDatabase.Web
     
         [Newtonsoft.Json.JsonProperty("profilePictureUrl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ProfilePictureUrl { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class CreatePersonRequest 
+    {
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public string Name { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("surname", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public string Surname { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("profilePictureUrl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Uri ProfilePictureUrl { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("birthday", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.DateTimeOffset Birthday { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class Person2 : SimplePerson
+    {
+        [Newtonsoft.Json.JsonProperty("birthdate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset Birthdate { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("age", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Age { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("actingIn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.IList<SimpleMovie> ActingIn { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("directedIn", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.IList<SimpleMovie> DirectedIn { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class SimpleMovie 
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Id { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("originalName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string OriginalName { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("titleImageUrl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string TitleImageUrl { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("country", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Country { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Length { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("genres", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.IList<SimpleGenre> Genres { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("createdYear", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int CreatedYear { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class EditPersonRequest 
+    {
+        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Name { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("surname", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Surname { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("profilePictureUrl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Uri ProfilePictureUrl { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("birthday", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset? Birthday { get; set; }
     
     
     }
@@ -4285,8 +4375,8 @@ namespace MovieDatabase.Web
         [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.IList<SimpleUser> Data { get; set; }
     
-        [Newtonsoft.Json.JsonProperty("pageNumber", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int PageNumber { get; set; }
+        [Newtonsoft.Json.JsonProperty("page", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public int Page { get; set; }
     
         [Newtonsoft.Json.JsonProperty("totalItemsCount", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long TotalItemsCount { get; set; }
@@ -4387,33 +4477,6 @@ namespace MovieDatabase.Web
     
         [Newtonsoft.Json.JsonProperty("movie", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SimpleMovie Movie { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class SimpleMovie 
-    {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long Id { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("originalName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string OriginalName { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("titleImageUrl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string TitleImageUrl { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("country", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Country { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long Length { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("genres", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IList<SimpleGenre> Genres { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("createdYear", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int CreatedYear { get; set; }
     
     
     }
