@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MovieDatabase.BL.Web.Installer;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 
 namespace MovieDatabase.Web
 {
@@ -24,6 +27,8 @@ namespace MovieDatabase.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var installer = new BLWebInstaller();
+            installer.Installer(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,17 +1,8 @@
-﻿@model MovieDatabase.Web.ViewModels.RegisterViewModel
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@model MovieDatabase.Web.ViewModels.RegisterViewModel
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-
-<form asp-controller="PersonController" asp-action="Insert" method="post" role="form">
-    <input asp-for="UserModel.Email" type="email" name="Email" value="Email" />
-    <input asp-for="UserModel.Username" type="text" name="Username" value="Username" />
-    <input asp-for="UserModel.Password" type="password" name="Password" value="Password" />
-    <input asp-for="UserModel.PasswordConfirm" type="password" name="PasswordConfirm" value="PasswordConfirm" />
-    <input type="submit" class="btn btn-primary" value="Register" />
-</form>
