@@ -43,7 +43,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class Client : IClient
     {
-        private string _baseUrl = "http://localhost:5000";
+        private string _baseUrl = "https://iw5.zakladna.eu/";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -434,7 +434,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class GenresControllerClient : IGenresControllerClient
     {
-        private string _baseUrl = "http://localhost:5000";
+        private string _baseUrl = "https://iw5.zakladna.eu/";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -944,7 +944,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class MoviesClient : IMoviesClient
     {
-        private string _baseUrl = "http://localhost:5000";
+        private string _baseUrl = "https://iw5.zakladna.eu/";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -1543,7 +1543,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class PersonsControllerClient : IPersonsControllerClient
     {
-        private string _baseUrl = "http://localhost:5000";
+        private string _baseUrl = "https://iw5.zakladna.eu/";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -2149,7 +2149,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v12.0.0.0))")]
     public partial class RatesClient : IRatesClient
     {
-        private string _baseUrl = "http://localhost:5000";
+        private string _baseUrl = "https://iw5.zakladna.eu/";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     

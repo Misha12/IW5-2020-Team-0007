@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 
 namespace MovieDatabase.BL.Web.Facades
 {
-    public class PersonFacade
+    public class UserFacade
     {
         private readonly IUsersControllerClient _userClient;
-        public PersonFacade(IUsersControllerClient usersControllerClient)
+        private readonly IClient _client;
+        public UserFacade(IUsersControllerClient usersControllerClient, IClient client)
         {
             _userClient = usersControllerClient;
+            _client = client;
+        }
+        public async Task<AuthToken> LoginAsync(LoginRequest user)
+        {
+            return await _client.LoginAsync(user);
         }
         public async Task<SimpleUser> InsertAsync(RegisterRequest newUser)
         {
