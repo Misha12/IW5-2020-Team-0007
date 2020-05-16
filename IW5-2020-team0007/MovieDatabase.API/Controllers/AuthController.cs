@@ -3,6 +3,7 @@ using System.Net;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MovieDatabase.API.Services;
 using MovieDatabase.Data.Enums;
 using MovieDatabase.Data.Models.Auth;
@@ -16,10 +17,12 @@ namespace MovieDatabase.API.Controllers
     public class AuthController : Controller
     {
         private AuthService AuthService { get; }
+        private ILogger<AuthController> Logger { get; }
 
-        public AuthController(AuthService authService)
+        public AuthController(AuthService authService, ILogger<AuthController> logger)
         {
             AuthService = authService;
+            Logger = logger;
         }
 
         [AllowAnonymous]
@@ -32,8 +35,12 @@ namespace MovieDatabase.API.Controllers
             var token = AuthService.Authenticate(request.Username, request.Password);
 
             if (token.State != LoginState.OK)
+            {
+                Logger.LogWarning("Executed invalid login of user {0}. State: {1}", request.Username, token.State.ToString());
                 return Unauthorized(new UnauthorizedResponse { State = token.State });
+            }
 
+            Logger.LogInformation("Executed successfull login of user {0}.", request.Username);
             return Ok(token.Token);
         }
 
@@ -47,8 +54,12 @@ namespace MovieDatabase.API.Controllers
             var token = AuthService.GetRefreshedToken(refreshToken);
 
             if (token.State != LoginState.OK)
+            {
+                Logger.LogWarning("Executed invalid token refresh request. ({0})", refreshToken);
                 return NotFound(new UnauthorizedResponse { State = token.State });
+            }
 
+            Logger.LogInformation("Successfull executed token refresh ({0})", refreshToken);
             return Ok(token.Token);
         }
 

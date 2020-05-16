@@ -1,5 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
@@ -13,11 +14,13 @@ namespace MovieDatabase.API.Services
     {
         private EmailSettings EmailSettings { get; }
         private string PathBase { get; }
+        private ILogger<MailService> Logger { get; }
 
-        public MailService(IOptions<EmailSettings> options, IConfiguration configuration)
+        public MailService(IOptions<EmailSettings> options, IConfiguration configuration, ILogger<MailService> logger)
         {
             EmailSettings = options.Value;
             PathBase = configuration["PathBase"];
+            Logger = logger;
         }
 
         public async Task SendRegisterEmailAsync(string username, string authCode, string email)
@@ -31,6 +34,8 @@ namespace MovieDatabase.API.Services
             {
                 Text = CreateRegisterBody(username, authCode)
             };
+
+            Logger.LogInformation("Sent registration email to {0}. AuthCode: {1}, Username: {2}", email, authCode, username);
 
             using var client = new SmtpClient();
             await client.ConnectAsync(EmailSettings.SmtpAddress, EmailSettings.Port, true);
