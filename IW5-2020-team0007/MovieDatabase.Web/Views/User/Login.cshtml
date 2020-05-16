@@ -1,0 +1,11 @@
+﻿@model MovieDatabase.Web.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+<form asp-controller="User" asp-action="Login" method="post" role="form">
+    <input asp-for="LoginModel.Username" type="text" name="Username" value="Username" />
+    <input asp-for="LoginModel.Password" type="password" name="Password" value="Password" />
+    <input type="submit" class="btn btn-primary" value="Login" />
+</form>

@@ -13,8 +13,9 @@ namespace MovieDatabase.BL.Web.Installer
         public void Installer(IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<HttpClient>();
-            serviceCollection.AddTransient<PersonFacade>();
+            serviceCollection.AddTransient<UserFacade>();
             serviceCollection.AddScoped<IUsersControllerClient, UsersControllerClient>();
+            serviceCollection.AddScoped<IClient, Client>();
         }
     }
 }

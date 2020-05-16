@@ -11,10 +11,10 @@ namespace MovieDatabase.Web.Controllers
 {
     public class UserController : Controller
     {
-        private readonly PersonFacade _personFacade;
-        public UserController(PersonFacade facade)
+        private readonly UserFacade _userFacade;
+        public UserController(UserFacade facade)
         {
-            _personFacade = facade;
+            _userFacade = facade;
         }
         [HttpGet]
         public IActionResult New()
@@ -25,11 +25,29 @@ namespace MovieDatabase.Web.Controllers
             };
             return View(userNewViewModel);
         }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            var loginViewModel = new LoginViewModel()
+            {
+                LoginModel = new LoginRequest()
+            };
+            return View(loginViewModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Insert(RegisterRequest personModel)
         {
-            await _personFacade.InsertAsync(personModel);
+            await _userFacade.InsertAsync(personModel);
             return RedirectToAction(nameof(New));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginRequest loginModel)
+        {
+            await _userFacade.LoginAsync(loginModel);
+            return RedirectToAction(nameof(Login));
         }
     }
 }
