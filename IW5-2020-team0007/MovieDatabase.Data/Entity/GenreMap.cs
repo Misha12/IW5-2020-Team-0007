@@ -3,7 +3,7 @@
 namespace MovieDatabase.Data.Entity
 {
     [Table("GenreMap")]
-    public class GenreMap
+    public class GenreMap : EntityBase<long>
     {
         public long MovieID { get; set; }
         public int GenreID { get; set; }

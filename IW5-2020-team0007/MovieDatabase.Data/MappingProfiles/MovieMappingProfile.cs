@@ -12,10 +12,14 @@ namespace MovieDatabase.Data.MappingProfiles
         public MovieMappingProfile()
         {
             CreateMap<MovieNameEntity, Models.Movies.MovieName>();
-            CreateMap<MovieEntity, Models.Movies.SimpleMovie>();
+            
+            CreateMap<MovieEntity, Models.Movies.SimpleMovie>()
+                .MapMember(dst => dst.Genres, src => src.Genres.Select(o => o.Genre))
+                .MapMember(dst => dst.TranslatedNames, src => src.Names);
 
             CreateMap<MovieEntity, Models.Movies.Movie>()
                 .MapMember(dst => dst.TranslatedNames, src => src.Names)
+                .MapMember(dst => dst.Genres, src => src.Genres.Select(o => o.Genre))
                 .MapMember(dst => dst.Actors, src => src.Persons.Where(o => o.Type == MoviePersonType.Actor).Select(o => o.Person))
                 .MapMember(dst => dst.Directors, src => src.Persons.Where(o => o.Type == MoviePersonType.Director).Select(o => o.Person));
         }

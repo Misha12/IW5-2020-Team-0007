@@ -101,6 +101,7 @@ namespace MovieDatabase.API
                 .AddScoped<GenreService>()
                 .AddScoped<MailService>()
                 .AddScoped<UsersService>()
+                .AddScoped<MovieService>()
                 .AddTransient<AuthService>();
         }
 

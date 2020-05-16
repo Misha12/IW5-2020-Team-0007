@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieDatabase.API.Models;
 using MovieDatabase.API.Services;
-using MovieDatabase.Domain.DTO;
+using MovieDatabase.Data.Models.Common;
+using MovieDatabase.Data.Models.Movies;
+using NSwag.Annotations;
 
 namespace MovieDatabase.API.Controllers
 {
     [ApiController]
     [Route("movies")]
-    public class MoviesController : ControllerBase
+    public class MoviesController : Controller
     {
         private MovieService Service { get; }
 
@@ -19,49 +20,72 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Get dictionary od all movies.
+        /// Create movie.
         /// </summary>
-        /// <param name="searchName">Optional parametr for movie name.</param>
-        /// <param name="genres">Collection of movies IDs.</param>
-        /// <param name="lengthFrom">Minimal lenght</param>
-        /// <param name="lengthTo">Maximal lenght</param>
-        /// <param name="countries">Collection of countries.</param>
-        [HttpGet]
-        [ProducesResponseType(typeof(List<Movie>), (int)HttpStatusCode.OK)]
-        public IActionResult GetMovies(string searchName = null, [FromQuery] int[] genres = null, long? lengthFrom = null, long? lengthTo = null, [FromQuery] string[] countries = null)
+        [HttpPost]
+        [Authorize(Roles = "SubAdmin,Administrator")]
+        [OpenApiOperation(nameof(MoviesController) + "_" + nameof(CreateMovie))]
+        [ProducesResponseType(typeof(Movie), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult CreateMovie([FromBody] CreateMovieRequest request)
         {
-            var data = Service.GetMovieList(searchName, genres, lengthFrom, lengthTo, countries);
-            return Ok(data);
+            var movie = Service.CreateMovie(request);
+            return Ok(movie);
         }
 
         /// <summary>
         /// Get all information about movie.
         /// </summary>
-        /// <param name="id">Unique ID of movie.</param>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetMovieByID(long id)
+        [AllowAnonymous]
+        [OpenApiOperation(nameof(MoviesController) + "_" + nameof(GetMovieDetail))]
+        [ProducesResponseType(typeof(Movie), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult GetMovieDetail(long id)
         {
-            var data = Service.FindMovieByID(id);
-            return data == null ? NotFound(new ErrorModel("Requested movie was not found.")) : (IActionResult)Ok(data);
-        }
+            var movie = Service.GetMovieDetail(id);
 
-        /// <summary>
-        /// Create movie.
-        /// </summary>
-        [HttpPost]
-        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
-        public IActionResult CreateMovie([FromBody] MovieInput data)
-        {
-            if (!data.IsValid(out string message))
-                return BadRequest(new ErrorModel(message));
+            if (movie == null)
+                return NotFound();
 
-            var movie = Service.CreateMovie(data);
             return Ok(movie);
         }
 
+        /// <summary>
+        /// Get dictionary od all movies.
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        [OpenApiOperation(nameof(MoviesController) + "_" + nameof(GetMoviesList))]
+        [ProducesResponseType(typeof(PaginatedData<SimpleMovie>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult GetMoviesList([FromQuery] MovieSearchRequest request)
+        {
+            var movies = Service.GetMoviesList(request);
+            return Ok(movies);
+        }
+
+        /// <summary>
+        /// Update of movie.
+        /// </summary>
+        [HttpPut("{id}")]
+        [Authorize(Roles = "SubAdmin,Administrator")]
+        [OpenApiOperation(nameof(MoviesController) + "_" + nameof(UpdateMovie))]
+        [ProducesResponseType(typeof(Movie), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult UpdateMovie(long id, [FromBody] EditMovieRequest request)
+        {
+            var movie = Service.UpdateMovie(id, request);
+
+            if (movie == null)
+                return NotFound();
+
+            return Ok(movie);
+        }
+
+        /*
+        
         /// <summary>
         /// Delete movie.
         /// </summary>
@@ -74,19 +98,14 @@ namespace MovieDatabase.API.Controllers
             var success = Service.DeleteMovie(id);
             return success ? Ok(null) : (IActionResult)NotFound(null);
         }
+        */
 
-        /// <summary>
-        /// Update of movie.
-        /// </summary>
-        /// <param name="id">Unique ID of movie.</param>
-        /// <param name="data"></param>
-        [HttpPut("{id}")]
-        [ProducesResponseType(typeof(MovieDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult UpdateMovie(long id, [FromBody] MovieInput data)
+        protected override void Dispose(bool disposing)
         {
-            var movie = Service.UpdateMovie(id, data);
-            return movie == null ? NotFound(new ErrorModel("Requested movie was not found.")) : (IActionResult)Ok(movie);
+            if (disposing)
+                Service.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

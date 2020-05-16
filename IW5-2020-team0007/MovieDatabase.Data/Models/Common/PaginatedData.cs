@@ -17,6 +17,9 @@ namespace MovieDatabase.Data.Models.Common
         public static PaginatedData<TModel> Create<TEntity>(IQueryable<TEntity> query, PaginatedRequest request,
             Func<List<TEntity>, List<TModel>> mapFunc)
         {
+            if (request.Page <= 1)
+                request.Page = 0;
+
             var result = new PaginatedData<TModel>()
             {
                 Page = request.Page == 0 ? 1 : request.Page,

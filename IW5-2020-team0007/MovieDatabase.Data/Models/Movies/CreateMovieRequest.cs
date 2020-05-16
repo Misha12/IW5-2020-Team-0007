@@ -25,7 +25,7 @@ namespace MovieDatabase.Data.Models.Movies
         public string TitleImageUrl { get; set; }
 
         [Required(ErrorMessage = "Je požadován rok vytvoření filmu")]
-        public int CreatedYear { get; set; }
+        public int? CreatedYear { get; set; }
 
         public List<MovieNameRequest> MovieNames { get; set; }
 

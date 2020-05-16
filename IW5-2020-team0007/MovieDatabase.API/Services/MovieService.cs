@@ -1,107 +1,62 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MovieDatabase.API.Models;
-using MovieDatabase.Domain;
-using MovieDatabase.Domain.DTO;
+﻿using AutoMapper;
+using MovieDatabase.Data.Models.Common;
+using MovieDatabase.Data.Models.Movies;
+using MovieDatabase.Data.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using MovieEntity = MovieDatabase.Domain.Entity.Movie;
-using MoviePersonEntity = MovieDatabase.Domain.Entity.MoviePerson;
-using MoviePersonType = MovieDatabase.Domain.Entity.MoviePersonType;
 
 namespace MovieDatabase.API.Services
 {
-    public class MovieService
+    public class MovieService : IDisposable
     {
-        private MovieDatabaseContext Context { get; }
         private IMapper Mapper { get; }
+        private MoviesRepository MoviesRepository { get; }
 
-        public MovieService(MovieDatabaseContext context, IMapper mapper)
+        public MovieService(IMapper mapper, MoviesRepository moviesRepository)
         {
-            Context = context;
             Mapper = mapper;
+            MoviesRepository = moviesRepository;
         }
 
-        public List<Movie> GetMovieList(string searchName, int[] genres, long? lengthFrom, long? lengthTo, string[] countries)
+        public PaginatedData<SimpleMovie> GetMoviesList(MovieSearchRequest request)
         {
-            var query = Context.Movies.Include(o => o.Genre).AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchName))
-                query = query.Where(o => o.OriginalName.Contains(searchName));
-
-            if (genres?.Length > 0)
-                query = query.Where(o => genres.Contains(o.GenreID));
-
-            if (lengthFrom != null)
-                query = query.Where(o => o.Length >= lengthFrom.Value);
-
-            if (lengthTo != null)
-                query = query.Where(o => o.Length < lengthTo.Value);
-
-            if (countries?.Length > 0)
-                query = query.Where(o => countries.Contains(o.Country));
-
-            var data = query.ToList();
-            return Mapper.Map<List<Movie>>(data);
+            var query = MoviesRepository.GetMovies(request.Name, request.GenreIds, request.Country, request.LengthFrom, request.LengthTo);
+            return PaginatedData<SimpleMovie>.Create(query, request, entityList => Mapper.Map<List<SimpleMovie>>(entityList));
         }
 
-        public Movie FindMovieByID(long id)
+        public Movie CreateMovie(CreateMovieRequest request)
         {
-            var item = Context.Movies
-                .Include(o => o.Genre)
-                .Include(o => o.Names)
-                .Include(o => o.Persons)
-                .ThenInclude(o => o.Person)
-                .FirstOrDefault(o => o.ID == id);
+            var names = request.MovieNames.ToDictionary(o => o.Lang, o => o.Name);
 
-            var mapped = Mapper.Map<MovieDetail>(item);
+            var entity = MoviesRepository.CreateMovie(request.OriginalName, request.TitleImageUrl, request.Country, request.Length, request.Description, request.CreatedYear.Value,
+                names, request.Actors, request.Directors, request.GenreIds);
 
-            if(item.Persons?.Count > 0)
-            {
-                mapped.Actors = item.Persons.Where(o => o.Type == MoviePersonType.Actor).Select(o => Mapper.Map<Person>(o.Person)).ToList();
-                mapped.Directors = item.Persons.Where(o => o.Type == MoviePersonType.Director).Select(o => Mapper.Map<Person>(o.Person)).ToList();
-            }
-
-            return mapped;
+            return Mapper.Map<Movie>(entity);
         }
 
-        public Movie CreateMovie(MovieInput data)
+        public Movie GetMovieDetail(long id)
         {
-            var entity = new MovieEntity()
-            {
-                Country = data.Country,
-                Description = data.Description,
-                GenreID = data.Genre,
-                Length = data.Length,
-                OriginalName = data.OriginalName,
-                TitleImage = data.TitleImageUrl
-            };
-
-            if (data.Names?.Count > 0)
-                entity.Names = data.Names.Select(o => new Domain.Entity.MovieName() { Lang = o.Lang, Name = o.Name }).ToHashSet();
-
-            if (data.Actors?.Count > 0)
-            {
-                foreach (var actor in data.Actors)
-                {
-                    entity.Persons.Add(new MoviePersonEntity() { Type = MoviePersonType.Actor, PersonID = actor });
-                }
-            }
-
-            if (data.Directors?.Count > 0)
-            {
-                foreach (var director in data.Directors)
-                {
-                    entity.Persons.Add(new MoviePersonEntity() { PersonID = director, Type = MoviePersonType.Director });
-                }
-            }
-
-            Context.Movies.Add(entity);
-            Context.SaveChanges();
-
-            return FindMovieByID(entity.ID);
+            var entity = MoviesRepository.GetMovieByID(id);
+            return Mapper.Map<Movie>(entity);
         }
+
+        public Movie UpdateMovie(long id, EditMovieRequest request)
+        {
+            var names = request.MovieNames?.ToDictionary(o => o.Lang, o => o.Name);
+
+            var entity = MoviesRepository.UpdateMovie(id, request.OriginalName, request.TitleImageUrl, request.Country, request.Length, request.Description,
+                request.CreatedYear, names, request.Actors, request.Directors, request.GenreIds);
+
+            return Mapper.Map<Movie>(entity);
+        }
+
+        public void Dispose()
+        {
+            MoviesRepository.Dispose();
+        }
+
+        /*
 
         public bool DeleteMovie(long id)
         {
@@ -123,69 +78,6 @@ namespace MovieDatabase.API.Services
 
             return true;
         }
-
-        public Movie UpdateMovie(long id, MovieInput newData)
-        {
-            var item = Context.Movies
-                .Include(o => o.Names)
-                .Include(o => o.Persons)
-                .FirstOrDefault(o => o.ID == id);
-
-            if (item == null)
-                return null;
-
-            if (!string.IsNullOrEmpty(newData.OriginalName))
-                item.OriginalName = newData.OriginalName;
-
-            if (newData.Genre > 0)
-                item.GenreID = newData.Genre;
-
-            if (newData.Length > 0)
-                item.Length = newData.Length;
-
-            if (!string.IsNullOrEmpty(newData.Country))
-                item.Country = newData.Country;
-
-            if (!string.IsNullOrEmpty(newData.Description))
-                item.Description = newData.Description;
-
-            if (!string.IsNullOrEmpty(newData.TitleImageUrl))
-                item.TitleImage = newData.TitleImageUrl;
-
-            if (newData.Names?.Count > 0)
-            {
-                item.Names.Clear();
-
-                foreach (var name in newData.Names)
-                {
-                    item.Names.Add(new Domain.Entity.MovieName()
-                    {
-                        Lang = name.Lang,
-                        Name = name.Name
-                    });
-                }
-            }
-
-            if (newData.Actors != null || newData.Directors != null)
-            {
-                var currentActors = item.Persons.Where(o => o.Type == MoviePersonType.Actor).Select(o => o.PersonID).ToList();
-                var currentDirectors = item.Persons.Where(o => o.Type == MoviePersonType.Director).Select(o => o.PersonID).ToList();
-
-                item.Persons.Clear();
-
-                foreach(var actor in newData.Actors ?? currentActors)
-                {
-                    item.Persons.Add(new MoviePersonEntity() { PersonID = actor, Type = MoviePersonType.Actor });
-                }
-
-                foreach(var director in newData.Directors ?? currentDirectors)
-                {
-                    item.Persons.Add(new MoviePersonEntity() { PersonID = director, Type = MoviePersonType.Director });
-                }
-            }
-
-            Context.SaveChanges();
-            return FindMovieByID(id);
-        }
+        */
     }
 }

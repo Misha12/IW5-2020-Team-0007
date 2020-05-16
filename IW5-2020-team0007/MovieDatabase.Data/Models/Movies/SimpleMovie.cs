@@ -12,5 +12,6 @@ namespace MovieDatabase.Data.Models.Movies
         public long Length { get; set; }
         public List<SimpleGenre> Genres { get; set; }
         public int CreatedYear { get; set; }
+        public List<MovieName> TranslatedNames { get; set; }
     }
 }
