@@ -6,191 +6,191 @@
     <members>
         <member name="M:MovieDatabase.API.Controllers.GenresController.GetGenreList(System.String)">
             <summary>
-            Získá seznam všech žánrů.
+            Get dictionary of all genres.
             </summary>
-            <param name="search">Volitelný filtrační parametr nad názvem žánru.</param>
+            <param name="search">Optional argument for filter with name of genre.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.GenresController.GetGenreByID(System.Int32)">
             <summary>
-            Získání žánru na základě ID.
+            Get genre by ID.
             </summary>
-            <param name="id">Jedinečný identifikátor žánru.</param>
+            <param name="id">Unique ID of genre.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.GenresController.CreateGenre(MovieDatabase.API.Models.GenreInput)">
             <summary>
-            Vytvoření žánru.
+            Create genre.
             </summary>
         </member>
         <member name="M:MovieDatabase.API.Controllers.GenresController.UpdateGenre(System.Int32,MovieDatabase.API.Models.GenreInput)">
             <summary>
-            Aktualizace žánru.
+            Update of genre.
             </summary>
-            <param name="id">Jedinečný identifikátor žánru.</param>
+            <param name="id">Unique ID of genre.</param>
             <param name="data"></param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.GenresController.DeleteGenre(System.Int32)">
             <summary>
-            Smazání žánru.
+            Delete genre.
             </summary>
-            <param name="id">Jedinečný identifikátor žánru.</param>
+            <param name="id">Unique ID of genre</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.MoviesController.GetMovies(System.String,System.Int32[],System.Nullable{System.Int64},System.Nullable{System.Int64},System.String[])">
             <summary>
-            Získání seznamu všech dostupných filmů.
+            Get dictionary od all movies.
             </summary>
-            <param name="searchName">Volitelný vyhledávací parametr pro název filmu.</param>
-            <param name="genres">Kolekce identifikátorů žánrů.</param>
-            <param name="lengthFrom">Minimální délka</param>
-            <param name="lengthTo">Maximální délka</param>
-            <param name="countries">Kolekce zemí původů.</param>
+            <param name="searchName">Optional parametr for movie name.</param>
+            <param name="genres">Collection of movies IDs.</param>
+            <param name="lengthFrom">Minimal lenght</param>
+            <param name="lengthTo">Maximal lenght</param>
+            <param name="countries">Collection of countries.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.MoviesController.GetMovieByID(System.Int64)">
             <summary>
-            Získání detailních informací o filmu.
+            Get all information about movie.
             </summary>
-            <param name="id">Jednoznačný identifikátor filmu.</param>
+            <param name="id">Unique ID of movie.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.MoviesController.CreateMovie(MovieDatabase.API.Models.MovieInput)">
             <summary>
-            Založení filmu.
+            Create movie.
             </summary>
         </member>
         <member name="M:MovieDatabase.API.Controllers.MoviesController.DeleteMovie(System.Int64)">
             <summary>
-            Smazání filmu.
+            Delete movie.
             </summary>
-            <param name="id">Jednoznačný identifikátor filmu.</param>
+            <param name="id">Unique ID of movie.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.MoviesController.UpdateMovie(System.Int64,MovieDatabase.API.Models.MovieInput)">
             <summary>
-            Úprava filmu.
+            Update of movie.
             </summary>
-            <param name="id">Jednoznačný identifikátor filmu.</param>
+            <param name="id">Unique ID of movie.</param>
             <param name="data"></param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.PersonsController.GetPersons(System.String)">
             <summary>
-            Získání seznamu všech osob.
+            Get collection of all persons.
             </summary>
-            <param name="search">Volitelný filtrační parametr nad jménem a příjmením.</param>
+            <param name="search">Optional parametr for movie name and surname.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.PersonsController.GetPersonByID(System.Int64)">
             <summary>
-            Získání detailní informace o osobě.
+            Get all information about person.
             </summary>
-            <param name="id">Jednoznačný identifikátor osoby.</param>
+            <param name="id">Unique ID of person.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.PersonsController.CreatePerson(MovieDatabase.API.Models.PersonInput)">
             <summary>
-            Vytvoření osoby.
+            Create person.
             </summary>
         </member>
         <member name="M:MovieDatabase.API.Controllers.PersonsController.DeletePerson(System.Int64)">
             <summary>
-            Smazání osoby.
+            Delete person.
             </summary>
-            <param name="id">Jednoznačný identifikátor uživatele.</param>
-            <remarks>Pozor. Uživatel bude odebrán ze všech filmů, ve kterých režíroval, nebo hrál.</remarks>
+            <param name="id">Unique ID of person.</param>
+            <remarks>Warning. Peson will be deleted from all movies on which he/she participated.</remarks>
         </member>
         <member name="M:MovieDatabase.API.Controllers.PersonsController.UpdatePerson(System.Int64,MovieDatabase.API.Models.PersonInput)">
             <summary>
-            Aktualizace osoby.
+            Update of person.
             </summary>
-            <param name="id">Jedinečný identifikátor osoby.</param>
+            <param name="id">Unique ID of person.</param>
             <param name="data"></param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRates(System.Int64,System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
-            Získání seznamu hodnocení na daný film.
+            Get all rates for movie.
             </summary>
-            <param name="movieID">Jednoznačný identifikátor filmu.</param>
-            <param name="scoreFrom">Volitelný filtrační parametr pro minimální skóre.</param>
-            <param name="scoreTo">Volitelný filtrační parametr pro nejvyšší skóre.</param>
+            <param name="movieID">Unique ID of movie.</param>
+            <param name="scoreFrom">Optional parametr for minimal rate.</param>
+            <param name="scoreTo">Optional parametr for maximal rate.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.GetMovieRateByRateID(System.Int64,System.Int64)">
             <summary>
-            Získání hodnocení vč. základní informace o filmu.
+            Get rate with information about movie.
             </summary>
-            <param name="movieID"></param>
-            <param name="rateID"></param>
+            <param name="movieID">Unique ID of movie.</param>
+            <param name="rateID">Unique ID of rate.</param>
             <returns></returns>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.CreateMovieRate(System.Int64,MovieDatabase.API.Models.RateInput)">
             <summary>
-            Vytvoření hodnocení.
+            Create rate.
             </summary>
-            <param name="movieID">Jednoznačný identifikátor filmu.</param>
+            <param name="movieID">Unique ID of movie.</param>
             <param name="data"></param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.UpdateMovieRate(System.Int64,System.Int64,MovieDatabase.API.Models.RateInput)">
             <summary>
-            Úprava hodnocení.
+            Change rate.
             </summary>
-            <param name="movieID">Jednoznačný identifikátor filmu.</param>
-            <param name="rateID">Jednoznačný identifkátor hodnocení.</param>
+            <param name="movieID">Unique ID of movie.</param>
+            <param name="rateID">Unique ID of rate.</param>
             <param name="data"></param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.DeleteMovieName(System.Int64,System.Int64)">
             <summary>
-            Smazání hodnocení.
+            Delete rate.
             </summary>
-            <param name="movieID">Jedinečný identifikátor filmu.</param>
-            <param name="rateID">Jedinečný identifikátor hodnocení.</param>
+            <param name="movieID">Unique ID of movie.</param>
+            <param name="rateID">Unique ID of rate.</param>
         </member>
         <member name="M:MovieDatabase.API.Controllers.RatesController.GetAllRates(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
-            Získání seznamu hodnocení na všechny filmy.
+            Get all rates fo all movies.
             </summary>
             <returns></returns>
         </member>
         <member name="P:MovieDatabase.API.Models.GenreInput.Name">
             <summary>
-            Název žánru.
+            Name of genre.
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.OriginalName">
             <summary>
-            Název filmu.
+            Movie name.
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.Genre">
             <summary>
-            Identifikátor žánru.
+            Genre ID.
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.Length">
             <summary>
-            Délka filmu.
+            Movie lengh.
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.Country">
             <summary>
-            Země původu filmu.
+            Country of origins.
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.Description">
             <summary>
-            Popis filmu.
+            Description of movie.
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.TitleImageUrl">
             <summary>
-            URL odkaz na titulní obrázek.
+            URL link for title image.
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.Names">
             <summary>
-            Překlady názvů filmů.
+            Translation for movie names .
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.Actors">
             <summary>
-            Seznam identifikátorů osob, co ve filmu hrají.
+            Collection of actros IDs in movie.
             </summary>
         </member>
         <member name="P:MovieDatabase.API.Models.MovieInput.Directors">
             <summary>
-            Seznam identifikátorů osob, co film režírují.
+            Collection of directors IDs in movie.
             </summary>
         </member>
     </members>
