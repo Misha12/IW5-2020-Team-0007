@@ -23,7 +23,7 @@ namespace MovieDatabase.API.Controllers
         /// Create movie.
         /// </summary>
         [HttpPost]
-        [Authorize(Roles = "SubAdmin,Administrator")]
+        [Authorize(Roles = "ContentManager,Administrator")]
         [OpenApiOperation(nameof(MoviesController) + "_" + nameof(CreateMovie))]
         [ProducesResponseType(typeof(Movie), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
@@ -69,7 +69,7 @@ namespace MovieDatabase.API.Controllers
         /// Update of movie.
         /// </summary>
         [HttpPut("{id}")]
-        [Authorize(Roles = "SubAdmin,Administrator")]
+        [Authorize(Roles = "ContentManager,Administrator")]
         [OpenApiOperation(nameof(MoviesController) + "_" + nameof(UpdateMovie))]
         [ProducesResponseType(typeof(Movie), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -88,7 +88,7 @@ namespace MovieDatabase.API.Controllers
         /// Delete movie.
         /// </summary>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "SubAdmin,Administrator")]
+        [Authorize(Roles = "ContentManager,Administrator")]
         [OpenApiOperation(nameof(MoviesController) + "_" + nameof(DeleteMovie))]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
