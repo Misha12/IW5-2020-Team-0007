@@ -51,33 +51,18 @@ namespace MovieDatabase.API.Services
             return Mapper.Map<Movie>(entity);
         }
 
+        public bool DeletePerson(long id)
+        {
+            if (!MoviesRepository.ExistsMovie(id))
+                return false;
+
+            MoviesRepository.DeleteMovie(id);
+            return true;
+        }
+
         public void Dispose()
         {
             MoviesRepository.Dispose();
         }
-
-        /*
-
-        public bool DeleteMovie(long id)
-        {
-            var item = Context.Movies
-                .Include(o => o.Persons)
-                .Include(o => o.Names)
-                .Include(o => o.Rates)
-                .FirstOrDefault(o => o.ID == id);
-
-            if (item == null)
-                return false;
-
-            item.Persons.Clear();
-            item.Names.Clear();
-            item.Rates.Clear();
-
-            Context.Movies.Remove(item);
-            Context.SaveChanges();
-
-            return true;
-        }
-        */
     }
 }

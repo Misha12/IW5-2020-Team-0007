@@ -169,5 +169,16 @@ namespace MovieDatabase.Data.Repository
             Context.SaveChanges();
             return movie;
         }
+
+        public void DeleteMovie(long id)
+        {
+            var entity = GetMovieByID(id);
+
+            if (entity == null)
+                return;
+
+            Context.Movies.Remove(entity);
+            Context.SaveChanges();
+        }
     }
 }

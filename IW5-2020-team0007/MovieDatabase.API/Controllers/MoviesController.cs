@@ -84,21 +84,23 @@ namespace MovieDatabase.API.Controllers
             return Ok(movie);
         }
 
-        /*
-        
         /// <summary>
         /// Delete movie.
         /// </summary>
-        /// <param name="id">Unique ID of movie.</param>
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
+        [Authorize(Roles = "SubAdmin,Administrator")]
+        [OpenApiOperation(nameof(MoviesController) + "_" + nameof(DeleteMovie))]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult DeleteMovie(long id)
         {
-            var success = Service.DeleteMovie(id);
-            return success ? Ok(null) : (IActionResult)NotFound(null);
+            var success = Service.DeletePerson(id);
+
+            if (!success)
+                return NotFound();
+
+            return Ok();
         }
-        */
 
         protected override void Dispose(bool disposing)
         {
