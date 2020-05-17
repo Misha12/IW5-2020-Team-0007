@@ -25,6 +25,16 @@ namespace MovieDatabase.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public IActionResult New()
+        {
+            var movieNewViewModel = new MovieNewViewModel
+            {
+                MovieModel = new CreateMovieRequest()
+            };
+            return View(movieNewViewModel);
+        }
+
         [HttpPost]
         public async Task<PaginatedDataOfSimpleMovie> GetMoviesList(String name, IEnumerable<int> genresIds, String country, long? lengthFrom, long? lengthTo, int? limit, int? page)
         {
