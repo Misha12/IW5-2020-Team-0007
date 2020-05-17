@@ -1,13 +1,9 @@
-﻿
-@{
-    ViewData["Title"] = "_UserListItem";
-}
+﻿@model SimpleUser
 
     <tr class="List-Item">
-        <td class="List-Item-Caption">1</td>
-        <td class="List-Item-Caption">Dark</td>
-        <td class="List-Item-Caption">dark.darker@mail.com</td>
-        <td class="List-Item-Role">admin</td>
-        <td class="List-Item-Btn"><button type="submit" class="btn btn-delete" value="1" tag="Delete">Delete user</button></td>
+        <td class="List-Item-Caption">@Model.Id</td>
+        <td class="List-Item-Caption">@Model.Username</td>
+        <td class="List-Item-Role">@Model.Role</td>
+        <td class="List-Item-Btn"><button type="submit" class="btn btn-delete" value="1" tag="Delete">Delete</button></td>
     </tr>
 
