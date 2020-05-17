@@ -2,77 +2,82 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-  margin-top:10px;
-  align-self:center;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+    margin-top: 10px;
+    align-self: center;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
+
 header {
     background-color: lightgray;
 }
+
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(90, 95, 99, 0.10);
+    box-shadow: 0 .25rem .75rem rgba(90, 95, 99, 0.10);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  background-color:lightgray;
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    background-color: lightgray;
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
 /*Our CSS
@@ -80,16 +85,18 @@ body {
 .User-button {
     display: block;
     padding: 0.5rem 1rem;
-    color: #343a40 ;
+    color: #343a40;
     float: right;
     width: 200px;
 }
+
     .User-button:hover {
         background-color: gray;
         border-top-left-radius: 0.25rem;
         border-top-right-radius: 0.25rem;
         color: white;
     }
+
         .User-button:hover .User-button-dropdown {
             display: block;
             transition-delay: 2s;
@@ -107,12 +114,55 @@ body {
     margin-top: 0.5rem;
     margin-left: -1rem;
 }
+
 .Login-input {
     border: thin solid #007bff;
     border-radius: 0.25rem;
     margin-top: 10px;
     padding: 0.1rem;
 }
+
     .Login-input::placeholder {
         color: black;
     }
+
+.Movie-List {
+    width: -webkit-fill-available;
+}
+
+    .Movie-List caption {
+        font-family: 'Arial Narrow Bold', sans-serif;
+        font-size: 30px;
+        margin: 0;
+        width: max-content;
+        float: left;
+        color: #000000;
+    }
+
+.Movie-List-Item {
+    background: linear-gradient(to right,lightgray,#e0e0e0);
+    text-align: left;
+    width: 60px;
+    height: 90px;
+    padding: 2px;
+}
+
+    .Movie-List-Item:nth-child(2n+1) {
+        background: linear-gradient(to right,lightgray, #c6c6c6);
+    }
+
+.Movie-List-Item-Rating {
+    width:60px;
+    text-align:center;
+}
+
+.Movie-List-Item-Photo {
+    width: 60px;
+    text-align: center;
+}
+    .Movie-List-Item-Photo-img {
+    width: 60px ;
+    height: inherit;
+    border:none;
+    margin:0;
+}
