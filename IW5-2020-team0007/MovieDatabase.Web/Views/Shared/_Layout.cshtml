@@ -24,21 +24,42 @@
                         <li class="nav-Item">
                             <a class="nav-Link" asp-area="" asp-controller="Movie" asp-action="List">Movies</a>
                         </li>
-                        <li class="nav-Item">
-                            <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
-                        </li>
+                        @{
+                            if (User.Claims.Count() != 0 && User.FindFirst(ClaimTypes.Role).Value == "Administrator")
+                            {
+                                <li class="nav-Item">
+                                    <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List"></a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
                 <div class="User-button">
-                    User
-                    <div class="User-button-dropdown">
-                        <form asp-controller="User" asp-action="Login" method="post" role="form">
-                            <input class="Login-input" type="text" name="Username" placeholder="Username" />
-                            <input class="Login-input" type="password" name="Password" placeholder="Password" />
-                            <input type="submit" class="btn btn-primary" value="Login" />
-                        </form>
-                        <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="New">Register</a>
-                    </div>
+                    @{
+                        if (User.Claims.Count() == 0)
+                        {
+                            <text>User</text>
+                            <div class="User-button-dropdown">
+                                <form asp-controller="User" asp-action="Login" method="post" role="form">
+                                    <input class="Login-input" type="text" name="Username" placeholder="Username" />
+                                    <input class="Login-input" type="password" name="Password" placeholder="Password" />
+                                    <input type="submit" class="btn btn-primary" value="Login" />
+                                </form>
+                                <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="New">Register</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <text> @User.FindFirst(ClaimTypes.Name).Value</text>
+                            <div class="User-button-dropdown">
+                                <text> @User.FindFirst(ClaimTypes.Role).Value</text>
+                                <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="New">Account detail</a>
+                                <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="New">Logout</a>
+                            </div>
+                        }
+                    }
+
+
                 </div>
             </div>
         </nav>
