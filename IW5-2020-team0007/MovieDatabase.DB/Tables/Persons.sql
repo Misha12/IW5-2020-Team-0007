@@ -1,7 +1,0 @@
-﻿CREATE TABLE [dbo].[Persons]
-(
-	[ID] BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Name] NVARCHAR(255) NOT NULL,
-	[Surname] NVARCHAR(255) NOT NULL,
-	[ProfilePicture] NVARCHAR(MAX) NULL
-)

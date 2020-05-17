@@ -1,79 +1,67 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieDatabase.API.Models;
 using MovieDatabase.API.Services;
-using MovieDatabase.Domain.DTO;
+using MovieDatabase.Data.Models.Genres;
+using NSwag.Annotations;
 
 namespace MovieDatabase.API.Controllers
 {
     [ApiController]
     [Route("genres")]
-    public class GenresController : ControllerBase
+    [Authorize(Roles = "ContentManager,Administrator")]
+    public class GenresController : Controller
     {
-        private GenreService Service { get; }
+        private GenreService GenreService { get; }
 
         public GenresController(GenreService service)
         {
-            Service = service;
+            GenreService = service;
         }
 
         /// <summary>
         /// Get dictionary of all genres.
         /// </summary>
-        /// <param name="search">Optional argument for filter with name of genre.</param>
         [HttpGet]
+        [AllowAnonymous]
+        [OpenApiOperation(nameof(GenresController) + "_" + nameof(GetGenresList))]
         [ProducesResponseType(typeof(List<Genre>), (int)HttpStatusCode.OK)]
-        public IActionResult GetGenreList(string search = null)
+        public IActionResult GetGenresList([FromQuery] GenresSearchRequest request)
         {
-            var list = Service.GetFullList(search);
+            var list = GenreService.GetFullList(request);
             return Ok(list);
-        }
-
-        /// <summary>
-        /// Get genre by ID.
-        /// </summary>
-        /// <param name="id">Unique ID of genre.</param>
-        [HttpGet("{id}")]
-        [ProducesResponseType(typeof(GenreDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetGenreByID(int id)
-        {
-            var genre = Service.FindGenreByID(id);
-            return genre == null ? NotFound(new ErrorModel("Requested genre was not found.")) : (IActionResult)Ok(genre);
         }
 
         /// <summary>
         /// Create genre.
         /// </summary>
         [HttpPost]
-        [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
-        public IActionResult CreateGenre([FromBody] GenreInput data)
+        [OpenApiOperation(nameof(GenresController) + "_" + nameof(CreateGenre))]
+        [ProducesResponseType(typeof(SimpleGenre), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult CreateGenre([FromBody] CreateGenreRequest request)
         {
-            if (!data.IsValid())
-                return BadRequest(new ErrorModel("Name of genre is in wrong format."));
-
-            var genre = Service.CreateGenre(data.Name);
+            var genre = GenreService.CreateGenre(request);
             return Ok(genre);
         }
 
         /// <summary>
         /// Update of genre.
         /// </summary>
-        /// <param name="id">Unique ID of genre.</param>
-        /// <param name="data"></param>
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(GenreDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.BadRequest)]
-        public IActionResult UpdateGenre(int id, [FromBody] GenreInput data)
+        [OpenApiOperation(nameof(GenresController) + "_" + nameof(UpdateGenre))]
+        [ProducesResponseType(typeof(Genre), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult UpdateGenre(int id, [FromBody] EditGenreRequest request)
         {
-            if (!data.IsValid())
-                return BadRequest(new ErrorModel("New name of genre is in wrong format."));
+            var genre = GenreService.UpdateGenre(id, request);
 
-            var genre = Service.UpdateGenre(id, data.Name);
-            return genre == null ? NotFound(new ErrorModel("Requested genre was not found.")) : (IActionResult)Ok(genre);
+            if (genre == null)
+                return NotFound();
+
+            return Ok(genre);
         }
 
         /// <summary>
@@ -81,12 +69,25 @@ namespace MovieDatabase.API.Controllers
         /// </summary>
         /// <param name="id">Unique ID of genre</param>
         [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
+        [OpenApiOperation(nameof(GenresController) + "_" + nameof(DeleteGenre))]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult DeleteGenre(int id)
         {
-            var success = Service.DeleteGenre(id);
-            return success ? Ok() : (IActionResult)NotFound(null);
+            var success = GenreService.DeleteGenre(id);
+
+            if (!success)
+                return NotFound();
+
+            return Ok();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                GenreService.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

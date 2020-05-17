@@ -1,19 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MovieDatabase.API.Services;
-using MovieDatabase.Domain;
 using NJsonSchema.Generation;
-using AutoMapper;
+using MovieDatabase.Data;
+using Microsoft.AspNetCore.HttpOverrides;
+using MovieDatabase.Data.MappingProfiles;
+using System.Text.Json.Serialization;
+using MovieDatabase.API.Models.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using NSwag;
+using NSwag.Generation.Processors.Security;
+using MovieDatabase.API.Models.Email;
 
 namespace MovieDatabase.API
 {
@@ -28,25 +31,81 @@ namespace MovieDatabase.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("Default");
+            services
+                .Configure<AuthSettings>(Configuration.GetSection("Auth"))
+                .Configure<EmailSettings>(Configuration.GetSection("Email"))
+                .Configure<ForwardedHeadersOptions>(opt =>
+                {
+                    opt.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                });
 
-            services.AddDbContext<MovieDatabaseContext>(options =>
-            {
-                options.UseSqlServer(connectionString);
-            });
-            services.AddAutoMapper(typeof(Startup));
+            // Database, mapping, logger
+            services
+                .AddDatabase(Configuration.GetConnectionString("Default"))
+                .AddAutoMapping()
+                .AddLogging(builder =>
+                {
+                    builder
+                        .SetMinimumLevel(LogLevel.Information)
+                        .AddConsole(options =>
+                        {
+                            options.IncludeScopes = true;
+                            options.TimestampFormat = "[dd. MM. yyyy HH:mm:ss]\t";
+                        });
+                })
+                .AddAuthentication(builder =>
+                {
+                    builder.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    builder.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(builder =>
+                {
+                    builder.RequireHttpsMetadata = false;
+                    builder.SaveToken = true;
+                    builder.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Auth")["Secret"])),
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        ValidIssuer = Configuration.GetSection("Auth")["Issuer"]
+                    };
+                });
+
+            services
+                .AddCors()
+                .AddControllers()
+                .AddNewtonsoftJson()
+                .AddJsonOptions(opt =>
+                {
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
             services
                 .AddOpenApiDocument(settings =>
                 {
                     settings.DefaultReferenceTypeNullHandling = ReferenceTypeNullHandling.Null;
-                })
-                .AddControllers();
+
+                    settings.AddSecurity(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        Name = "Authorization",
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Type = OpenApiSecuritySchemeType.ApiKey
+                    });
+
+                    settings.OperationProcessors.Add(new OperationSecurityScopeProcessor());
+                });
 
             services
-                .AddScoped<GenreService>()
-                .AddScoped<MovieService>()
                 .AddScoped<PersonService>()
-                .AddScoped<RatesService>();
+                .AddScoped<GenreService>()
+                .AddScoped<MailService>()
+                .AddScoped<UsersService>()
+                .AddScoped<MovieService>()
+                .AddScoped<RatesService>()
+                .AddScoped<SearchService>()
+                .AddTransient<AuthService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -57,28 +116,32 @@ namespace MovieDatabase.API
             }
 
             app
+                .UseCors(o => o.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
                 .UseRouting()
+                .UseAuthentication()
                 .UseAuthorization()
+                .UseStaticFiles()
                 .UseOpenApi(settings =>
                 {
-                    settings.PostProcess = (doc, _) =>
+                    settings.PostProcess = (doc, request) =>
                     {
                         doc.Info.Title = "MovieDatabase API";
                         doc.Info.Version = "v1";
                         doc.Info.Contact = new NSwag.OpenApiContact()
                         {
                             Name = "Michal Halabica, Jakub Koudelka, Konupèík Viktor",
-                            Url = ""
+                            Url = "https://dev.azure.com/iw5-2020-team0007/project"
                         };
 
-                        doc.Servers.Add(new NSwag.OpenApiServer() { Url = "http://zakladna.eu:60001", Description = "Production" });
+                        doc.Servers.Add(new OpenApiServer() 
+                        { 
+                            Url = "https://iw5.zakladna.eu",
+                            Description = "Production"
+                        });
                     };
                 })
                 .UseSwaggerUi3()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
+                .UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }
