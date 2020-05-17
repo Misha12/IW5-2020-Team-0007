@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace MovieDatabase.Web.ViewModels
 {
-    public class MovieNewViewModel
+    public class UserPassViewModel
     {
-        public CreateMovieRequest MovieModel { get; set; }
+        public PasswordChangeRequest PasswordModel { get; set; }
     }
 }

@@ -39,6 +39,24 @@ namespace MovieDatabase.BL.Web.Facades
             UsersControllerClient _client = new UsersControllerClient(httpClient);
             return await _client.UpdateCurrentUserAsync(userEditRequest);
         }
+        public async Task<User> ChangePasswordAsync(String token, long ID, PasswordChangeRequest request)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            UsersControllerClient _client = new UsersControllerClient(httpClient);
+            return await _client.ChangePasswordAsync(ID, request);
+        }
+        public async Task<User> ChangeCurrentUserPasswordAsync(String token, PasswordChangeRequest request)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            UsersControllerClient _client = new UsersControllerClient(httpClient);
+            return await _client.ChangeCurrentUserPasswordAsync(request);
+        }
+        public async Task<User> ChangeRoleAsync(String token, long ID, RoleChangeRequest request)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            UsersControllerClient _client = new UsersControllerClient(httpClient);
+            return await _client.ChangeRoleAsync(ID, request);
+        }
         //todo logout
         public async Task DeleteUserAsync(String token, long ID)
         {
