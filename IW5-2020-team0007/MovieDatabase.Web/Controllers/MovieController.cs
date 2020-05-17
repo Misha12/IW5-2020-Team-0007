@@ -35,9 +35,9 @@ namespace MovieDatabase.Web.Controllers
             return a;
         }
         [HttpPost]
-        public async Task<Movie> UpdateMovie(long ID, MovieUpdateViewModel updateMovie)
+        public async Task<Movie> UpdateMovie(MovieUpdateViewModel updateMovie)
         {
-            var a = await movieFacade.UpdateMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, updateMovie.ID, updateMovie.movieRequest);
+            var a = await movieFacade.UpdateMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, updateMovie.ID, updateMovie.MovieRequest);
             return a;
         }
         [HttpPost]

@@ -108,9 +108,29 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<PaginatedDataOfSimpleUser> GetUserSSListAsync()
         {
-            var a = await _userFacade.GetUsersListAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, "f", 5, 1);
+            var a = await _userFacade.GetUsersListAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, null, 5, 1);
             return a;
         }
+
+        [HttpPost]
+        public async Task<User> ChangeMyPassword(UserPassViewModel userPassViewModel)
+        {
+            var a = await _userFacade.ChangeCurrentUserPasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userPassViewModel.PasswordModel);
+            return a;
+        }
+        [HttpPost]
+        public async Task<User> ChangePassword(long ID,UserPassViewModel userPassViewModel)
+        {
+            var a = await _userFacade.ChangePasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID,userPassViewModel.PasswordModel);
+            return a;
+        }
+        [HttpPost]
+        public async Task<User> ChangeRole(long ID, RoleChangeRequest roleChange)
+        {
+            var a = await _userFacade.ChangeRoleAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID, roleChange);
+            return a;
+        }
+        [HttpPost]
         public async Task DeleteCurrentAsync()
         {
             await _userFacade.DeleteUserAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, long.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value));
