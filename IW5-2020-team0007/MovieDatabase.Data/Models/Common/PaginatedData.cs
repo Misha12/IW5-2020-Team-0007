@@ -1,18 +1,34 @@
-﻿using MovieDatabase.Data.Models.Movies;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MovieDatabase.Data.Models.Common
 {
+    /// <summary>
+    /// Paginated result.
+    /// </summary>
     public class PaginatedData<TModel>
     {
         public List<TModel> Data { get; set; }
 
+        /// <summary>
+        /// Number of page.
+        /// </summary>
         public int Page { get; set; }
+
+        /// <summary>
+        /// Total count of items, independently of pagination.
+        /// </summary>
         public long TotalItemsCount { get; set; }
 
+        /// <summary>
+        /// A flag that the user can request for next page.
+        /// </summary>
         public bool CanNext { get; set; }
+
+        /// <summary>
+        /// A flag that the user can request for previous page.
+        /// </summary>
         public bool CanPrev { get; set; }
 
         public static PaginatedData<TModel> Create<TEntity>(IQueryable<TEntity> query, PaginatedRequest request,

@@ -77,6 +77,10 @@ namespace MovieDatabase.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete rate.
+        /// </summary>
+        /// <param name="id">Unique ID of rate.</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
         [OpenApiOperation(nameof(RatesController) + "_" + nameof(DeleteRate))]

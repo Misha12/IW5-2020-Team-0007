@@ -5,7 +5,10 @@ namespace MovieDatabase.Data.Models.Users
 {
     public class ConfirmRegisterRequest
     {
-        [Required(ErrorMessage = "Autorizační kód je vyžadován.")]
+        /// <summary>
+        /// Authorization code to finish user registration.
+        /// </summary>
+        [Required(ErrorMessage = "An authorization code is required.")]
         [AuthorizationCodeExists]
         public string Code { get; set; }
     }

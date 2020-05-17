@@ -5,16 +5,28 @@ namespace MovieDatabase.Data.Models.Persons
 {
     public class CreatePersonRequest
     {
-        [Required(ErrorMessage = "Jméno osoby je vyžadováno.")]
+        /// <summary>
+        /// Name of person.
+        /// </summary>
+        [Required(ErrorMessage = "A person's name is required.")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Příjmené osoby je vyžadováno.")]
+        /// <summary>
+        /// Surname of person.
+        /// </summary>
+        [Required(ErrorMessage = "The person's last name is required.")]
         public string Surname { get; set; }
 
-        [Url(ErrorMessage = "Neplatná adresa profilového obrázku osoby.")]
+        /// <summary>
+        /// URL to profile picture to person. 
+        /// </summary>
+        [Url(ErrorMessage = "Invalid person profile picture address.")]
         public string ProfilePictureUrl { get; set; }
 
-        [Required(ErrorMessage = "Datum narození osoby je požadováno.")]
+        /// <summary>
+        /// DateTime of person birth.
+        /// </summary>
+        [Required(ErrorMessage = "The person's date of birth is required.")]
         [DataType(DataType.DateTime)]
         public DateTime Birthday { get; set; }
     }

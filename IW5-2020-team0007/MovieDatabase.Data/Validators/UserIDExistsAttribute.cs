@@ -15,11 +15,11 @@ namespace MovieDatabase.Data.Validators
                 if (AllowNull)
                     return ValidationResult.Success;
 
-                return new ValidationResult("Neplatný formát vstupu.");
+                return new ValidationResult("Invalid input format.");
             }
 
             if (!(value is long id))
-                return new ValidationResult("Neplatný formát vstupu. Očekáváno číslo.");
+                return new ValidationResult("Invalid input format. Expected number.");
 
             using var repository = validationContext.GetRequiredService<UsersRepository>();
 

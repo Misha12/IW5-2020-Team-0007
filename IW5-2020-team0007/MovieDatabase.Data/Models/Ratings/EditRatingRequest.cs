@@ -6,15 +6,27 @@ namespace MovieDatabase.Data.Models.Ratings
 {
     public class EditRatingRequest
     {
-        [MovieIDExists(AllowNull = true, ErrorMessage = "Film s požadovaným ID neexistuje.")]
+        /// <summary>
+        /// Unique ID of movie in case of move rate to another movie.
+        /// </summary>
+        [MovieIDExists(AllowNull = true, ErrorMessage = "The movie with the requested ID does not exist.")]
         public long? NewMovieID { get; set; }
 
-        [MinLength(10, ErrorMessage = "Minimální délka textového hodnocení je 10 znaků.")]
+        /// <summary>
+        /// Text in rate. Minimal length of rate is 10 characters.
+        /// </summary>
+        [MinLength(10, ErrorMessage = "The minimum length of a text rating is 10 characters.")]
         public string Text { get; set; }
 
-        [Range(0, 100, ErrorMessage = "Povolený rozsah číselného hodnocení je mezi 0 až 100 body.")]
+        /// <summary>
+        /// Score of rate. Values in range 0% to 100%.
+        /// </summary>
+        [Range(0, 100, ErrorMessage = "The allowed range of numerical evaluation is between 0 and 100 points.")]
         public int? Score { get; set; }
 
+        /// <summary>
+        /// Anonymization of the author.
+        /// </summary>
         public bool? Anonymous { get; set; }
     }
 }

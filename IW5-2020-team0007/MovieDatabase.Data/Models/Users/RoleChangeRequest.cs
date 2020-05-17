@@ -7,7 +7,10 @@ namespace MovieDatabase.Data.Models.Users
 {
     public class RoleChangeRequest
     {
-        [Required(ErrorMessage = "Výběr role je povinný.")]
+        /// <summary>
+        /// New role of user.
+        /// </summary>
+        [Required(ErrorMessage = "Role selection is required.")]
         [JsonConverter(typeof(StringEnumConverter))]
         public Roles Role { get; set; }
     }

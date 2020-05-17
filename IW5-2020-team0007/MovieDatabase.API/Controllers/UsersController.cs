@@ -26,6 +26,9 @@ namespace MovieDatabase.API.Controllers
             Config = config;
         }
 
+        /// <summary>
+        /// Gets paginated list of users registered in system.
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(GetUsersList))]
@@ -36,6 +39,9 @@ namespace MovieDatabase.API.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Creates a user.
+        /// </summary>
         [HttpPost]
         [AllowAnonymous]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(Register))]
@@ -47,6 +53,9 @@ namespace MovieDatabase.API.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Finish user registration.
+        /// </summary>
         [HttpGet("register")]
         [AllowAnonymous]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(ConfirmRegistration))]
@@ -57,6 +66,10 @@ namespace MovieDatabase.API.Controllers
             return Redirect(Config["RegisterReturnUrl"]);
         }
 
+        /// <summary>
+        /// Gets user detail.
+        /// </summary>
+        /// <param name="id">Unique ID of user.</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(GetUserDetail))]
@@ -72,6 +85,9 @@ namespace MovieDatabase.API.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Gets user detail of current logged user.
+        /// </summary>
         [HttpGet("me")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(GetCurrentUserDetail))]
@@ -82,6 +98,11 @@ namespace MovieDatabase.API.Controllers
             return Ok(UsersService.GetUserDetail(currentUserID));
         }
 
+        /// <summary>
+        /// Updates user.
+        /// </summary>
+        /// <param name="id">Unique ID of user.</param>
+        /// <param name="request"></param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(UpdateUser))]
@@ -98,6 +119,9 @@ namespace MovieDatabase.API.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Updates current logged user.
+        /// </summary>
         [HttpPut("me")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(UpdateCurrentUser))]
@@ -109,6 +133,11 @@ namespace MovieDatabase.API.Controllers
             return Ok(UsersService.UpdateUser(currentUserID, request));
         }
 
+        /// <summary>
+        /// Changes user password.
+        /// </summary>
+        /// <param name="id">Unique ID of user.</param>
+        /// <param name="request"></param>
         [HttpPut("{id}/password")]
         [Authorize(Roles = "Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(ChangePassword))]
@@ -125,6 +154,10 @@ namespace MovieDatabase.API.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Changes password of current logged user.
+        /// </summary>
+        /// <param name="request"></param>
         [HttpPut("me/password")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(ChangeCurrentUserPassword))]
@@ -136,6 +169,10 @@ namespace MovieDatabase.API.Controllers
             return Ok(UsersService.ChangePassword(currentUserID, request));
         }
 
+        /// <summary>
+        /// Deletes a user. All ratings of user will be deleted.
+        /// </summary>
+        /// <param name="id">Unique ID of user.</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(DeleteUser))]
@@ -151,6 +188,9 @@ namespace MovieDatabase.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes current logged user.
+        /// </summary>
         [HttpDelete("me")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(DeleteCurrentUser))]
@@ -162,6 +202,11 @@ namespace MovieDatabase.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Changes role of user.
+        /// </summary>
+        /// <param name="id">Unique ID of user.</param>
+        /// <param name="request"></param>
         [HttpPut("{id}/role")]
         [Authorize(Roles = "Administrator")]
         [OpenApiOperation(nameof(UsersController) + "_" + nameof(ChangeRole))]
@@ -181,9 +226,7 @@ namespace MovieDatabase.API.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
                 UsersService.Dispose();
-            }
 
             base.Dispose(disposing);
         }

@@ -19,6 +19,9 @@ namespace MovieDatabase.API.Controllers
             Service = service;
         }
 
+        /// <summary>
+        /// Global search.
+        /// </summary>
         [HttpGet]
         [AllowAnonymous]
         [OpenApiOperation(nameof(SearchController) + "_" + nameof(Search))]

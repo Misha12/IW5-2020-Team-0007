@@ -5,7 +5,10 @@ namespace MovieDatabase.Data.Models.Genres
 {
     public class CreateGenreRequest
     {
-        [Required(ErrorMessage = "Název žánru je povinný.")]
+        /// <summary>
+        /// Name of genre. Required unique name.
+        /// </summary>
+        [Required(ErrorMessage = "Genre name is required.")]
         [GenreNameNotExists]
         public string Name { get; set; }
     }

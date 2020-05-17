@@ -5,7 +5,10 @@ namespace MovieDatabase.Data.Models.Search
 {
     public class SearchRequest : PaginatedRequest
     {
-        [Required(ErrorMessage = "Zadání vstupu pro vyhledávání je povinné.")]
+        /// <summary>
+        /// Requested keyword, that must contains string in search.
+        /// </summary>
+        [Required(ErrorMessage = "Entering search input is required.")]
         public string Keyword { get; set; }
     }
 }

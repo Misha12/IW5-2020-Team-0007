@@ -9,12 +9,12 @@ namespace MovieDatabase.Data.Validators
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (!(value is string username))
-                return new ValidationResult("Neplatný formát uživatelského jména.");
+                return new ValidationResult("Invalid username format.");
 
             var repository = validationContext.GetRequiredService<UsersRepository>();
 
             if (repository.UsernameExists(username))
-                return new ValidationResult($"Uživatel {username} již existuje.");
+                return new ValidationResult($"User {username} already exists.");
 
             return ValidationResult.Success;
         }

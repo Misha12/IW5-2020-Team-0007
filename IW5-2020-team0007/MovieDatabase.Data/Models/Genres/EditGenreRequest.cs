@@ -5,7 +5,10 @@ namespace MovieDatabase.Data.Models.Genres
 {
     public class EditGenreRequest
     {
-        [Required(ErrorMessage = "Nový název žánru je povinný.")]
+        /// <summary>
+        /// Name of genre. Required unique name.
+        /// </summary>
+        [Required(ErrorMessage = "New genre name is required.")]
         [UsernameNotExists]
         public string Name { get; set; }
     }

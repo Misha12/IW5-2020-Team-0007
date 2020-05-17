@@ -28,11 +28,11 @@ namespace MovieDatabase.Data.Validators
                 if (AllowNulls)
                     return ValidationResult.Success;
 
-                return new ValidationResult("NULL data nejsou povoleny");
+                return new ValidationResult("NULL data is not allowed.");
             }
 
             if (!IsValidListType(value))
-                return new ValidationResult("Neplatný typ. Očekáván list.");
+                return new ValidationResult("Invalid type. Expected list.");
 
             var repository = GetRepository(validationContext);
 

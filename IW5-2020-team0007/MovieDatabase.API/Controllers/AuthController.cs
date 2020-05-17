@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Net;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,9 @@ namespace MovieDatabase.API.Controllers
             Logger = logger;
         }
 
+        /// <summary>
+        /// Authorize user and gets JWT token.
+        /// </summary>
         [AllowAnonymous]
         [HttpPost("login")]
         [OpenApiOperation(nameof(AuthController) + "_" + nameof(Login))]
@@ -44,6 +48,9 @@ namespace MovieDatabase.API.Controllers
             return Ok(token.Token);
         }
 
+        /// <summary>
+        /// Creates a new token from refresh token.
+        /// </summary>
         [HttpPost("refresh")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
         [OpenApiOperation(nameof(AuthController) + "_" + nameof(RefreshToken))]
@@ -63,6 +70,9 @@ namespace MovieDatabase.API.Controllers
             return Ok(token.Token);
         }
 
+        /// <summary>
+        /// Revoke all tokens for current logged user.
+        /// </summary>
         [HttpDelete("refresh")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
         [OpenApiOperation(nameof(AuthController) + "_" + nameof(DeleteAllTokens))]

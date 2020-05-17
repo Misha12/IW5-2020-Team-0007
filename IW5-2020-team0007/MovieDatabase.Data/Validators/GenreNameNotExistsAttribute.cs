@@ -9,12 +9,12 @@ namespace MovieDatabase.Data.Validators
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (!(value is string name))
-                return new ValidationResult("Neplatný formát názvu žánru.");
+                return new ValidationResult("Invalid genre name format.");
 
             var repository = validationContext.GetService<GenresRepository>();
 
             if (repository.GenreNameExists(name))
-                return new ValidationResult("Žánr s tímto jménem již existuje.");
+                return new ValidationResult("A genre with this name already exists.");
 
             return ValidationResult.Success;
         }

@@ -9,12 +9,12 @@ namespace MovieDatabase.Data.Validators
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (!(value is string code))
-                return new ValidationResult("Neplatný formát autorizačního kódu.");
+                return new ValidationResult("Invalid authorization code format.");
 
             var repository = validationContext.GetRequiredService<UsersRepository>();
 
             if (!repository.AuthCodeExists(code))
-                return new ValidationResult("Byl zadán neplatný autorizační kód. Kód buď neexistuje, nebo již byl použit.");
+                return new ValidationResult("An invalid authorization code was entered. The code either doesn't exist or has already been used.");
 
             return ValidationResult.Success;
         }

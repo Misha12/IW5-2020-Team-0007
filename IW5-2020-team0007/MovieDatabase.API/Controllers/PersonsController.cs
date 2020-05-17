@@ -49,6 +49,7 @@ namespace MovieDatabase.API.Controllers
         /// <summary>
         /// Get all information about person.
         /// </summary>
+        /// <param name="id">Unique ID of person.</param>
         [HttpGet("{id}")]
         [AllowAnonymous]
         [OpenApiOperation(nameof(PersonsController) + "_" + nameof(GetPersonDetail))]
@@ -67,6 +68,8 @@ namespace MovieDatabase.API.Controllers
         /// <summary>
         /// Update of person.
         /// </summary>
+        /// <param name="id">Unique ID of person.</param>
+        /// <param name="request"></param>
         [HttpPut("{id}")]
         [Authorize(Roles = "ContentManager,Administrator")]
         [OpenApiOperation(nameof(PersonsController) + "_" + nameof(UpdatePerson))]
@@ -86,6 +89,7 @@ namespace MovieDatabase.API.Controllers
         /// <summary>
         /// Delete person.
         /// </summary>
+        /// <param name="id">Unique ID of person.</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "ContentManager,Administrator")]
         [OpenApiOperation(nameof(PersonsController) + "_" + nameof(DeletePerson))]

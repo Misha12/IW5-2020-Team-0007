@@ -1,7 +1,6 @@
 ﻿using MovieDatabase.Data.Models.Common;
 using MovieDatabase.Data.Validators;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace MovieDatabase.Data.Models.Movies
 {
@@ -9,7 +8,10 @@ namespace MovieDatabase.Data.Models.Movies
     {
         public string Name { get; set; }
 
-        [GenreIDsExists(AllowNulls = true, ErrorMessage = "Neplatný seznam žánrů. Některý žánr neexistuje.")]
+        /// <summary>
+        /// Collection of genre IDs.
+        /// </summary>
+        [GenreIDsExists(AllowNulls = true, ErrorMessage = "Invalid genre list. Some genres do not exist.")]
         public List<int> GenreIds { get; set; }
         public string Country { get; set; }
         public long? LengthFrom { get; set; }
