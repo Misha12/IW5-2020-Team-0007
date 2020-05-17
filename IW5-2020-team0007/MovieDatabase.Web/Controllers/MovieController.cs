@@ -45,6 +45,10 @@ namespace MovieDatabase.Web.Controllers
         {
             await movieFacade.DeleteMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID);
         }
-
+        [HttpGet]
+        public IActionResult List()
+        {
+            return View();
+        }
     }
 }
