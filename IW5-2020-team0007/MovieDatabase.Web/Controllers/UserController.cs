@@ -64,9 +64,15 @@ namespace MovieDatabase.Web.Controllers
 
             var DetailUserViewModel = new DetailUserViewModel()
             {
-                UserModel = await GetUserDetail(long.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                UserModel = await CurrentUser()
             };
             return View(DetailUserViewModel);
+        }
+
+        [HttpGet]
+        public async Task<User> CurrentUser()
+        {
+            return await _userFacade.CurrentUserAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value);
         }
 
         [HttpPost]
@@ -75,15 +81,6 @@ namespace MovieDatabase.Web.Controllers
             await _userFacade.InsertAsync(personModel);
             return RedirectToAction(nameof(New));
         }
-
-        /*
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginRequest loginModel)
-        {
-            var a = await _userFacade.LoginAsync(loginModel);
-            HttpContext.Session.SetString("AuthString", a.AccessToken);
-            return RedirectToAction(nameof(Login));
-        }*/
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest loginModel)
@@ -124,7 +121,6 @@ namespace MovieDatabase.Web.Controllers
             return RedirectToAction("Login");
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditCurrentUser(UserEditRequest userEditRequest)
         {
@@ -155,10 +151,10 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<User> ChangeMyPassword(UserPassViewModel userPassViewModel)
+        public async Task<IActionResult> ChangeMyPassword(PasswordChangeRequest userPassViewModel)
         {
-            var a = await _userFacade.ChangeCurrentUserPasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userPassViewModel.PasswordModel);
-            return a;
+            var a = await _userFacade.ChangeCurrentUserPasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userPassViewModel);
+            return RedirectToAction("Login");
         }
 
         [HttpPost]
