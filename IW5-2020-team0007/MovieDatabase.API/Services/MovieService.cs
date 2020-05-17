@@ -27,7 +27,7 @@ namespace MovieDatabase.API.Services
 
         public Movie CreateMovie(CreateMovieRequest request)
         {
-            var names = request.MovieNames.ToDictionary(o => o.Lang, o => o.Name);
+            var names = request.MovieNames?.ToDictionary(o => o.Lang, o => o.Name);
 
             var entity = MoviesRepository.CreateMovie(request.OriginalName, request.TitleImageUrl, request.Country, request.Length, request.Description, request.CreatedYear.Value,
                 names, request.Actors, request.Directors, request.GenreIds);

@@ -47,6 +47,7 @@ namespace MovieDatabase.Web
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
+        /// <summary>Authorize user and gets JWT token.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<AuthToken> LoginAsync(LoginRequest request)
         {
@@ -54,6 +55,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Authorize user and gets JWT token.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<AuthToken> LoginAsync(LoginRequest request, System.Threading.CancellationToken cancellationToken)
         {
@@ -124,6 +126,7 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Creates a new token from refresh token.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<AuthToken> RefreshTokenAsync(string refreshToken)
         {
@@ -131,6 +134,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Creates a new token from refresh token.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<AuthToken> RefreshTokenAsync(string refreshToken, System.Threading.CancellationToken cancellationToken)
         {
@@ -201,6 +205,7 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Revoke all tokens for current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<DeleteAllTokensResponse> DeleteAllTokensAsync()
         {
@@ -208,6 +213,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Revoke all tokens for current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<DeleteAllTokensResponse> DeleteAllTokensAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -1021,6 +1027,7 @@ namespace MovieDatabase.Web
         }
     
         /// <summary>Get all information about movie.</summary>
+        /// <param name="id">Unique ID of movie</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<Movie> GetMovieDetailAsync(long id)
         {
@@ -1029,6 +1036,7 @@ namespace MovieDatabase.Web
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get all information about movie.</summary>
+        /// <param name="id">Unique ID of movie</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<Movie> GetMovieDetailAsync(long id, System.Threading.CancellationToken cancellationToken)
         {
@@ -1098,6 +1106,7 @@ namespace MovieDatabase.Web
         }
     
         /// <summary>Update of movie.</summary>
+        /// <param name="id">Unique ID of movie.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<Movie> UpdateMovieAsync(long id, EditMovieRequest request)
         {
@@ -1106,6 +1115,7 @@ namespace MovieDatabase.Web
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Update of movie.</summary>
+        /// <param name="id">Unique ID of movie.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<Movie> UpdateMovieAsync(long id, EditMovieRequest request, System.Threading.CancellationToken cancellationToken)
         {
@@ -1187,6 +1197,7 @@ namespace MovieDatabase.Web
         }
     
         /// <summary>Delete movie.</summary>
+        /// <param name="id">Unique ID of movie.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task DeleteMovieAsync(long id)
         {
@@ -1195,6 +1206,7 @@ namespace MovieDatabase.Web
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete movie.</summary>
+        /// <param name="id">Unique ID of movie.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task DeleteMovieAsync(long id, System.Threading.CancellationToken cancellationToken)
         {
@@ -1548,6 +1560,7 @@ namespace MovieDatabase.Web
         }
     
         /// <summary>Get all information about person.</summary>
+        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<Person> GetPersonDetailAsync(long id)
         {
@@ -1556,6 +1569,7 @@ namespace MovieDatabase.Web
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Get all information about person.</summary>
+        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<Person> GetPersonDetailAsync(long id, System.Threading.CancellationToken cancellationToken)
         {
@@ -1625,6 +1639,7 @@ namespace MovieDatabase.Web
         }
     
         /// <summary>Update of person.</summary>
+        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<Person> UpdatePersonAsync(long id, EditPersonRequest request)
         {
@@ -1633,6 +1648,7 @@ namespace MovieDatabase.Web
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Update of person.</summary>
+        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<Person> UpdatePersonAsync(long id, EditPersonRequest request, System.Threading.CancellationToken cancellationToken)
         {
@@ -1714,6 +1730,7 @@ namespace MovieDatabase.Web
         }
     
         /// <summary>Delete person.</summary>
+        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task DeletePersonAsync(long id)
         {
@@ -1722,6 +1739,7 @@ namespace MovieDatabase.Web
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Delete person.</summary>
+        /// <param name="id">Unique ID of person.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task DeletePersonAsync(long id, System.Threading.CancellationToken cancellationToken)
         {
@@ -2187,6 +2205,8 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Delete rate.</summary>
+        /// <param name="id">Unique ID of rate.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task DeleteRateAsync(long id)
         {
@@ -2194,6 +2214,8 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Delete rate.</summary>
+        /// <param name="id">Unique ID of rate.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task DeleteRateAsync(long id, System.Threading.CancellationToken cancellationToken)
         {
@@ -2393,6 +2415,7 @@ namespace MovieDatabase.Web
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
+        /// <summary>Global search.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<PaginatedDataOfSearchResultBase> SearchAsync(string keyword, int? limit, int? page)
         {
@@ -2400,6 +2423,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Global search.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<PaginatedDataOfSearchResultBase> SearchAsync(string keyword, int? limit, int? page, System.Threading.CancellationToken cancellationToken)
         {
@@ -2606,6 +2630,7 @@ namespace MovieDatabase.Web
         partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
     
+        /// <summary>Gets paginated list of users registered in system.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<PaginatedDataOfSimpleUser> GetUsersListAsync(string username, int? limit, int? page)
         {
@@ -2613,6 +2638,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Gets paginated list of users registered in system.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<PaginatedDataOfSimpleUser> GetUsersListAsync(string username, int? limit, int? page, System.Threading.CancellationToken cancellationToken)
         {
@@ -2684,6 +2710,7 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Creates a user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<SimpleUser> RegisterAsync(RegisterRequest request)
         {
@@ -2691,6 +2718,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Creates a user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<SimpleUser> RegisterAsync(RegisterRequest request, System.Threading.CancellationToken cancellationToken)
         {
@@ -2761,6 +2789,7 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Finish user registration.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task ConfirmRegistrationAsync(string code)
         {
@@ -2768,6 +2797,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Finish user registration.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task ConfirmRegistrationAsync(string code, System.Threading.CancellationToken cancellationToken)
         {
@@ -2828,6 +2858,8 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Gets user detail.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<User> GetUserDetailAsync(long id)
         {
@@ -2835,6 +2867,8 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Gets user detail.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<User> GetUserDetailAsync(long id, System.Threading.CancellationToken cancellationToken)
         {
@@ -2903,6 +2937,8 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Updates user.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<User> UpdateUserAsync(long id, UserEditRequest request)
         {
@@ -2910,6 +2946,8 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Updates user.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<User> UpdateUserAsync(long id, UserEditRequest request, System.Threading.CancellationToken cancellationToken)
         {
@@ -2990,6 +3028,8 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Deletes a user. All ratings of user will be deleted.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task DeleteUserAsync(long id)
         {
@@ -2997,6 +3037,8 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Deletes a user. All ratings of user will be deleted.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task DeleteUserAsync(long id, System.Threading.CancellationToken cancellationToken)
         {
@@ -3061,6 +3103,7 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Gets user detail of current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<User> GetCurrentUserDetailAsync()
         {
@@ -3068,6 +3111,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Gets user detail of current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<User> GetCurrentUserDetailAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -3126,6 +3170,7 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Updates current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<ValidationProblemDetails> UpdateCurrentUserAsync(UserEditRequest request)
         {
@@ -3133,6 +3178,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Updates current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<ValidationProblemDetails> UpdateCurrentUserAsync(UserEditRequest request, System.Threading.CancellationToken cancellationToken)
         {
@@ -3197,6 +3243,7 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Deletes current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task DeleteCurrentUserAsync()
         {
@@ -3204,6 +3251,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Deletes current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task DeleteCurrentUserAsync(System.Threading.CancellationToken cancellationToken)
         {
@@ -3258,6 +3306,8 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Changes user password.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<User> ChangePasswordAsync(long id, PasswordChangeRequest request)
         {
@@ -3265,6 +3315,8 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Changes user password.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<User> ChangePasswordAsync(long id, PasswordChangeRequest request, System.Threading.CancellationToken cancellationToken)
         {
@@ -3345,6 +3397,7 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Changes password of current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<User> ChangeCurrentUserPasswordAsync(PasswordChangeRequest request)
         {
@@ -3352,6 +3405,7 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Changes password of current logged user.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<User> ChangeCurrentUserPasswordAsync(PasswordChangeRequest request, System.Threading.CancellationToken cancellationToken)
         {
@@ -3422,6 +3476,8 @@ namespace MovieDatabase.Web
             }
         }
     
+        /// <summary>Changes role of user.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public System.Threading.Tasks.Task<User> ChangeRoleAsync(long id, RoleChangeRequest request)
         {
@@ -3429,6 +3485,8 @@ namespace MovieDatabase.Web
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Changes role of user.</summary>
+        /// <param name="id">Unique ID of user.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<User> ChangeRoleAsync(long id, RoleChangeRequest request, System.Threading.CancellationToken cancellationToken)
         {

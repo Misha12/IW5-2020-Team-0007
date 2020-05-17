@@ -76,18 +76,18 @@ namespace MovieDatabase.Data.Repository
                 CreatedYear = createdYear,
                 Description = description,
                 Length = length,
-                Genres = genreIds.Select(o => new GenreMap() { GenreID = o }).ToHashSet(),
-                Names = names.Select(o => new MovieName() { Lang = o.Key, Name = o.Value }).ToHashSet(),
+                Genres = genreIds?.Select(o => new GenreMap() { GenreID = o }).ToHashSet() ?? new HashSet<GenreMap>(),
+                Names = names?.Select(o => new MovieName() { Lang = o.Key, Name = o.Value }).ToHashSet() ?? new HashSet<MovieName>(),
                 OriginalName = originalName,
                 TitleImageUrl = titleImageUrl
             };
 
-            foreach (var actorId in actorIds)
+            foreach (var actorId in actorIds ?? new List<long>())
             {
                 entity.Persons.Add(new MoviePerson() { PersonID = actorId, Type = MoviePersonType.Actor });
             }
 
-            foreach (var directorId in directorIds)
+            foreach (var directorId in directorIds ?? new List<long>())
             {
                 entity.Persons.Add(new MoviePerson() { PersonID = directorId, Type = MoviePersonType.Director });
             }
