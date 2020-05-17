@@ -1,11 +1,11 @@
-﻿
+﻿@model SimpleMovie
 @{
     ViewData["Title"] = "_MovieListItem";
 }
 
     <tr class="Movie-List-Item">
-        <td>Photo</td>
-        <td class="Movie-List-Item-Caption">Super Cool Movie</td>
-        <td class="Movie-List-Item-Rating">9/10</td>
+        <td class="List-Item-Photo"> <img class="List-Item-Photo-img" src="@Model.TitleImageUrl" /> </td>
+        <td class="Movie-List-Item-Caption">@Model.OriginalName</td>
+        <td class="Movie-List-Item-Rating">@Model.Length</td>
     </tr>
 

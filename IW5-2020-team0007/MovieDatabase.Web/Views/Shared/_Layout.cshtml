@@ -22,7 +22,11 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-Item">
-                            <a class="nav-Link" asp-area="" asp-controller="Movie" asp-action="List">Movies</a>
+                            <form asp-controller="Movie" asp-action="List" method="post" role="form">
+                                <input class="Login-input" type="hidden" name="page" value="1" />
+                                <input type="submit" class="nav-Link" value="Movies" />
+                            </form>
+                            @*<a class="nav-Link" asp-area="" asp-controller="Movie" asp-action="ListFirst">Movies</a>*@
                         </li>
                         @{
                             if (User.Claims.Count() != 0 && User.FindFirst(ClaimTypes.Role).Value == "Administrator")

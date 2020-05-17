@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MovieDatabase.BL.Web.Facades;
 using MovieDatabase.Web.ViewModels;
 
@@ -51,10 +52,15 @@ namespace MovieDatabase.Web.Controllers
             await movieFacade.DeleteMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID);
         }
 
-        [HttpGet]
-        public IActionResult List()
+        [HttpPost]
+        public async Task<IActionResult> List(int page)
         {
-            return View();
+
+            var MovieListViewModel = new MovieListViewModel()
+            {
+                listMovie = await GetMoviesList(null,null,null,null,null,5,page)
+            };
+            return View(MovieListViewModel);
         }
     }
 }
