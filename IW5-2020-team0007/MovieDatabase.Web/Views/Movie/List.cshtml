@@ -1,18 +1,21 @@
 ﻿
 
 <p class="Page-Title">Movies</p>
-
+@if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+{
+    <a class="btn btn-primary" asp-area="" asp-controller="Movie" asp-action="New">Create movie</a>
+}
 <hr />
 <table class="List">
     <tr>
         <th> </th>
         <th>Title</th>
-        <th>Rating</th>
+        <th>Lenght</th>
     </tr>
-    @*@foreach (var ingredient in Model.Ingredients)
-        {
-             <partial name="_MovieListItem" model="movie" />
-        }*@
+    @foreach (var movie in Model.MovieListModel.Data)
+    {
+        <partial name="_MovieListItem" model="movie" />
+    }
     <tr class="List-Item">
         <td class="List-Item-Photo"> <img class="List-Item-Photo-img" src="https://upload.wikimedia.org/wikipedia/en/a/af/Disaster_movie.jpg" /> </td>
         <td class="List-Item-Caption">Super Cool Movie</td>
@@ -42,7 +45,7 @@
                 <a class="page-link" href="#" tabindex="-1">Previous</a>
             </li>
             <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">@Model.listMovie.Pag</a></li>
             <li class="page-item"><a class="page-link" href="#">3</a></li>
             <li class="page-item">
                 <a class="page-link" href="#">Next</a>

@@ -1,0 +1,16 @@
+﻿@model MovieDatabase.Web.ViewModels.MovieNewViewModel
+@{
+    ViewData["Title"] = "New";
+}
+
+
+<p class="Page-Title">Create a movie</p> 
+
+<hr />
+
+<form asp-controller="Movie" asp-action="CreateMovie" method="post" role="form">
+    <input class="Register-input" type="text" name="OriginalName" placeholder="Original name" />
+    <input class="Register-input" type="text" name="Country" placeholder="Country" />
+    <input class="Register-input" type="text" name="createdYear"  placeholder="Year created" />
+    <input type="submit" class="btn btn-primary" value="Submit" />
+</form>

@@ -17,6 +17,16 @@ namespace MovieDatabase.Web.Controllers
             movieFacade = facade;
         }
 
+        [HttpGet]
+        public IActionResult New()
+        {
+            var movieNewViewModel = new MovieNewViewModel
+            {
+                MovieModel = new CreateMovieRequest()
+            };
+            return View(movieNewViewModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMovie(CreateMovieRequest movie)
         {
@@ -52,9 +62,13 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            return View();
+            var MovieListViewModel = new MovieListViewModel()
+            {
+                MovieListModel = await GetMoviesList(string.Empty, null, string.Empty, null, null, null, null)
+            };
+            return View(MovieListViewModel);
         }
     }
 }

@@ -1,0 +1,15 @@
+﻿@model MovieDatabase.Web.Movie
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<p class="Page-Title">Movie detail</p>
+
+<hr />
+
+<form asp-controller="Movie" asp-action="CreateMovie" method="post" role="form">
+    <input disabled="disabled" class="Register-input" type="text" name="OriginalName" placeholder="Original name" />
+    <input disabled="disabled" class="Register-input" type="text" name="Country" placeholder="Country" />
+    <input disabled="disabled" class="Register-input" type="text" name="createdYear" placeholder="Year created" />
+</form>
