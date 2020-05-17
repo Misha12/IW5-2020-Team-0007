@@ -1,0 +1,37 @@
+﻿@model MovieDatabase.Web.ViewModels.DetailUserViewModel
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<p class="Page-Title">User Detail</p>
+
+<hr />
+
+
+<form asp-controller="User" asp-action="EditCurrentUser" method="post" role="form">
+    <input class="Register-input" type="email" name="Email" value="@Model.UserModel.Email" placeholder="Email" />
+    <input class="Register-input" type="text" name="Username" value="@Model.UserModel.Username" placeholder="Username" />
+    <input type="submit" class="btn btn-primary" value="Submit" />
+</form>
+@{
+    if (User.Claims.Count() != 0 && User.FindFirst(ClaimTypes.Role).Value == "Administrator")
+    {
+
+        <select class="browser-default custom-select" asp-for="UserModel.Role" asp-items="Html.GetEnumSelectList<Roles>()">
+        </select>
+    }
+    else
+    {
+        <text> @Model.UserModel.Role </text>
+    }
+}
+<form asp-controller="User" asp-action="ChangePassword" method="post" role="form">
+    <input class="Register-input" type="password" name="Password" placeholder="Password" />
+    <input class="Register-input" type="password" name="PasswordConfirm" placeholder="Confirm Password" />
+    <input type="submit" class="btn btn-primary" value="Change password" />
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

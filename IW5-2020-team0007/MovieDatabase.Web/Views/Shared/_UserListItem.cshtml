@@ -3,9 +3,7 @@
 <tr class="List-Item">
     <td class="List-Item-Caption">@Model.Id</td>
     <td class="List-Item-Caption">@Model.Username</td>
-    <td class="List-Item-Role">
-        <select class="browser-default custom-select" asp-for="Role" asp-items="Html.GetEnumSelectList<Roles>()">
-        </select>
+    <td class="List-Item-Role">@Model.Role
     </td>
 
     <td class="List-Item-Btn"><button type="submit" class="btn btn-delete" value="1" tag="Delete">Delete</button></td>

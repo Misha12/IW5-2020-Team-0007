@@ -49,12 +49,23 @@ namespace MovieDatabase.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            
+
             var UserListViewModel = new UserListViewModel()
             {
                 listUser = await GetUserSSListAsync()
             };
-            return View(UserListViewModel);            
+            return View(UserListViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail()
+        {
+
+            var DetailUserViewModel = new DetailUserViewModel()
+            {
+                UserModel = await GetUserDetail(long.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            };
+            return View(DetailUserViewModel);
         }
 
         [HttpPost]
@@ -74,9 +85,9 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest loginModel)
         {
-            
+
             var a = await _clientFacade.LoginAsync(loginModel);
-            
+
             User thisUser = await _userFacade.CurrentUserAsync(a.AccessToken);
 
             var claims = new List<Claim>
@@ -97,12 +108,14 @@ namespace MovieDatabase.Web.Controllers
                 new ClaimsPrincipal(claimsIdentity));
             return RedirectToAction(nameof(Login));
         }
+
         [Authorize]
         [HttpPost]
         public async Task Logout()
         {
             await HttpContext.SignOutAsync();
         }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditCurrentUser(UserEditRequest userEditRequest)
@@ -110,6 +123,7 @@ namespace MovieDatabase.Web.Controllers
             await _userFacade.CurrentUserUpdate(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userEditRequest);
             return RedirectToAction(nameof(Login));
         }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> RefreshToken()
@@ -137,9 +151,9 @@ namespace MovieDatabase.Web.Controllers
             return a;
         }
         [HttpPost]
-        public async Task<User> ChangePassword(long ID,UserPassViewModel userPassViewModel)
+        public async Task<User> ChangePassword(long ID, UserPassViewModel userPassViewModel)
         {
-            var a = await _userFacade.ChangePasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID,userPassViewModel.PasswordModel);
+            var a = await _userFacade.ChangePasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID, userPassViewModel.PasswordModel);
             return a;
         }
         [HttpPost]
@@ -156,7 +170,7 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<User> GetUserDetail(long ID)
         {
-            return await _userFacade.GetUserDetailAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value,ID);
+            return await _userFacade.GetUserDetailAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID);
         }
 
     }

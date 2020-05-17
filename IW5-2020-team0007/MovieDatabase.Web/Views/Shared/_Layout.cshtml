@@ -28,7 +28,7 @@
                             if (User.Claims.Count() != 0 && User.FindFirst(ClaimTypes.Role).Value == "Administrator")
                             {
                                 <li class="nav-Item">
-                                    <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List"></a>
+                                    <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
                                 </li>
                             }
                         }
@@ -53,9 +53,10 @@
                             <text> @User.FindFirst(ClaimTypes.Name).Value</text>
                             <div class="User-button-dropdown">
                                 <text> @User.FindFirst(ClaimTypes.Role).Value</text>
-                                <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="New">Account detail</a>
-                                <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="New">Logout</a>
+                                <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="Detail">Account detail</a>
+                                <a class="btn btn-primary" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
                             </div>
+                            
                         }
                     }
 
