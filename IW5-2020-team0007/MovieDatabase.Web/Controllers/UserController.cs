@@ -99,6 +99,12 @@ namespace MovieDatabase.Web.Controllers
         }
         [Authorize]
         [HttpPost]
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync();
+        }
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> EditCurrentUser(UserEditRequest userEditRequest)
         {
             await _userFacade.CurrentUserUpdate(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userEditRequest);
