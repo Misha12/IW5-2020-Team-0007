@@ -15,7 +15,7 @@ namespace MovieDatabase.Data.Models.Movies
         /// <summary>
         /// Collection of unique IDs of genres.
         /// </summary>
-        [GenreIDsExists(ErrorMessage = "Invalid genre list. Some of the genres do not exist.")]
+        [GenreIDsExists(AllowNulls = true, ErrorMessage = "Invalid genre list. Some of the genres do not exist.")]
         public List<int> GenreIds { get; set; }
 
         /// <summary>
@@ -56,13 +56,13 @@ namespace MovieDatabase.Data.Models.Movies
         /// <summary>
         /// Collection of person IDs, who play in the film.
         /// </summary>
-        [PersonsExists(ErrorMessage = "Someone in the actor list doesn't exist.")]
+        [PersonsExists(AllowNulls = true, ErrorMessage = "Someone in the actor list doesn't exist.")]
         public List<long> Actors { get; set; }
 
         /// <summary>
         /// Collection of person IDs, who direct the film.
         /// </summary>
-        [PersonsExists(ErrorMessage = "Some of the people in the list of directors do not exist.")]
+        [PersonsExists(AllowNulls = true, ErrorMessage = "Some of the people in the list of directors do not exist.")]
         public List<long> Directors { get; set; }
     }
 }
