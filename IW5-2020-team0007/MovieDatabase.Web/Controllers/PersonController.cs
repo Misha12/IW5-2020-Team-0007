@@ -48,8 +48,14 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<Person> GetPersonDetail(String ID)
         {
-
             var a = await _personFacade.GetPersonDetailAsync(ID);
+            return a;
+        }
+
+        [HttpPost]
+        public async Task<PaginatedDataOfSimplePerson> GetPersonList(String nameSurname, int? limit, int? page)
+        {
+            var a = await _personFacade.GetPersonListAsync(nameSurname, limit, page);
             return a;
         }
     }

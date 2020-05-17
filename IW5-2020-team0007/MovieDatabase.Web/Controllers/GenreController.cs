@@ -44,5 +44,12 @@ namespace MovieDatabase.Web.Controllers
             await _genreFacade.DeleteGenreAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, int.Parse(ID));
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public async Task<ICollection<Genre>> GetGenres(String search)
+        {
+            var a = await _genreFacade.GetGenresListAsync(search);
+            return a;
+        }
     }
 }
