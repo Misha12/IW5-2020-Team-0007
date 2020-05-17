@@ -1,6 +1,9 @@
 ﻿@model MovieDatabase.Web.ViewModels.MovieListViewModel
 <p class="Page-Title">Movies</p>
-
+@if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+{
+    <a class="btn btn-primary" asp-area="" asp-controller="Movie" asp-action="New">Create movie</a>
+}
 <hr />
 <table class="List">
     <tr>
@@ -13,7 +16,7 @@
         {
             <partial name="_MovieListItem" model="user" />
         } }
-    
+
 
 </table>
 <div class="page-switcher">
