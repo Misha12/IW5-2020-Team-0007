@@ -21,7 +21,7 @@ namespace MovieDatabase.Data.Validators
             if (!(value is long id))
                 return new ValidationResult("Neplatný formát vstupu. Očekáváno číslo.");
 
-            using var repository = validationContext.GetRequiredService<MoviesRepository>();
+            var repository = validationContext.GetRequiredService<MoviesRepository>();
 
             if (!repository.ExistsMovie(id))
                 return new ValidationResult(ErrorMessage);

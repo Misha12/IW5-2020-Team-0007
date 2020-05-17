@@ -26,7 +26,7 @@ namespace MovieDatabase.Data.Models.Common
                 TotalItemsCount = query.Count()
             };
 
-            var skip = request.Page * request.Limit;
+            var skip = (request.Page == 0 ? 0 : request.Page - 1) * request.Limit;
             query = query.Skip(skip).Take(request.Limit);
 
             result.CanNext = skip + request.Limit < result.TotalItemsCount;

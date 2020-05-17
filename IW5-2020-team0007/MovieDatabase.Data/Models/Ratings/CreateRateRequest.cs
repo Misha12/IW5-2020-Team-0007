@@ -17,8 +17,6 @@ namespace MovieDatabase.Data.Models.Ratings
         [Range(0, 100, ErrorMessage = "Povolený rozsah číselného hodnocení je mezi 0 až 100 body.")]
         public int Score { get; set; }
 
-        // Null je anonymní.
-        [UserIDExists(AllowNull = true, ErrorMessage = "Uživatel se zadaným ID neexistuje.")]
-        public long? UserID { get; set; }
+        public bool Anonymous { get; set; }
     }
 }

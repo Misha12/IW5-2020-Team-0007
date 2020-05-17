@@ -10,7 +10,7 @@ namespace MovieDatabase.Data.Entity
         [ForeignKey("MovieID")]
         public Movie Movie { get; set; }
 
-        public long UserID { get; set; }
+        public long? UserID { get; set; }
 
         [ForeignKey("UserID")]
         public User User { get; set; }
@@ -18,5 +18,7 @@ namespace MovieDatabase.Data.Entity
         public int Score { get; set; }
 
         public string Text { get; set; }
+
+        public bool Anonymous { get; set; }
     }
 }

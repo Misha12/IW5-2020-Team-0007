@@ -1,127 +1,69 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MovieDatabase.API.Models;
-using MovieDatabase.Domain;
-using MovieDatabase.Domain.DTO;
+﻿using AutoMapper;
+using System;
+using MovieDatabase.Data.Repository;
+using MovieDatabase.Data.Models.Ratings;
+using MovieDatabase.Data.Models.Common;
 using System.Collections.Generic;
+using System.Security.Claims;
+using MovieDatabase.Common.Extensions;
 using System.Linq;
-using AutoMapper;
-using DBRate = MovieDatabase.Domain.Entity.Rate;
+using MovieDatabase.Data.Enums;
 
 namespace MovieDatabase.API.Services
 {
-    public class RatesService
+    public class RatesService : IDisposable
     {
-        private MovieDatabaseContext Context { get; }
+        private MoviesRepository MoviesRepository { get; }
         private IMapper Mapper { get; }
 
-        public RatesService(MovieDatabaseContext context, IMapper mapper)
+        public RatesService(IMapper mapper, MoviesRepository moviesRepository)
         {
-            Context = context;
             Mapper = mapper;
+            MoviesRepository = moviesRepository;
         }
 
-        public List<Rate> GetRateList(long? movieID, int? scoreFrom, int? scoreTo)
+        public Rating CreateRate(CreateRateRequest request, long loggedUserID)
         {
-            List<DBRate> rates = null;
+            var entity = MoviesRepository.CreateRate(request.MovieID, request.Score, request.Text, loggedUserID, request.Anonymous);
 
-            if (movieID == null)
-            {
-                var query = Context.Rates.AsQueryable();
-
-                if (scoreFrom != null)
-                    query = query.Where(o => o.Score >= scoreFrom.Value);
-
-                if (scoreTo != null)
-                    query = query.Where(o => o.Score < scoreTo.Value);
-
-                rates = query.ToList();
-            }
-            else
-            {
-                var movie = Context.Movies
-                    .Include(o => o.Rates)
-                    .FirstOrDefault(o => o.ID == movieID.Value);
-
-                if (movie == null)
-                    return null;
-
-                rates = movie.Rates.ToList();
-
-                if (scoreFrom != null)
-                    rates = rates.Where(o => o.Score >= scoreFrom.Value).ToList();
-
-                if (scoreTo != null)
-                    rates = rates.Where(o => o.Score < scoreTo.Value).ToList();
-            }
-
-            return Mapper.Map<List<Rate>>(rates);
+            return Mapper.Map<Rating>(entity);
         }
 
-        public RateDetail FindRateByID(long movieID, long rateID)
+        public PaginatedData<Rating> GetRateList(RatingSearchRequest request)
         {
-            var item = Context.Rates
-                .Include(o => o.Movie)
-                .ThenInclude(o => o.Genre)
-                .FirstOrDefault(o => o.MovieID == movieID && o.ID == rateID);
-
-            return Mapper.Map<RateDetail>(item);
+            var query = MoviesRepository.GetRatesList(request.MovieIDs, request.TextContains, request.ScoreFrom, request.ScoreTo);
+            return PaginatedData<Rating>.Create(query, request, entityList => Mapper.Map<List<Rating>>(entityList));
         }
 
-        public RateDetail CreateRate(long movieID, RateInput data)
+        public Rating UpdateRate(long id, EditRatingRequest request, ClaimsPrincipal currentLoggedUser)
         {
-            var movie = Context.Movies
-                .Include(o => o.Genre)
-                .Include(o => o.Rates)
-                .FirstOrDefault(o => o.ID == movieID);
+            var loggedUserID = currentLoggedUser.GetUserID();
+            var isAdmin = new[] { Roles.ContentManager.ToString(), Roles.Administrator.ToString() }.Contains(currentLoggedUser.GetUserRole());
 
-            if (movie == null)
-                return null;
-
-            var entity = new DBRate()
-            {
-                MovieID = movieID,
-                Score = data.GetScore(),
-                Text = data.Text
-            };
-
-            movie.Rates.Add(entity);
-            Context.SaveChanges();
-
-            return FindRateByID(movieID, entity.ID);
+            var entity = MoviesRepository.EditRate(id, request.Text, request.NewMovieID, request.Score, request.Anonymous, loggedUserID, isAdmin);
+            return Mapper.Map<Rating>(entity);
         }
 
-        public bool DeleteRate(long movieID, long rateID)
+        public bool DeleteRate(long id, ClaimsPrincipal currentLoggedUser)
         {
-            var rate = Context.Rates
-                .FirstOrDefault(o => o.MovieID == movieID && o.ID == rateID);
+            var loggedUserID = currentLoggedUser.GetUserID();
+            var isCurrentLoggedUserAdmin = new[] { Roles.ContentManager.ToString(), Roles.Administrator.ToString() }.Contains(currentLoggedUser.GetUserRole());
+
+            var rate = MoviesRepository.GetRateById(id);
 
             if (rate == null)
                 return false;
 
-            Context.Rates.Remove(rate);
-            Context.SaveChanges();
+            if (rate.UserID != loggedUserID && !isCurrentLoggedUserAdmin)
+                throw new UnauthorizedAccessException();
 
+            MoviesRepository.DeleteRate(id);
             return true;
         }
 
-        public RateDetail UpdateRate(long movieID, long rateID, RateInput input)
+        public void Dispose()
         {
-            var rate = Context.Rates
-                .Include(o => o.Movie)
-                .ThenInclude(o => o.Genre)
-                .FirstOrDefault(o => o.MovieID == movieID && o.ID == rateID);
-
-            if (rate == null)
-                return null;
-
-            if (!string.IsNullOrEmpty(input.Text))
-                rate.Text = input.Text;
-
-            if (rate.Score != input.GetScore())
-                rate.Score = input.GetScore();
-
-            Context.SaveChanges();
-            return Mapper.Map<RateDetail>(rate);
+            MoviesRepository.Dispose();
         }
     }
 }

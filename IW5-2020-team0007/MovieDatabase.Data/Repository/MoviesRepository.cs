@@ -1,11 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using MovieDatabase.Data.Entity;
 using MovieDatabase.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 
 namespace MovieDatabase.Data.Repository
 {
@@ -19,25 +18,45 @@ namespace MovieDatabase.Data.Repository
         {
             var query = Context.Movies.AsQueryable();
 
-            if(includeNames || includeAllTables)
+            if (includeNames || includeAllTables)
             {
                 query = query.Include(o => o.Names);
             }
 
-            if(includeGenres || includeAllTables)
+            if (includeGenres || includeAllTables)
             {
                 query = query
                     .Include(o => o.Genres)
                     .ThenInclude(o => o.Genre);
             }
 
-            if(includeAllTables)
+            if (includeAllTables)
             {
                 query = query
                     .Include(o => o.Persons)
                     .ThenInclude(o => o.Person)
                     .Include(o => o.Ratings)
                     .ThenInclude(o => o.User);
+            }
+
+            return query;
+        }
+
+        private IQueryable<Rating> GetRatingsQuery(bool includeTables)
+        {
+            var query = Context.Rates.AsQueryable();
+
+            if (includeTables)
+            {
+                query = query
+                    .Include(o => o.Movie)
+                    .ThenInclude(o => o.Genres)
+                    .ThenInclude(o => o.Genre)
+                    .Include(o => o.Movie)
+                    .ThenInclude(o => o.Names)
+                    .Include(o => o.Movie)
+                    .ThenInclude(o => o.Persons)
+                    .Include(o => o.User);
             }
 
             return query;
@@ -63,12 +82,12 @@ namespace MovieDatabase.Data.Repository
                 TitleImageUrl = titleImageUrl
             };
 
-            foreach(var actorId in actorIds)
+            foreach (var actorId in actorIds)
             {
                 entity.Persons.Add(new MoviePerson() { PersonID = actorId, Type = MoviePersonType.Actor });
             }
 
-            foreach(var directorId in directorIds)
+            foreach (var directorId in directorIds)
             {
                 entity.Persons.Add(new MoviePerson() { PersonID = directorId, Type = MoviePersonType.Director });
             }
@@ -137,9 +156,9 @@ namespace MovieDatabase.Data.Repository
             if (length != null)
                 movie.Length = length.Value;
 
-            if(actorIds != null)
+            if (actorIds != null)
             {
-                foreach(var actor in movie.Persons.Where(o => o.Type == MoviePersonType.Actor).ToList())
+                foreach (var actor in movie.Persons.Where(o => o.Type == MoviePersonType.Actor).ToList())
                 {
                     movie.Persons.Remove(actor);
                 }
@@ -150,9 +169,9 @@ namespace MovieDatabase.Data.Repository
                 }
             }
 
-            if(directorIds != null)
+            if (directorIds != null)
             {
-                foreach(var director in movie.Persons.Where(o => o.Type == MoviePersonType.Director).ToList())
+                foreach (var director in movie.Persons.Where(o => o.Type == MoviePersonType.Director).ToList())
                 {
                     movie.Persons.Remove(director);
                 }
@@ -178,6 +197,87 @@ namespace MovieDatabase.Data.Repository
                 return;
 
             Context.Movies.Remove(entity);
+            Context.SaveChanges();
+        }
+
+        public Rating CreateRate(long movieID, int score, string text, long? authorID, bool anonymous)
+        {
+            var movie = GetMovieByID(movieID);
+
+            var rating = new Rating()
+            {
+                Score = score,
+                Text = text,
+                UserID = authorID,
+                Anonymous = anonymous
+            };
+
+            movie.Ratings.Add(rating);
+            Context.SaveChanges();
+            return rating;
+        }
+
+        public IQueryable<Rating> GetRatesList(List<long> movieIDs, string text, int? minScore, int? maxScore)
+        {
+            var query = GetRatingsQuery(true);
+
+            if (movieIDs != null)
+                query = query.Where(o => movieIDs.Contains(o.MovieID));
+
+            if (!string.IsNullOrEmpty(text))
+                query = query.Where(o => o.Text.Contains(text));
+
+            if (minScore != null)
+                query = query.Where(o => o.Score >= minScore.Value);
+
+            if (maxScore != null)
+                query = query.Where(o => o.Score < maxScore.Value);
+
+            return query;
+        }
+
+        public Rating EditRate(long id, string text, long? newMovieID, int? newScore, bool? anonymous, long userID, bool isCurrentUserAdmin)
+        {
+            var rating = GetRatingsQuery(true)
+                .SingleOrDefault(o => o.ID == id);
+
+            if (rating == null)
+                return null;
+
+            if (rating.UserID != userID && !isCurrentUserAdmin)
+                throw new UnauthorizedAccessException();
+
+            if (!string.IsNullOrEmpty(text))
+                rating.Text = text;
+
+            if (newMovieID != null)
+                rating.MovieID = newMovieID.Value;
+
+            if (newScore != null)
+                rating.Score = newScore.Value;
+
+            if (anonymous != null)
+                rating.Anonymous = anonymous.Value;
+
+            Context.SaveChanges();
+
+            return GetRateById(id, true);
+        }
+
+        public Rating GetRateById(long id, bool allTables = false)
+        {
+            return GetRatingsQuery(allTables)
+                .SingleOrDefault(o => o.ID == id);
+        }
+
+        public void DeleteRate(long id)
+        {
+            var entity = GetRatingsQuery(false).SingleOrDefault(o => o.ID == id);
+
+            if (entity == null)
+                return;
+
+            Context.Rates.Remove(entity);
             Context.SaveChanges();
         }
     }

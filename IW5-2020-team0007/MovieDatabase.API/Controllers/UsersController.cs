@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MovieDatabase.API.Services;
+using MovieDatabase.Common.Extensions;
 using MovieDatabase.Data.Models.Common;
 using MovieDatabase.Data.Models.Users;
 using NSwag.Annotations;
@@ -77,7 +78,7 @@ namespace MovieDatabase.API.Controllers
         [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
         public IActionResult GetCurrentUserDetail()
         {
-            var currentUserID = Convert.ToInt64(HttpContext.User.FindFirstValue(ClaimTypes.Name));
+            var currentUserID = HttpContext.User.GetUserID();
             return Ok(UsersService.GetUserDetail(currentUserID));
         }
 
@@ -104,7 +105,7 @@ namespace MovieDatabase.API.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.OK)]
         public IActionResult UpdateCurrentUser([FromBody] UserEditRequest request)
         {
-            var currentUserID = Convert.ToInt64(HttpContext.User.FindFirstValue(ClaimTypes.Name));
+            var currentUserID = HttpContext.User.GetUserID();
             return Ok(UsersService.UpdateUser(currentUserID, request));
         }
 
@@ -131,7 +132,7 @@ namespace MovieDatabase.API.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public IActionResult ChangeCurrentUserPassword([FromBody] PasswordChangeRequest request)
         {
-            var currentUserID = Convert.ToInt64(HttpContext.User.FindFirstValue(ClaimTypes.Name));
+            var currentUserID = HttpContext.User.GetUserID();
             return Ok(UsersService.ChangePassword(currentUserID, request));
         }
 
@@ -156,7 +157,7 @@ namespace MovieDatabase.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public IActionResult DeleteCurrentUser()
         {
-            var currentUserID = Convert.ToInt64(HttpContext.User.FindFirstValue(ClaimTypes.Name));
+            var currentUserID = HttpContext.User.GetUserID();
             UsersService.DeleteUser(currentUserID);
             return Ok();
         }

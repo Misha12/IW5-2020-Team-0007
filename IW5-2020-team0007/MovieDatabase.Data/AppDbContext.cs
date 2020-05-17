@@ -37,5 +37,6 @@ namespace MovieDatabase.Data
         public DbSet<Person> Persons { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Rating> Rates { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MovieDatabase.Data.Models.Movies;
+using MovieDatabase.Data.Models.Users;
 
 namespace MovieDatabase.Data.Models.Ratings
 {
@@ -9,5 +10,6 @@ namespace MovieDatabase.Data.Models.Ratings
         public int Score { get; set; }
 
         public SimpleMovie Movie { get; set; }
+        public SimpleUser Author { get; set; }
     }
 }
