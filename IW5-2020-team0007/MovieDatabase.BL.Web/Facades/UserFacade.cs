@@ -27,6 +27,12 @@ namespace MovieDatabase.BL.Web.Facades
             UsersControllerClient _client = new UsersControllerClient(httpClient);
             return await _client.GetCurrentUserDetailAsync();
         }
+        public async Task<User> GeGetUserDetailAsync(String token, long ID)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            UsersControllerClient _client = new UsersControllerClient(httpClient);
+            return await _client.GetUserDetailAsync(ID);
+        }
         public async Task<PaginatedDataOfSimpleUser> GetUsersListAsync(String token, String userName, int? limit, int? page)
         {
             httpClient.DefaultRequestHeaders.Authorization= new AuthenticationHeaderValue("Bearer", token);

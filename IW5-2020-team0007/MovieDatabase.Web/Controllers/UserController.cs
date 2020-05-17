@@ -153,5 +153,11 @@ namespace MovieDatabase.Web.Controllers
         {
             await _userFacade.DeleteUserAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, long.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value));
         }
+        [HttpPost]
+        public async Task<User> GetUserDetail(long ID)
+        {
+            return await _userFacade.GetUserDetailAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value,ID);
+        }
+
     }
 }
