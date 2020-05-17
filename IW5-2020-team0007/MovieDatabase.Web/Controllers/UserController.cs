@@ -120,6 +120,7 @@ namespace MovieDatabase.Web.Controllers
             await _userFacade.CurrentUserUpdate(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userEditRequest);
             return RedirectToAction(nameof(Login));
         }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> RefreshToken()
@@ -127,12 +128,14 @@ namespace MovieDatabase.Web.Controllers
             await _clientFacade.RefreshAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, HttpContext.User.FindFirst(ClaimTypes.SerialNumber).Value);
             return RedirectToAction(nameof(Login));
         }
+
         [HttpPost]
         public async Task<IActionResult> GetUsersListAsync()
         {
             var a = await GetUserSSListAsync();
             return RedirectToAction(nameof(Login));
         }
+
         [HttpPost]
         public async Task<PaginatedDataOfSimpleUser> GetUserSSListAsync()
         {
@@ -146,23 +149,27 @@ namespace MovieDatabase.Web.Controllers
             var a = await _userFacade.ChangeCurrentUserPasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userPassViewModel.PasswordModel);
             return a;
         }
+
         [HttpPost]
         public async Task<User> ChangePassword(long ID,UserPassViewModel userPassViewModel)
         {
             var a = await _userFacade.ChangePasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID,userPassViewModel.PasswordModel);
             return a;
         }
+
         [HttpPost]
         public async Task<User> ChangeRole(long ID, RoleChangeRequest roleChange)
         {
             var a = await _userFacade.ChangeRoleAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID, roleChange);
             return a;
         }
+
         [HttpPost]
         public async Task DeleteCurrentAsync()
         {
             await _userFacade.DeleteUserAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, long.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value));
         }
+
         [HttpPost]
         public async Task<User> GetUserDetail(long ID)
         {

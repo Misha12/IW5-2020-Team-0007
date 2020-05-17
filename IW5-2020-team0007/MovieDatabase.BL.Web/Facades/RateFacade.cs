@@ -22,6 +22,7 @@ namespace MovieDatabase.BL.Web.Facades
             RatesControllerClient _client = new RatesControllerClient(httpClient);
             return await _client.CreateRateAsync(request);
         }
+
         public async Task<Rating> UpdateRateAsync(String token, long ID, EditRatingRequest request)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -35,6 +36,7 @@ namespace MovieDatabase.BL.Web.Facades
             RatesControllerClient _client = new RatesControllerClient(httpClient);
             await _client.DeleteRateAsync(ID);
         }
+
         public async Task<PaginatedDataOfRating> GetRatingsListAsync(String token, IEnumerable<long> ID, String text, int? scoreFrom, int? scoreTo, int? limit, int? page)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

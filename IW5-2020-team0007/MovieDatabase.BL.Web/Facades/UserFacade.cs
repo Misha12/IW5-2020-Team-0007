@@ -15,11 +15,13 @@ namespace MovieDatabase.BL.Web.Facades
         {
             this.httpClient = httpClient;
         }
+
         public async Task<SimpleUser> InsertAsync(RegisterRequest newUser)
         {
             UsersControllerClient _userClient = new UsersControllerClient(httpClient);
             return await _userClient.RegisterAsync(newUser);
         }
+
         public async Task<User> CurrentUserAsync(String token)
         {
             
@@ -27,18 +29,21 @@ namespace MovieDatabase.BL.Web.Facades
             UsersControllerClient _client = new UsersControllerClient(httpClient);
             return await _client.GetCurrentUserDetailAsync();
         }
+
         public async Task<User> GetUserDetailAsync(String token, long ID)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             UsersControllerClient _client = new UsersControllerClient(httpClient);
             return await _client.GetUserDetailAsync(ID);
         }
+
         public async Task<PaginatedDataOfSimpleUser> GetUsersListAsync(String token, String userName, int? limit, int? page)
         {
             httpClient.DefaultRequestHeaders.Authorization= new AuthenticationHeaderValue("Bearer", token);
             UsersControllerClient _client = new UsersControllerClient(httpClient);
             return await _client.GetUsersListAsync(userName,limit,page);
         }
+
         public async Task<ValidationProblemDetails> CurrentUserUpdate(String token, UserEditRequest userEditRequest)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -63,7 +68,7 @@ namespace MovieDatabase.BL.Web.Facades
             UsersControllerClient _client = new UsersControllerClient(httpClient);
             return await _client.ChangeRoleAsync(ID, request);
         }
-        //todo logout
+
         public async Task DeleteUserAsync(String token, long ID)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
