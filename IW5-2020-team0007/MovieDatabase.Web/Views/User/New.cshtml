@@ -4,22 +4,19 @@
     ViewData["Title"] = "Registration";
 }
 
-<h1>New</h1>
+    <p class="Page-Title">Registration</p>
 
-<h4>RegisterViewModel</h4>
 <hr />
 
 <form asp-controller="User" asp-action="Insert" method="post" role="form">
-    <input asp-for="UserModel.Email" type="email" name="Email" placeholder="Email" />
-    <input asp-for="UserModel.Username" type="text" name="Username" placeholder="Username" />
-    <input asp-for="UserModel.Password" type="password" name="Password" placeholder="Password" />
-    <input asp-for="UserModel.PasswordConfirm" type="password" name="PasswordConfirm" placeholder="PasswordConfirm" />
+    <input class="Register-input" asp-for="UserModel.Email" type="email" name="Email" placeholder="Email" />
+    <input class="Register-input" asp-for="UserModel.Username" type="text" name="Username" placeholder="Username" />
+    <input class="Register-input" asp-for="UserModel.Password" type="password" name="Password" placeholder="Password" />
+    <input class="Register-input" asp-for="UserModel.PasswordConfirm" type="password" name="PasswordConfirm" placeholder="Confirm Password" />
     <input type="submit" class="btn btn-primary" value="Register" />
 </form>
 
-<div>
-    <a asp-action="Index.cshtml">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
