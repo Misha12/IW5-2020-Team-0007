@@ -19,7 +19,6 @@ a {
     margin-top: 10px;
     align-self: center;
 }
-
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -90,6 +89,12 @@ body {
     color: #000000;
 }
 
+.btn-delete {
+    color: #fff;
+    background-color: #c26f1b;
+    border-color: #1861ac;
+    align-self: center;
+}
 /*User CSS
  --------------------------------------------------*/
 .User-button {
@@ -172,7 +177,7 @@ body {
     text-align: left;
     width: 60px;
     height: 90px;
-    padding: 2px;
+    padding: 10px;
 }
 
     .List-Item:nth-child(2n+1) {
@@ -183,15 +188,24 @@ body {
     width: 60px;
     text-align: center;
 }
-
+.List-Item-Date {
+    width: 100px;
+    text-align: center;
+}
 .List-Item-Photo {
     width: 60px;
     text-align: center;
+    margin-right:20px;
 }
 
 .List-Item-Photo-img {
     width: 60px;
     height: inherit;
     border: none;
-    margin: 0;
+    margin-right: 20px;
+}
+
+.List-Item-Btn {
+    width: 100px;
+    text-align: center;
 }
