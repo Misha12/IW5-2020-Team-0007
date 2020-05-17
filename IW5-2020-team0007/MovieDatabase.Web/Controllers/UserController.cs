@@ -26,6 +26,7 @@ namespace MovieDatabase.Web.Controllers
             _userFacade = facade;
             _clientFacade = clientFacade;
         }
+
         [HttpGet]
         public IActionResult New()
         {
@@ -63,6 +64,7 @@ namespace MovieDatabase.Web.Controllers
             await _userFacade.InsertAsync(personModel);
             return RedirectToAction(nameof(New));
         }
+
         /*
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest loginModel)
@@ -71,6 +73,7 @@ namespace MovieDatabase.Web.Controllers
             HttpContext.Session.SetString("AuthString", a.AccessToken);
             return RedirectToAction(nameof(Login));
         }*/
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest loginModel)
         {
@@ -92,17 +95,24 @@ namespace MovieDatabase.Web.Controllers
 
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity));
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties()
+                {
+                    ExpiresUtc = a.ExpiresAt,
+                    IssuedUtc = DateTimeOffset.UtcNow
+                });
+            
             return RedirectToAction(nameof(Login));
         }
-        [Authorize]
-        [HttpPost]
-        public async Task Logout()
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
+            return RedirectToAction("Login");
         }
+        
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditCurrentUser(UserEditRequest userEditRequest)
