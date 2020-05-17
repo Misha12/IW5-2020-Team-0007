@@ -1,26 +1,34 @@
 ﻿
-@{
-    ViewData["Title"] = "List";
-}
+@model MovieDatabase.Web.ViewModels.UserListViewModel
 
-<h1>List</h1>
+<p class="Page-Title">User list</p>
+
+<hr />
 <table class="List">
     <tr>
         <th>Id</th>
         <th>Username</th>
-        <th>Email</th>
         <th>Role</th>
         <th></th>
     </tr>
-    @*@foreach (var ingredient in Model.Users)
+    @{
+        foreach (var user in Model.listUser.Data)
         {
-             <partial name="_UserListItem" model="user" />
-        }*@
-<tr class="List-Item">
-    <td class="List-Item-Caption">1</td>
-    <td class="List-Item-Caption">Dark</td>
-    <td class="List-Item-Caption">dark.darker@mail.com</td>
-    <td class="List-Item-Role">admin</td>
-    <td class="List-Item-Btn"><button type="submit" class="btn btn-delete" value="1"  tag="Delete">Delete user</button></td>
-</tr>
+            <partial name="_UserListItem" model="user" />
+        } }
 </table>
+<div class="page-switcher">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>

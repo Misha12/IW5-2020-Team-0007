@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -46,9 +47,14 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult List()
-        {            
-            return View();
+        public async Task<IActionResult> List()
+        {
+            
+            var UserListViewModel = new UserListViewModel()
+            {
+                listUser = await GetUserSSListAsync()
+            };
+            return View(UserListViewModel);            
         }
 
         [HttpPost]

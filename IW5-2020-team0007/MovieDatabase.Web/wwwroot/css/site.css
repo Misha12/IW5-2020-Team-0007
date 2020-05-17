@@ -19,6 +19,7 @@ a {
     margin-top: 10px;
     align-self: center;
 }
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -92,21 +93,47 @@ body {
 .btn-delete {
     color: #fff;
     background-color: #c26f1b;
-    border-color: #1861ac;
+    border-color: #e2892e;
     align-self: center;
+}
+
+.top-navbar {
+    border-bottom: 1px solid #006432;
+    background-color: #006432 !important;
+}
+
+.nav-Item {
+    color: white;
+}
+
+.nav-Link:hover {
+    color: white;
+    background-color: #640032;
+    text-decoration: none;
+    border-radius: 0.25rem;
+}
+
+.nav-Link {
+    color: white;
+    display: block;
+    padding: .5rem 1rem;
+    padding-right: .5rem;
+    padding-left: .5rem;
+    background-color: transparent;
+    text-decoration: none;
 }
 /*User CSS
  --------------------------------------------------*/
 .User-button {
     display: block;
     padding: 0.5rem 1rem;
-    color: #343a40;
+    color: white;
     float: right;
     width: 200px;
 }
 
     .User-button:hover {
-        background-color: gray;
+        background-color: #640032;
         border-top-left-radius: 0.25rem;
         border-top-right-radius: 0.25rem;
         color: white;
@@ -123,7 +150,7 @@ body {
     z-index: 2;
     position: absolute;
     padding: 0.5rem;
-    background-color: gray;
+    background-color: #640032;
     border-bottom-left-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
     margin-top: 0.5rem;
@@ -140,14 +167,15 @@ body {
     .Login-input::placeholder {
         color: black;
     }
+
 .Register-input {
     border: thin solid #007bff;
     border-radius: 0.25rem;
     margin-top: 10px;
     padding: 0.1rem;
-    width:20%x;
-    min-width:250px;
-    margin-right:80%;
+    width: 20%x;
+    min-width: 250px;
+    margin-right: 80%;
 }
 
     .Register-input::placeholder {
@@ -157,7 +185,7 @@ body {
 .Login-input::placeholder {
     color: black;
 }
-/* Movies CSS
+/* List CSS
 --------------------------------------------------*/
 .List {
     width: -webkit-fill-available;
@@ -188,14 +216,16 @@ body {
     width: 60px;
     text-align: center;
 }
+
 .List-Item-Date {
     width: 100px;
     text-align: center;
 }
+
 .List-Item-Photo {
     width: 60px;
     text-align: center;
-    margin-right:20px;
+    margin-right: 20px;
 }
 
 .List-Item-Photo-img {
@@ -209,3 +239,24 @@ body {
     width: 100px;
     text-align: center;
 }
+
+.page-switcher {
+    margin: 20px;
+    align-self: center;
+}
+
+.page-item.disabled .page-link {
+    border: 1px solid grey;
+}
+
+.page-link {
+    background-color: #006432 !important;
+    color: white !important;
+    border: 1px solid grey;
+}
+
+    .page-link:hover {
+        background-color: #640032 !important;
+        color: white !important;
+        border: 1px solid grey;
+    }
