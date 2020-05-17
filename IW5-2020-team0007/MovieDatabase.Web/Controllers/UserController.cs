@@ -45,6 +45,12 @@ namespace MovieDatabase.Web.Controllers
             return View(loginViewModel);
         }
 
+        [HttpGet]
+        public IActionResult List()
+        {            
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Insert(RegisterRequest personModel)
         {

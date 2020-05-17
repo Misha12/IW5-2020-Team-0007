@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>List</h1>
+<table class="List">
+    <tr>
+        <th> </th>
+        <th>Title</th>
+        <th>Rating</th>
+    </tr>
+    @*@foreach (var ingredient in Model.Ingredients)
+        {
+             <partial name="_MovieListItem" model="movie" />
+        }*@
+    <tr class="List-Item">
+        <td class="List-Item-Photo"> <img class="List-Item-Photo-img" src="https://upload.wikimedia.org/wikipedia/en/a/af/Disaster_movie.jpg" /> </td>
+        <td class="List-Item-Caption">Super Cool Movie</td>
+        <td class="List-Item-Rating">9/10</td>
+    </tr>
+</table>

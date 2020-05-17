@@ -80,7 +80,17 @@ body {
     line-height: 60px; /* Vertically center the text there */
 }
 
-/*Our CSS
+/* General styles
+--------------------------------------------------*/
+.Page-Title {
+    font-family: 'Arial Narrow Bold', sans-serif;
+    font-size: 30px;
+    margin: 0;
+    width: 100%;
+    color: #000000;
+}
+
+/*User CSS
  --------------------------------------------------*/
 .User-button {
     display: block;
@@ -125,12 +135,30 @@ body {
     .Login-input::placeholder {
         color: black;
     }
+.Register-input {
+    border: thin solid #007bff;
+    border-radius: 0.25rem;
+    margin-top: 10px;
+    padding: 0.1rem;
+    width:20%x;
+    min-width:250px;
+    margin-right:80%;
+}
 
-.Movie-List {
+    .Register-input::placeholder {
+        color: black;
+    }
+
+.Login-input::placeholder {
+    color: black;
+}
+/* Movies CSS
+--------------------------------------------------*/
+.List {
     width: -webkit-fill-available;
 }
 
-    .Movie-List caption {
+    .List caption {
         font-family: 'Arial Narrow Bold', sans-serif;
         font-size: 30px;
         margin: 0;
@@ -139,7 +167,7 @@ body {
         color: #000000;
     }
 
-.Movie-List-Item {
+.List-Item {
     background: linear-gradient(to right,lightgray,#e0e0e0);
     text-align: left;
     width: 60px;
@@ -147,22 +175,23 @@ body {
     padding: 2px;
 }
 
-    .Movie-List-Item:nth-child(2n+1) {
+    .List-Item:nth-child(2n+1) {
         background: linear-gradient(to right,lightgray, #c6c6c6);
     }
 
-.Movie-List-Item-Rating {
-    width:60px;
-    text-align:center;
-}
-
-.Movie-List-Item-Photo {
+.List-Item-Rating {
     width: 60px;
     text-align: center;
 }
-    .Movie-List-Item-Photo-img {
-    width: 60px ;
+
+.List-Item-Photo {
+    width: 60px;
+    text-align: center;
+}
+
+.List-Item-Photo-img {
+    width: 60px;
     height: inherit;
-    border:none;
-    margin:0;
+    border: none;
+    margin: 0;
 }
