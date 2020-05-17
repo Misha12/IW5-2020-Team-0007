@@ -1,34 +1,34 @@
 ﻿
-<table class="Movie-List">
-    <caption class="Movie-List-Caption">Movies List</caption>
-    <tr>
-        <th></th>
-        <th>Title</th>
-        <th>Rating</th>
-    </tr>
-    @*@foreach (var ingredient in Model.Ingredients)
-   {
-        <partial name="_MovieListItem" model="movie" />
-   }*@
-    <tr class="Movie-List-Item">
-        <td>Photo</td>
-        <td class="Movie-List-Item-Caption">Super Cool Movie</td>
-        <td class="Movie-List-Item-Rating">9/10</td>
-    </tr>
-    <tr class="Movie-List-Item">
-        <td>Photo</td>
-        <td class="Movie-List-Item-Caption">Super Cool Movie</td>
-        <td class="Movie-List-Item-Rating">9/10</td>
-    </tr>
-    <tr class="Movie-List-Item">
-        <td>Photo</td>
-        <td class="Movie-List-Item-Caption">Super Cool Movie</td>
-        <td class="Movie-List-Item-Rating">9/10</td>
-    </tr>
-    <tr class="Movie-List-Item">
-        <td>Photo</td>
-        <td class="Movie-List-Item-Caption">Super Cool Movie</td>
-        <td class="Movie-List-Item-Rating">9/10</td>
-    </tr>
+    <table class="Movie-List">
+        <caption class="Movie-List-Caption">Movies List</caption>
+        <tr>
+            <th> </th>
+            <th>Title</th>
+            <th>Rating</th>
+        </tr>
+        @*@foreach (var ingredient in Model.Ingredients)
+        {
+             <partial name="_MovieListItem" model="movie" />
+        }*@
+        <tr class="Movie-List-Item">
+            <td class="Movie-List-Item-Photo"> <img class="Movie-List-Item-Photo-img" src="https://upload.wikimedia.org/wikipedia/en/a/af/Disaster_movie.jpg" /> </td>
+            <td class="Movie-List-Item-Caption">Super Cool Movie</td>
+            <td class="Movie-List-Item-Rating">9/10</td>
+        </tr>
+        <tr class="Movie-List-Item">
+            <td class="Movie-List-Item-Photo"> <img class="Movie-List-Item-Photo-img" src="https://upload.wikimedia.org/wikipedia/en/a/af/Disaster_movie.jpg" /> </td>
+            <td class="Movie-List-Item-Caption">Super Cool Movie</td>
+            <td class="Movie-List-Item-Rating">9/10</td>
+        </tr>
+        <tr class="Movie-List-Item">
+            <td class="Movie-List-Item-Photo"> <img class="Movie-List-Item-Photo-img" src="https://upload.wikimedia.org/wikipedia/en/a/af/Disaster_movie.jpg" /> </td>
+            <td class="Movie-List-Item-Caption">Super Cool Movie</td>
+            <td class="Movie-List-Item-Rating">9/10</td>
+        </tr>
+        <tr class="Movie-List-Item">
+            <td class="Movie-List-Item-Photo"> <img class="Movie-List-Item-Photo-img" src="https://upload.wikimedia.org/wikipedia/en/a/af/Disaster_movie.jpg" /> </td>
+            <td class="Movie-List-Item-Caption">Super Cool Movie</td>
+            <td class="Movie-List-Item-Rating">9/10</td>
+        </tr>
 
-</table>
+    </table>
