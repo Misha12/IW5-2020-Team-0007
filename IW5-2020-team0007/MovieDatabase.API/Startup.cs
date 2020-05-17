@@ -75,6 +75,7 @@ namespace MovieDatabase.API
             services
                 .AddCors()
                 .AddControllers()
+                .AddNewtonsoftJson()
                 .AddJsonOptions(opt =>
                 {
                     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -103,6 +104,7 @@ namespace MovieDatabase.API
                 .AddScoped<UsersService>()
                 .AddScoped<MovieService>()
                 .AddScoped<RatesService>()
+                .AddScoped<SearchService>()
                 .AddTransient<AuthService>();
         }
 

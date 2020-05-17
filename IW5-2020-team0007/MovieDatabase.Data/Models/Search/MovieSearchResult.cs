@@ -12,7 +12,7 @@ namespace MovieDatabase.Data.Models.Search
         }
 
         public long ID { get; set; }
-        public string Name { get; set; }
+        public string OriginalName { get; set; }
         public List<MovieName> Names { get; set; }
         public string Country { get; set; }
         public long Length { get; set; }

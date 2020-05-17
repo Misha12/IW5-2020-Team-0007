@@ -18,6 +18,7 @@ namespace MovieDatabase.Data.MappingProfiles
                 .MapMember(dst => dst.MemberFrom, src => src.RegisteredAt);
 
             CreateMap<Rating, RatingSearchResult>()
+                .MapMember(dst => dst.User, src => src.Anonymous ? null : src.User)
                 .MapMember(dst => dst.ShortText, src => src.Text.Substring(0, 150));
         }
     }

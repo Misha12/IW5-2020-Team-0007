@@ -8,8 +8,8 @@ namespace MovieDatabase.Data.MappingProfiles
     {
         public UserMappingProfile()
         {
-            CreateMap<UserEntity, User>();
             CreateMap<UserEntity, SimpleUser>();
+            CreateMap<UserEntity, User>();
         }
     }
 }
