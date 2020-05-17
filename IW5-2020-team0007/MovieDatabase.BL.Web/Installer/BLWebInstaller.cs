@@ -17,6 +17,8 @@ namespace MovieDatabase.BL.Web.Installer
             serviceCollection.AddTransient<ClientFacade>();
             serviceCollection.AddTransient<MovieFacade>();
             serviceCollection.AddTransient<RateFacade>();
+            serviceCollection.AddTransient<GenreFacade>();
+            serviceCollection.AddTransient<PersonFacade>();
         }
     }
 }

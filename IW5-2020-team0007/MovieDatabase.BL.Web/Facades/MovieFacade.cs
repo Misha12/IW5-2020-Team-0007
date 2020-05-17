@@ -25,7 +25,6 @@ namespace MovieDatabase.BL.Web.Facades
 
         public async Task<PaginatedDataOfSimpleMovie> GetMoviesListAsync(String token,String name,IEnumerable<int> genresIds, String country, long? lengthFrom, long? lengthTo, int? limit, int? page)
         {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             MoviesControllerClient _movieClient = new MoviesControllerClient(httpClient);
             var a = await _movieClient.GetMoviesListAsync(name, genresIds, country, lengthFrom, lengthTo, limit, page);
             return a;
