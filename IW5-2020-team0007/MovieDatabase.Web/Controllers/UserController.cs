@@ -50,12 +50,23 @@ namespace MovieDatabase.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            
+
             var UserListViewModel = new UserListViewModel()
             {
                 listUser = await GetUserSSListAsync()
             };
-            return View(UserListViewModel);            
+            return View(UserListViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail()
+        {
+
+            var DetailUserViewModel = new DetailUserViewModel()
+            {
+                UserModel = await GetUserDetail(long.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            };
+            return View(DetailUserViewModel);
         }
 
         [HttpPost]
@@ -77,9 +88,9 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest loginModel)
         {
-            
+
             var a = await _clientFacade.LoginAsync(loginModel);
-            
+
             User thisUser = await _userFacade.CurrentUserAsync(a.AccessToken);
 
             var claims = new List<Claim>
@@ -102,7 +113,7 @@ namespace MovieDatabase.Web.Controllers
                     ExpiresUtc = a.ExpiresAt,
                     IssuedUtc = DateTimeOffset.UtcNow
                 });
-            
+
             return RedirectToAction(nameof(Login));
         }
 
@@ -112,7 +123,7 @@ namespace MovieDatabase.Web.Controllers
             await HttpContext.SignOutAsync();
             return RedirectToAction("Login");
         }
-        
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> EditCurrentUser(UserEditRequest userEditRequest)
