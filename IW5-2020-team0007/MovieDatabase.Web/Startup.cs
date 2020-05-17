@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using MovieDatabase.BL.Web.Installer;
 using Microsoft.Extensions.Options;
 using System.Globalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MovieDatabase.Web
 {
@@ -29,6 +30,14 @@ namespace MovieDatabase.Web
             services.AddControllersWithViews();
             var installer = new BLWebInstaller();
             installer.Installer(services);
+            services.AddDistributedMemoryCache();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +59,8 @@ namespace MovieDatabase.Web
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
