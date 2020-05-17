@@ -27,7 +27,7 @@ namespace MovieDatabase.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        [OpenApiOperation("login")]
+        [OpenApiOperation(nameof(AuthController) + "_" + nameof(Login))]
         [ProducesResponseType(typeof(AuthToken), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(UnauthorizedResponse), (int)HttpStatusCode.Unauthorized)]
         public IActionResult Login([FromBody] LoginRequest request)
@@ -46,7 +46,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpPost("refresh")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
-        [OpenApiOperation("refreshToken")]
+        [OpenApiOperation(nameof(AuthController) + "_" + nameof(RefreshToken))]
         [ProducesResponseType(typeof(AuthToken), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(UnauthorizedResponse), (int)HttpStatusCode.NotFound)]
         public IActionResult RefreshToken([FromQuery] string refreshToken)
@@ -65,7 +65,7 @@ namespace MovieDatabase.API.Controllers
 
         [HttpDelete("refresh")]
         [Authorize(Roles = "User,ContentManager,Administrator")]
-        [OpenApiOperation("deleteAllTokens")]
+        [OpenApiOperation(nameof(AuthController) + "_" + nameof(DeleteAllTokens))]
         [ProducesResponseType(typeof(DeleteAllTokensResponse), (int)HttpStatusCode.OK)]
         public IActionResult DeleteAllTokens()
         {
