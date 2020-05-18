@@ -29,7 +29,7 @@ a {
 
 .btn-detail {
     color: #fff;
-    font-weight:600;
+    font-weight: 600;
     background-color: #310064;
     border: 1px solid #310064;
     align-self: center;
@@ -388,10 +388,12 @@ th {
     background-color: #359A68 !important;
     color: white !important;
 }
+
 .our-dark-green {
-    background-color: #359A68 !important;
+    background-color: #006431 !important;
     color: white !important;
 }
+
 .our-dark-blue {
     background-color: #310064 !important;
 }
@@ -400,6 +402,17 @@ th {
     background-color: lightgray !important;
 }
 
+.our-dark-gray {
+    background-color: grey !important;
+}
+
+.our-dark-red {
+    background-color: #640900 !important;
+}
+
+.border-none {
+    border: none !important;
+}
 
 .margin-top {
     margin-top: 25px;
