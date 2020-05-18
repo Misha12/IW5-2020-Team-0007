@@ -38,14 +38,14 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<PaginatedDataOfSimpleMovie> GetMoviesList(String name, IEnumerable<int> genresIds, String country, long? lengthFrom, long? lengthTo, int? limit, int? page)
         {
-            var a = await movieFacade.GetMoviesListAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, name, genresIds, country, lengthFrom, lengthTo, limit, page);
+            var a = await movieFacade.GetMoviesListAsync(name, genresIds, country, lengthFrom, lengthTo, limit, page);
             return a;
         }
 
         [HttpPost]
         public async Task<Movie> GetMovieDetail(long ID)
         {
-            var a = await movieFacade.GetMovieDetailAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID);
+            var a = await movieFacade.GetMovieDetailAsync(ID);
             return a;
         }
 
