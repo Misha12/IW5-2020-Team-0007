@@ -1,6 +1,7 @@
 ﻿using MovieDatabase.Web;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -52,6 +53,13 @@ namespace MovieDatabase.BL.Web.Facades
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             PersonsControllerClient _personClient = new PersonsControllerClient(httpClient);
             await _personClient.DeletePersonAsync(long.Parse(ID));
+        }
+
+        public async Task<List<PersonFilterItem>> GetPersonsFilterDataAsync()
+        {
+            PersonsControllerClient _personClient = new PersonsControllerClient(httpClient);
+            var data  = await _personClient.GetPersonsFilterDataAsync();
+            return data.ToList();
         }
     }
 }

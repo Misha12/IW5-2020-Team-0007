@@ -15,18 +15,20 @@ namespace MovieDatabase.Web.Controllers
         private protected MovieFacade movieFacade;
         private protected RateFacade rateFacade;
         private readonly GenreFacade genreFacade;
+        private readonly PersonFacade personFacade;
 
-        public MovieController(MovieFacade facade, RateFacade _rateFacade, GenreFacade _genreFacade)
+        public MovieController(MovieFacade facade, RateFacade _rateFacade, GenreFacade _genreFacade, PersonFacade _personFacade)
         {
             movieFacade = facade;
             rateFacade = _rateFacade;
             genreFacade = _genreFacade;
+            personFacade = _personFacade;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateMovie(CreateMovieRequest movie)
         {
-            await movieFacade.CreateMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value,movie);
+            await movieFacade.CreateMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, movie);
             return RedirectToAction(nameof(Index));
         }
 
@@ -57,8 +59,21 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateMovie(MovieUpdateViewModel updateMovie)
         {
-            await movieFacade.UpdateMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, updateMovie.ID, updateMovie.MovieRequest);
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            try
+            {
+                var token = HttpContext.User.FindFirst(ClaimTypes.Hash).Value;
+                updateMovie.MovieRequest.Length = Convert.ToInt64(updateMovie.Length.TotalMinutes);
+
+                await movieFacade.UpdateMovieAsync(token, updateMovie.ID, updateMovie.MovieRequest);
+                TempData["SaveSuccess"] = true;
+                return RedirectToAction(nameof(Detail), new { updateMovie.ID, page = 1 });
+            }
+            catch (ApiException)
+            {
+                // Catched on api side
+                TempData["SaveSuccess"] = false;
+                return RedirectToAction(nameof(Detail), new { updateMovie.ID, page = 1 });
+            }
         }
 
         [HttpPost]
@@ -68,32 +83,142 @@ namespace MovieDatabase.Web.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> List(int page)
+        [HttpGet]
+        public async Task<IActionResult> List(int page = 1)
         {
-
             var MovieListViewModel = new MovieListViewModel()
             {
-                listMovie = await GetMoviesList(null,null,null,null,null,5,page)
+                listMovie = await GetMoviesList(null, null, null, null, null, 5, page)
             };
+
             return View(MovieListViewModel);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Detail(long ID, int page)
         {
             var token = HttpContext.User.FindFirst(ClaimTypes.Hash)?.Value;
             var ratings = await rateFacade.GetRatingsListAsync(token, new List<long> { ID }, null, null, null, 5, page);
             var genres = await genreFacade.GetGenresListAsync(null);
+            var persons = await personFacade.GetPersonsFilterDataAsync();
+
+            bool? saveSuccess = null;
+            if (TempData.ContainsKey("SaveSuccess"))
+            {
+                saveSuccess = (bool)TempData["SaveSuccess"];
+                TempData.Remove("SaveSuccess");
+            }
 
             var MovieDetailViewModel = new MovieDetailViewModel()
             {
                 DetailMovieModel = await GetMovieDetail(ID),
                 ListRatingModel = ratings,
-                Genres = genres.ToList()
+                Genres = genres.ToList(),
+                Persons = persons,
+                SaveSuccess = saveSuccess
             };
-            
+
             return View(MovieDetailViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateActors(long ID, List<long> actors, long? toRemoveActor)
+        {
+            try
+            {
+                var token = HttpContext.User.FindFirst(ClaimTypes.Hash).Value;
+
+                if (toRemoveActor != null)
+                    actors.Remove(toRemoveActor.Value);
+
+                var request = new EditMovieRequest() { Actors = actors };
+                await movieFacade.UpdateMovieAsync(token, ID, request);
+                TempData["SaveSuccess"] = true;
+                return RedirectToAction(nameof(Detail), new { ID, page = 1 });
+            }
+            catch (ApiException)
+            {
+                // Catched on api side
+                TempData["SaveSuccess"] = false;
+                return RedirectToAction(nameof(Detail), new { ID, page = 1 });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateDirectors(long ID, List<long> directors, long? toRemoveDirector)
+        {
+            try
+            {
+                var token = HttpContext.User.FindFirst(ClaimTypes.Hash).Value;
+
+                if (toRemoveDirector != null)
+                    directors.Remove(toRemoveDirector.Value);
+
+                var request = new EditMovieRequest() { Directors = directors };
+                await movieFacade.UpdateMovieAsync(token, ID, request);
+                TempData["SaveSuccess"] = true;
+                return RedirectToAction(nameof(Detail), new { ID, page = 1 });
+            }
+            catch (ApiException)
+            {
+                // Catched on api side
+                TempData["SaveSuccess"] = false;
+                return RedirectToAction(nameof(Detail), new { ID, page = 1 });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRate(long ID, string text, bool anonymous, int score)
+        {
+            try
+            {
+                var token = HttpContext.User.FindFirst(ClaimTypes.Hash).Value;
+
+                var rateRequest = new CreateRateRequest()
+                {
+                    Anonymous = anonymous,
+                    MovieID = ID,
+                    Score = score,
+                    Text = text
+                };
+
+                await rateFacade.CreateRateAsync(token, rateRequest);
+                return RedirectToAction(nameof(Detail), new { ID, page = 1 });
+            }
+            catch (ApiException)
+            {
+                // Catched on api side
+                return RedirectToAction(nameof(Detail), new { ID, page = 1 });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRate(long id, long movieId)
+        {
+            var token = HttpContext.User.FindFirst(ClaimTypes.Hash).Value;
+            await rateFacade.DeleteRateAsync(token, id);
+            return RedirectToAction(nameof(Detail), new { ID = movieId, page = 1 });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ClearAllGenres(long id)
+        {
+            try
+            {
+                var token = HttpContext.User.FindFirst(ClaimTypes.Hash).Value;
+
+                var request = new EditMovieRequest() { GenreIds = new List<int>() };
+
+                await movieFacade.UpdateMovieAsync(token, id, request);
+                TempData["SaveSuccess"] = true;
+                return RedirectToAction(nameof(Detail), new { id, page = 1 });
+            }
+            catch (ApiException)
+            {
+                // Catched on api side
+                TempData["SaveSuccess"] = false;
+                return RedirectToAction(nameof(Detail), new { id, page = 1 });
+            }
         }
     }
 }
