@@ -19,7 +19,6 @@
             rates.Add(member.RatingResult);
         }
     }
-
     if (!movies.Count().Equals(0))
     {
         <p class="Page-Title">Movies</p>
@@ -45,6 +44,10 @@
 
             }
         </table>
+    }
+    else
+    {
+        <p class="Page-Title">No match in movies.</p>
     }
     if (!person.Count().Equals(0))
     {
@@ -72,6 +75,38 @@
 
             }
         </table>
+    }
+    else
+    {
+        <p class="Page-Title">No match in persons.</p>
+    }
+    if (!rates.Count().Equals(0))
+    {
+        <p class="Page-Title">Rates</p>
+        <table class="List">
+            <tr>
+                <th>Movie</th>
+                <th>Name</th>
+                <th>Text</th>
+                <th>Score</th>
+            </tr>
+            @{
+                foreach (var result in rates)
+                {
+                    <tr class="List-Item">
+                        <td class="List-Item-Caption">@result.Movie.OriginalName</td>
+                        <td class="List-Item-Caption">@result.User.Username</td>
+                        <td class="List-Item-Caption">@result.ShortText</td>
+                        <td class="List-Item-Caption">@result.Score</td>
+                    </tr>
+                }
+
+            }
+        </table>
+    }
+    else
+    {
+        <p class="Page-Title">No match in ratings.</p>
     }
 
 }
