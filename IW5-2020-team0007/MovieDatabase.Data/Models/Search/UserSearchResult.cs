@@ -3,13 +3,8 @@ using System;
 
 namespace MovieDatabase.Data.Models.Search
 {
-    public class UserSearchResult : SearchResultBase
+    public class UserSearchResult
     {
-        public UserSearchResult()
-        {
-            Type = SearchResultType.User;
-        }
-
         /// <summary>
         /// Unique ID of user.
         /// </summary>

@@ -4,13 +4,8 @@ using System.Collections.Generic;
 
 namespace MovieDatabase.Data.Models.Search
 {
-    public class MovieSearchResult : SearchResultBase
+    public class MovieSearchResult
     {
-        public MovieSearchResult()
-        {
-            Type = SearchResultType.Movie;
-        }
-
         /// <summary>
         /// Unique ID of movie.
         /// </summary>

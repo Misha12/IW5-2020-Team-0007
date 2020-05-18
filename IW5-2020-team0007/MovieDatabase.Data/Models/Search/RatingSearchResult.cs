@@ -4,13 +4,8 @@ using MovieDatabase.Data.Models.Users;
 
 namespace MovieDatabase.Data.Models.Search
 {
-    public class RatingSearchResult : SearchResultBase
+    public class RatingSearchResult
     {
-        public RatingSearchResult()
-        {
-            Type = SearchResultType.Rating;
-        }
-
         /// <summary>
         /// Short text of rating. Text is cuted to 150 characters.
         /// </summary>

@@ -25,7 +25,7 @@ namespace MovieDatabase.API.Controllers
         [HttpGet]
         [AllowAnonymous]
         [OpenApiOperation(nameof(SearchController) + "_" + nameof(Search))]
-        [ProducesResponseType(typeof(PaginatedData<SearchResultBase>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(PaginatedData<SearchResult>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Search([FromQuery] SearchRequest request)
         {

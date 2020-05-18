@@ -63,7 +63,7 @@
                                 <label class="d-block mb-0">
                                     Genres
 
-                                    @if (Model.DetailMovieModel.Genres.Count > 0)
+                                    @if (Model.DetailMovieModel.Genres.Count > 0 && string.IsNullOrEmpty(disabled))
                                     {
                                         <a asp-controller="Movie" asp-action="ClearAllGenres" asp-route-id="@Model.DetailMovieModel.Id" class="badge badge-danger">Clear all</a>
                                     }
@@ -234,13 +234,13 @@
     </form>
 </div>
 
-@if (Model.ListRatingModel.Data.Count > 0)
-{
-    <div class="card mt-3">
-        <h5 class="card-header">
-            <div class="d-flex justify-content-between">
-                <div>Hodnocení</div>
-                <div>
+<div class="card mt-3">
+    <h5 class="card-header">
+        <div class="d-flex justify-content-between">
+            <div>Ratings</div>
+            <div>
+                @if (Model.ListRatingModel.Data.Count > 0)
+                {
                     @if (Model.AvgRatingScore < 50)
                     {
                         <span class="badge badge-danger">@Model.AvgRatingScore %</span>
@@ -253,11 +253,14 @@
                     {
                         <span class="badge badge-success">@Model.AvgRatingScore %</span>
                     }
-                </div>
+                }
             </div>
-        </h5>
+        </div>
+    </h5>
 
-        <div class="card-body">
+    <div class="card-body">
+        @if (Model.ListRatingModel.Data.Count > 0)
+        {
             @foreach (var rating in Model.ListRatingModel.Data)
             {
                 <div class="card bg-transparent mb-2">
@@ -316,38 +319,38 @@
                     </ul>
                 </nav>
             </div>
+        }
 
-            <form method="post" asp-controller="Movie" asp-action="CreateRate">
-                <div class="card bg-transparent mb-2">
-                    <div class="card-body">
-                        <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+        <form method="post" asp-controller="Movie" asp-action="CreateRate">
+            <div class="card bg-transparent mb-2">
+                <div class="card-body">
+                    <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
 
-                        <div class="form-group">
-                            <textarea class="form-control" style="height: 250px; resize: none" name="text"></textarea>
+                    <div class="form-group">
+                        <textarea class="form-control" style="height: 250px; resize: none" name="text"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="anonymous" name="anonymous">
+                                <label class="custom-control-label" for="anonymous">Anonymous</label>
+                            </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="anonymous" name="anonymous">
-                                    <label class="custom-control-label" for="anonymous">Anonymous</label>
-                                </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Score (%)</label>
+                                <input type="number" class="form-control" min="0" max="100" value="0" name="score" />
                             </div>
+                        </div>
 
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Score (%)</label>
-                                    <input type="number" class="form-control" min="0" max="100" value="0" name="score" />
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Create rate</button>
-                            </div>
+                        <div class="col-md-2 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Create rate</button>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
-}
+</div>

@@ -8,16 +8,17 @@ namespace MovieDatabase.Data.Models.Search
     /// <summary>
     /// Base data of search.
     /// </summary>
-    [KnownType(typeof(MovieSearchResult))]
-    [KnownType(typeof(PersonSearchResult))]
-    [KnownType(typeof(RatingSearchResult))]
-    [KnownType(typeof(UserSearchResult))]
-    public class SearchResultBase
+    public class SearchResult
     {
         /// <summary>
         /// Type of entity.
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public SearchResultType Type { get; set; }
+
+        public MovieSearchResult MovieResult { get; set; }
+        public PersonSearchResult PersonResult { get; set; }
+        public UserSearchResult UserResult { get; set; }
+        public RatingSearchResult RatingResult { get; set; }
     }
 }
