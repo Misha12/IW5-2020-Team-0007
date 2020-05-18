@@ -2,13 +2,8 @@
 
 namespace MovieDatabase.Data.Models.Search
 {
-    public class PersonSearchResult : SearchResultBase
+    public class PersonSearchResult
     {
-        public PersonSearchResult()
-        {
-            Type = SearchResultType.Person;
-        }
-
         /// <summary>
         /// Unique ID of person.
         /// </summary>
