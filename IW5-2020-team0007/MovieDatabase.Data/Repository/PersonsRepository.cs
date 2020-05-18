@@ -18,7 +18,11 @@ namespace MovieDatabase.Data.Repository
             var query = Context.Persons.AsQueryable();
 
             if (includeMovies)
-                query = query.Include(o => o.Movies);
+                query = query
+                    .Include(o => o.Movies)
+                    .ThenInclude(o => o.Movie)
+                    .ThenInclude(o => o.Genres)
+                    .ThenInclude(o => o.Genre);
 
             return query;
         }
