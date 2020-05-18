@@ -184,5 +184,17 @@ namespace MovieDatabase.Web.Controllers
             return await _userFacade.GetUserDetailAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value,ID);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AdminDetail(long ID)
+        {
+            var DetailUserViewModel = new DetailUserViewModel()
+            {
+                UserModel = await GetUserDetail(ID)
+            };
+            return View(DetailUserViewModel);
+        }
+
+
+
     }
 }

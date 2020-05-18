@@ -3,9 +3,13 @@
 <tr class="List-Item">
     <td class="List-Item-Caption">@Model.Id</td>
     <td class="List-Item-Caption">@Model.Username</td>
-    <td class="List-Item-Role">@Model.Role
+    <td class="List-Item-Role">@Model.Role</td>
+    <td class="List-Item-Btn">
+        <form asp-controller="User" asp-action="AdminDetail" method="post" role="form">
+            <input class="Login-input" type="hidden" name="ID" value="@Model.Id" />
+            <button type="submit" class="page-link" href="#">Detail</button>
+        </form>
     </td>
-
     <td class="List-Item-Btn"><button type="submit" class="btn btn-delete" value="1" tag="Delete">Delete</button></td>
 </tr>
 
