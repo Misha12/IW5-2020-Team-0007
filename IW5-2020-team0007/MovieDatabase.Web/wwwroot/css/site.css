@@ -22,9 +22,15 @@ a {
 .btn-detail {
     color: #fff;
     background-color: #310064;
-    border-color: #310064;
+    border: 1px solid #310064;
     align-self: center;
 }
+    .btn-detail:hover {
+        color: #fff;
+        background-color: #310064;
+        border: 1px solid white;
+        align-self: center;
+    }
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -328,3 +334,12 @@ th{
         border: none;
         background-color: transparent;
     }
+/*Colors
+*/
+.our-light-green {
+    background-color: #359A68 !important;
+    color: white !important;
+}
+.our-dark-blue {
+    background-color: #310064 !important;
+}

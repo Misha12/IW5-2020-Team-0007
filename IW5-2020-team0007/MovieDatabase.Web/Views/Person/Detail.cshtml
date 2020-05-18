@@ -13,33 +13,72 @@
         disabled = "disabled";
     }
 }
-<form asp-controller="Person" asp-action="UpdatePerson" method="post" role="form">
-    <input @disabled class="Page-Title Detail-input" type="text" name="EditPerson.OriginalName" value="@Model.PersonDetailModel.Name @Model.PersonDetailModel.Surname" placeholder="Original name" />
-    <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
 
 
-    <div class="Detail-info">
-        <div class="Detail-info-photo" style="background-image: url('@Model.PersonDetailModel.ProfilePictureUrl')" ></div>
-        <div class="Detail-info-basic">
-            @if (disabled == "")
-            {
-                <div class="Detail-info-row">
-                    <text class="Detail-info-row-caption">Image URL:</text>
-                    <input @disabled class="Detail-input" type="url" name="EditPerson.ProfilePictureUrl" value="@Model.PersonDetailModel.ProfilePictureUrl" placeholder="URL of image" />
+<form asp-controller="Person" asp-action="UpdatePerson" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 our-light-green">
+                <div class="row no-gutters">
+                    <div class="col-md-2">
+                        <img class="bg-placeholder-img rounded-left" width="100%" height="250" src="@Model.PersonDetailModel.ProfilePictureUrl" alt="@Model.PersonDetailModel.Name" />
+                    </div>
+                    <div class="col-md">
+                        <div class="card-body">
+                            <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input @disabled type="text" class="form-control form-control-lg " name="EditPerson.Name" value="@Model.PersonDetailModel.Name" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input @disabled type="text" class="form-control form-control-lg " name="EditPerson.Surname" value="@Model.PersonDetailModel.Surname" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Age</label>
+                                        <input disabled type="text" class="form-control form-control-sm" name="EditPerson.Age" value="@Model.PersonDetailModel.Age" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Date of birth</label>
+                                        <input @disabled type="date" class="form-control form-control-sm" name="EditPerson.Birthdate" value="@Model.PersonDetailModel.Birthdate.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="mb-0">Image URL</label>
+                                        <input @disabled type="url" class="form-control form-control-sm" name="EditPerson.ProfilePictureUrl" value="@Model.PersonDetailModel.ProfilePictureUrl" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            }
-            <div class="Detail-info-row">
-                <text class="Detail-info-row-caption">Age:</text>
-                <input disabled class="Detail-input" type="text" maxlength="5" name="EditPerson.Age" value="@Model.PersonDetailModel.Age" placeholder="Age" />
             </div>
-            <div class="Detail-info-row">
-                <text class="Detail-info-row-caption">Birthdate:</text>
-                <input @disabled class="Detail-input" type="date" name="EditPerson.Birthdate" value="@Model.PersonDetailModel.Birthdate.ToString("yyyy-MM-dd")" placeholder="Birthdate" />
-            </div>
-            @if (disabled == "")
-            {
-                <input type="submit" class="btn btn-primary" value="Submit" />
-            }
         </div>
-    </div>
+
+
+        @if (string.IsNullOrEmpty(disabled))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <input type="submit" class="btn btn-primary" value="Save changes" />
+                    </div>
+                </div>
+            </div>
+        }
 </form>
+

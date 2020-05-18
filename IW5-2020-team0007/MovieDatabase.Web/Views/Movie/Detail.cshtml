@@ -18,7 +18,7 @@
 <form asp-controller="Movie" asp-action="UpdateMovie" method="post">
     <div class="row">
         <div class="col-md-12">
-            <div class="card mb-3">
+            <div class="card mb-3 our-light-green">
                 <div class="row no-gutters">
                     <div class="col-md-2">
                         <img class="bg-placeholder-img rounded-left" width="100%" height="250" src="@Model.DetailMovieModel.TitleImageUrl" alt="@Model.DetailMovieModel.OriginalName" />
@@ -90,7 +90,7 @@
                                 {
                                     @foreach (var genre in Model.DetailMovieModel.Genres)
                                     {
-                                        <span class="badge badge-primary">@genre.Name</span>
+                                        <span class="badge badge-primary our-dark-blue">@genre.Name</span>
                                     }
                                 }
                             </div>
