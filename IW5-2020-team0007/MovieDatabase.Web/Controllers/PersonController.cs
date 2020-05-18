@@ -22,7 +22,7 @@ namespace MovieDatabase.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> List(int page)
         {
 
@@ -65,7 +65,7 @@ namespace MovieDatabase.Web.Controllers
         {
 
             await _personFacade.UpdatePersonAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, personUpdate.ID.ToString(), personUpdate.EditPerson);
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction("Detail",new { ID = personUpdate.ID});
         }
 
         [HttpPost]
