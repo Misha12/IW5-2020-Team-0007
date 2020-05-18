@@ -14,7 +14,7 @@
     }
 }
 <form asp-controller="Person" asp-action="UpdatePerson" method="post" role="form">
-    <input @disabled class="Page-Title Detail-input" type="text" name="EditPersonRequest.OriginalName" value="@Model.PersonDetailModel.Name @Model.PersonDetailModel.Surname" placeholder="Original name" />
+    <input @disabled class="Page-Title Detail-input" type="text" name="EditPerson.OriginalName" value="@Model.PersonDetailModel.Name @Model.PersonDetailModel.Surname" placeholder="Original name" />
     <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
 
 
