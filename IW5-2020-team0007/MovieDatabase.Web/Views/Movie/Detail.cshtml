@@ -1,4 +1,4 @@
-﻿@model MovieDatabase.Web.Movie
+﻿@model MovieDatabase.Web.ViewModels.MovieDetailViewModel
 
 @{
     ViewData["Title"] = "Detail";
@@ -9,7 +9,28 @@
 <hr />
 
 <form asp-controller="Movie" asp-action="CreateMovie" method="post" role="form">
-    <input disabled="disabled" class="Register-input" type="text" name="OriginalName" placeholder="Original name" />
-    <input disabled="disabled" class="Register-input" type="text" name="Country" placeholder="Country" />
-    <input disabled="disabled" class="Register-input" type="text" name="createdYear" placeholder="Year created" />
+    <input disabled="disabled" class="Register-input" type="text" name="OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
+    <img src="@Model.DetailMovieModel.TitleImageUrl" />
+    <input disabled="disabled" class="Register-input" type="url" name="TitleImageUrl" value="@Model.DetailMovieModel.TitleImageUrl" placeholder="URL of image" />
+    <input disabled="disabled" class="Register-input" type="text" maxlength="5" name="Country" value="@Model.DetailMovieModel.Country" placeholder="Country" />
+    <input disabled="disabled" class="Register-input" type="number" name="createdYear" value="@Model.DetailMovieModel.CreatedYear" placeholder="Year created" />
+    <input disabled="disabled" class="Register-input" type="number" name="length" placeholder="@Model.DetailMovieModel.Length" />
 </form>
+<p>
+    @foreach (var actor in Model.DetailMovieModel.Actors)
+    {
+        <text>@actor</text>
+    }
+</p>
+<p>
+    @foreach (var director in Model.DetailMovieModel.Directors)
+    {
+        <text>@director</text>
+    }
+</p>
+<p>
+    @foreach (var Genres in Model.DetailMovieModel.Genres)
+    {
+        <text>@Genres</text>
+    }
+</p>

@@ -72,5 +72,16 @@ namespace MovieDatabase.Web.Controllers
             };
             return View(MovieListViewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Detail(long ID)
+        {
+
+            var MovieDetailViewModel = new MovieDetailViewModel()
+            {
+                DetailMovieModel = await GetMovieDetail(ID)
+            };
+            return View(MovieDetailViewModel);
+        }
     }
 }

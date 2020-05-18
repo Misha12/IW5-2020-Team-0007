@@ -3,9 +3,16 @@
     ViewData["Title"] = "_MovieListItem";
 }
 
-    <tr class="Movie-List-Item">
-        <td class="List-Item-Photo"> <img class="List-Item-Photo-img" src="@Model.TitleImageUrl" /> </td>
-        <td class="Movie-List-Item-Caption">@Model.OriginalName</td>
-        <td class="Movie-List-Item-Rating">@Model.Length</td>
-    </tr>
+<tr class="Movie-List-Item">
+    <a></a>
+    <td class="List-Item-Photo"> <img class="List-Item-Photo-img" src="@Model.TitleImageUrl" /> </td>
+    <td class="Movie-List-Item-Caption">@Model.OriginalName</td>
+    <td class="Movie-List-Item-Rating">@Model.Length</td>
+    <td>
+        <form>
+            <input type="hidden" value="@Model.Id" />
+            <a class="btn btn-primary" asp-area="" asp-controller="Movie" asp-action="New">Detail</a>
+        </form>
+    </td>
+</tr>
 

@@ -121,6 +121,7 @@ body {
     padding-left: .5rem;
     background-color: transparent;
     text-decoration: none;
+    border:none;
 }
 /*User CSS
  --------------------------------------------------*/
@@ -173,7 +174,7 @@ body {
     border-radius: 0.25rem;
     margin-top: 10px;
     padding: 0.1rem;
-    width: 20%x;
+    width: 20px;
     min-width: 250px;
     margin-right: 80%;
 }
