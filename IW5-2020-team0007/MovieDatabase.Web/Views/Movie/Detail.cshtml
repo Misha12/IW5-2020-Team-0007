@@ -2,17 +2,9 @@
 
 @{
     ViewData["Title"] = "Detail";
-}
 
-@{string disabled;
-    if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
-    {
-        disabled = "";
-    }
-    else
-    {
-        disabled = "disabled";
-    }
+    bool canEdit = User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager");
+    string disabled = canEdit ? "" : "disabled";
 }
 
 <form asp-controller="Movie" asp-action="UpdateMovie" method="post">
@@ -21,7 +13,7 @@
             <div class="card mb-3">
                 <div class="row no-gutters">
                     <div class="col-md-2">
-                        <img class="bg-placeholder-img rounded-left" width="100%" height="250" src="@Model.DetailMovieModel.TitleImageUrl" alt="@Model.DetailMovieModel.OriginalName" />
+                        <img class="bg-placeholder-img rounded-left" style="border-bottom-left-radius: 0 !important" width="100%" height="250" src="@Model.DetailMovieModel.TitleImageUrl" alt="@Model.DetailMovieModel.OriginalName" />
                     </div>
                     <div class="col-md">
                         <div class="card-body">
@@ -64,10 +56,10 @@
                         </div>
                     </div>
 
-                    <div class="col-md">
+                    <div class="col-md-4">
                         <div class="card-body">
                             <div class="form-group">
-                                <label class="d-block mb-0">Žánry</label>
+                                <label class="d-block mb-0">Genres</label>
                                 @if (string.IsNullOrEmpty(disabled))
                                 {
                                     @foreach (var genre in Model.Genres)
@@ -97,23 +89,109 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        </div>
 
-        TODO Tady někde bychom dali edit na herce a režiséry
-
-        @if (string.IsNullOrEmpty(disabled))
-        {
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex justify-content-end">
-                        <input type="submit" class="btn btn-primary" value="Save changes" />
+                <div class="row no-gutters">
+                    <div class="col-md-12">
+                        <div class="form-group mb-0">
+                            <textarea class="form-control rounded-0 border-bottom-0 border-right-0 border-left-0" style="resize: none" @disabled name="MovieRequest.Description">fdojidsfjo</textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-        }
+        </div>
+    </div>
+
+    TODO Tady někde bychom dali edit na herce a režiséry
+
+    @if (string.IsNullOrEmpty(disabled))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-end">
+                    <input type="submit" class="btn btn-primary" value="Save changes" />
+                </div>
+            </div>
+        </div>
+    }
 </form>
+
+<div class="card mt-3">
+    <h5 class="card-header">
+        <div class="d-flex justify-content-between">
+            <div>Hodnocení</div>
+            <div>
+                @if (Model.AvgRatingScore < 50)
+                {
+                    <span class="badge badge-danger">@Model.AvgRatingScore %</span>
+                }
+                else if (Model.AvgRatingScore >= 50 && Model.AvgRatingScore < 80)
+                {
+                    <span class="badge badge-warning">@Model.AvgRatingScore %</span>
+                }
+                else
+                {
+                    <span class="badge badge-success">@Model.AvgRatingScore %</span>
+                }
+            </div>
+        </div>
+    </h5>
+
+    <div class="card-body">
+        @foreach (var rating in Model.ListRatingModel.Data)
+        {
+            <div class="card bg-transparent mb-2">
+                <div class="card-header bg-transparent">
+                    <div class="d-flex justify-content-between">
+                        <div>@(rating.Author == null ? "Anonymous user" : rating.Author.Username)</div>
+                        <div>
+                            @if (rating.Score < 50)
+                            {
+                                <span class="badge badge-danger">@rating.Score %</span>
+                            }
+                            else if (rating.Score >= 50 && rating.Score < 80)
+                            {
+                                <span class="badge badge-warning">@rating.Score %</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-success">@rating.Score %</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @rating.Text
+                </div>
+            </div>
+        }
+
+        <div class="page-switcher">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
+                            <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+                            <input class="Login-input" type="hidden" name="page" value="@(Model.ListRatingModel.Page - 1)" />
+                            <button @(Model.ListRatingModel.CanPrev ? "" : "disabled") type="submit" class="page-link" href="#">Previous</button>
+                        </form>
+                    </li>
+
+                    <li class="page-item">
+                        <span class="page-link">@Model.ListRatingModel.Page</span>
+                    </li>
+
+                    <li class="page-item">
+                        <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
+                            <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+                            <input class="Login-input" type="hidden" name="page" value="@(Model.ListRatingModel.Page + 1)" />
+                            <button @(Model.ListRatingModel.CanNext ? "" : "disabled") type="submit" class="page-link" href="#">Next</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
 
 <form style="margin-top: 500px" asp-controller="Movie" asp-action="UpdateMovie" method="post" role="form">
     <input @disabled class="Page-Title Detail-input" type="text" name="MovieRequest.OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
@@ -169,72 +247,3 @@
         <text>@Genres</text>
     }
 </p>
-<p>
-    @foreach (var rating in Model.ListRatingModel.Data)
-    {
-        <text>@rating.Author wrote:\n</text>
-        <text>@rating.Text</text>
-        <text>@rating.Score</text>
-    }
-</p>
-<div class="page-switcher">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            @{int temp = @Model.ListRatingModel.Page - 1;
-                if (Model.ListRatingModel.CanPrev)
-                {
-                    <li class="page-item">
-                        <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
-                            <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
-                            <input class="Login-input" type="hidden" name="page" value="@temp" />
-                            <button type="submit" class="page-link" href="#">Previous</button>
-                        </form>
-                    </li>
-
-
-
-                    <li class="page-item">
-                        <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
-                            <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
-                            <input class="Login-input" type="hidden" name="page" value="@temp" />
-                            <button type="submit" class="page-link" href="#">@temp</button>
-                        </form>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                }
-            }
-            <li class="page-item">
-                <a class="page-link" href="#">@Model.ListRatingModel.Page</a>
-            </li>
-            @{temp = @Model.ListRatingModel.Page + 1;
-                if (Model.ListRatingModel.CanNext)
-                {
-                    <li class="page-item">
-                        <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
-                            <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
-                            <input class="Login-input" type="hidden" name="page" value="@temp" />
-                            <button type="submit" class="page-link" href="#">@temp</button>
-                        </form>
-                    </li>
-                    <li class="page-item">
-                        <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
-                            <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
-                            <input class="Login-input" type="hidden" name="page" value="@temp" />
-                            <button type="submit" class="page-link" href="#">Next</button>
-                        </form>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                }
-            }
-        </ul>
-    </nav>

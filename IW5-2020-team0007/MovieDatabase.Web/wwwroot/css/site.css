@@ -279,18 +279,22 @@ th{
         color: white !important;
         border: 1px solid grey;
     }
-/* Detail CSS
+
+    .page-link:disabled {
+        background-color: #006331 !important;
+    }
+    /* Detail CSS
 --------------------------------------------------*/
-.Detail-info-photo {
-    width: 120px;
-    height: 200px;
-    float: left;
-    margin-right: 20px;
-    margin-left: 10px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
+    .Detail-info-photo {
+        width: 120px;
+        height: 200px;
+        float: left;
+        margin-right: 20px;
+        margin-left: 10px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
 .Detail-info-photo-img {
     width: inherit;

@@ -10,5 +10,7 @@ namespace MovieDatabase.Web.ViewModels
         public Movie DetailMovieModel { get; set; }
         public PaginatedDataOfRating ListRatingModel { get; set; }
         public List<Genre> Genres { get; set; }
+
+        public int AvgRatingScore => Convert.ToInt32(ListRatingModel.Data.Average(o => o.Score));
     }
 }
