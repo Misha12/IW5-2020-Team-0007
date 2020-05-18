@@ -83,7 +83,7 @@ namespace MovieDatabase.Web.Controllers
         public async Task<IActionResult> Detail(long ID, int page)
         {
             var token = HttpContext.User.FindFirst(ClaimTypes.Hash)?.Value;
-            var ratings = await rateFacade.GetRatingsListAsync(token, new List<long> { ID }, null, null, null, 10, page);
+            var ratings = await rateFacade.GetRatingsListAsync(token, new List<long> { ID }, null, null, null, 5, page);
             var genres = await genreFacade.GetGenresListAsync(null);
 
             var MovieDetailViewModel = new MovieDetailViewModel()

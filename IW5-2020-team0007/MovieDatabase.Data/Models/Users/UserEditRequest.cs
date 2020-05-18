@@ -16,7 +16,6 @@ namespace MovieDatabase.Data.Models.Users
         /// New username of user. Required unique name.
         /// </summary>
         [StringLength(255, ErrorMessage = "The allowed length of the user name is between 5 and 255 characters.", MinimumLength = 5)]
-        [UsernameNotExists]
         public string Username { get; set; }
     }
 }
