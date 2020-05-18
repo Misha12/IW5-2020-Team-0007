@@ -5,7 +5,7 @@
     <td class="List-Item-Caption">@Model.Username</td>
     <td class="List-Item-Role">@Model.Role</td>
     <td class="List-Item-Btn">
-        <form asp-controller="User" asp-action="AdminDetail" method="post" role="form">
+        <form asp-controller="User" asp-action="AdminDetail" method="get" role="form">
             <input class="Login-input" type="hidden" name="ID" value="@Model.Id" />
             <button type="submit" class="btn btn-detail" href="#">Detail</button>
         </form>

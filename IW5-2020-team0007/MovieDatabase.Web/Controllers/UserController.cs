@@ -184,7 +184,7 @@ namespace MovieDatabase.Web.Controllers
             return await _userFacade.GetUserDetailAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value,ID);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> AdminDetail(long ID)
         {
             var DetailUserViewModel = new DetailUserViewModel()
@@ -194,7 +194,12 @@ namespace MovieDatabase.Web.Controllers
             return View(DetailUserViewModel);
         }
 
-
+        [HttpPost]
+        public async Task<IActionResult> EditUser(long ID, UserEditRequest userEditRequest)
+        {
+            await _userFacade.UpdateUserAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID, userEditRequest);
+            return RedirectToAction("AdminDetail", new { ID = ID });
+        }
 
     }
 }

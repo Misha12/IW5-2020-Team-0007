@@ -5,32 +5,79 @@
 
 <p class="Page-Title">User Detail</p>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-3 our-light-green">
+            <div class="row no-gutters">
+                <div class="col-md-2">
+                    <img class="bg-placeholder-img rounded-left" width="100%" height="200" src="https://image.flaticon.com/icons/png/512/21/21104.png" alt="@Model.UserModel.Username" />
+                </div>
+                <div class="col-md">
 
+                    <div class="card-body">
+                        <form asp-controller="User" asp-action="EditUser" method="post">
+                            <input type="hidden" name="ID" value="@Model.UserModel.Id" />
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-lg " name="Username" value="@Model.UserModel.Username" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control form-control-lg" name="Email" value="@Model.UserModel.Email" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="mb-0">Role</label>
+                                        <select class="browser-default custom-select" asp-for="UserModel.Role" asp-items="Html.GetEnumSelectList<Roles>()">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex justify-content-end">
+                                        <input type="submit" class="btn btn-primary margin-top" value="Save changes" />
+                                    </div>
+                                </div>
+                            </div>
 
+                        </form>
+                    </div>
 
-<form asp-controller="User" asp-action="EditCurrentUser" method="post" role="form">
-    <input class="Register-input" type="email" name="Email" value="@Model.UserModel.Email" placeholder="Email" />
-    <input class="Register-input" type="text" name="Username" value="@Model.UserModel.Username" placeholder="Username" />
-    <input type="submit" class="btn btn-primary" value="Submit" />
-</form>
-@{
-    if (User.Claims.Count() != 0 && User.FindFirst(ClaimTypes.Role).Value == "Administrator")
-    {
-
-        <select class="browser-default custom-select" asp-for="UserModel.Role" asp-items="Html.GetEnumSelectList<Roles>()">
-        </select>
-    }
-    else
-    {
-        <text> @Model.UserModel.Role </text>
-    }
-}
-<form asp-controller="User" asp-action="ChangeMyPassword" method="post" role="form">
-    <input class="Register-input" type="password" name="Password" placeholder="Password" />
-    <input class="Register-input" type="password" name="PasswordConfirm" placeholder="Confirm Password" />
-    <input type="submit" class="btn btn-primary" value="Change password" />
-</form>
-
+                </div>
+                <div class="col-md-3">
+                    <div class="card-body">
+                        <form asp-controller="User" asp-action="ChangePassword" method="post" role="form">
+                            <input type="hidden" name="ID" value="@Model.UserModel.Id" />
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-11">
+                                        <input class="form-control form-control-lg" type="password" name="Password" placeholder="Password" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-11">
+                                        <input class="form-control form-control-lg" type="password" name="PasswordConfirm" placeholder="Confirm Password" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11 d-flex justify-content-md-center">
+                                    <input type="submit" class="btn btn-detail" value="Change password" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

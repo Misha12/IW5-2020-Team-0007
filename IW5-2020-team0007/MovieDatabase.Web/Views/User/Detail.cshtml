@@ -31,17 +31,17 @@
                 <div class="col-md">
 
                     <div class="card-body">
-                        <form asp-controller="Person" asp-action="UpdatePerson" method="post">
+                        <form asp-controller="User" asp-action="EditCurrentUser" method="post">
                             <input type="hidden" name="ID" value="@Model.UserModel.Id" />
                             <div class="row">
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-lg " name="UserModel.Username" value="@Model.UserModel.Username" />
+                                        <input type="text" class="form-control form-control-lg " name="Username" value="@Model.UserModel.Username" />
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-lg" name="UserModel.Email" value="@Model.UserModel.Email" />
+                                        <input type="email" class="form-control form-control-lg" name="Email" value="@Model.UserModel.Email" />
                                     </div>
                                 </div>
                             </div>
