@@ -9,9 +9,9 @@
     <td class="Movie-List-Item-Caption">@Model.OriginalName</td>
     <td class="Movie-List-Item-Rating">@Model.Length</td>
     <td>
-        <form>
-            <input type="hidden" value="@Model.Id" />
-            <a class="btn btn-primary" asp-area="" asp-controller="Movie" asp-action="New">Detail</a>
+        <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="submit" class="btn btn-primary" value="Detail" />
         </form>
     </td>
 </tr>
