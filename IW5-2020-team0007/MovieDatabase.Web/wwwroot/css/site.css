@@ -19,18 +19,29 @@ a {
     margin-top: 10px;
     align-self: center;
 }
+
 .btn-detail {
     color: #fff;
     background-color: #310064;
     border: 1px solid #310064;
     align-self: center;
 }
+
     .btn-detail:hover {
         color: #fff;
         background-color: #310064;
         border: 1px solid white;
         align-self: center;
     }
+
+.btn-search {
+    background: url(https://i.ya-webdesign.com/images/glass-button-png.png);
+    background-size: 27px;
+    background-repeat: no-repeat;
+    background-position: center ;
+    width: 40px;
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -92,6 +103,7 @@ body {
     color: white;
     line-height: 60px; /* Vertically center the text there */
 }
+
 .dark-blue-link {
     color: #310064;
 }
@@ -204,9 +216,10 @@ body {
 }
 /* List CSS
 --------------------------------------------------*/
-th{
-    padding:20px;
+th {
+    padding: 20px;
 }
+
 .List {
     width: -webkit-fill-available;
     margin-top: 15px;
@@ -242,9 +255,11 @@ th{
     width: 100px;
     text-align: center;
 }
+
 .List-Item-Caption {
     padding-left: 20px;
 }
+
 .List-Item-Photo {
     width: 60px;
     text-align: center;
@@ -289,18 +304,18 @@ th{
     .page-link:disabled {
         background-color: #006331 !important;
     }
-    /* Detail CSS
+/* Detail CSS
 --------------------------------------------------*/
-    .Detail-info-photo {
-        width: 120px;
-        height: 200px;
-        float: left;
-        margin-right: 20px;
-        margin-left: 10px;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
+.Detail-info-photo {
+    width: 120px;
+    height: 200px;
+    float: left;
+    margin-right: 20px;
+    margin-left: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 .Detail-info-photo-img {
     width: inherit;
@@ -309,44 +324,51 @@ th{
 
 .Detail-info-basic {
     float: left;
-    padding-right:50px;
+    padding-right: 50px;
 }
 
 .Detail-input {
     border: 1px solid transparent;
     background-color: transparent;
-    float:left;
-    color:black;
+    float: left;
+    color: black;
 }
+
 .Detail-info-row {
     width: 100%;
-    margin:10px;
+    margin: 10px;
 }
-.Detail-info-row-caption{
-    float:left;
-    margin-right:5px;
+
+.Detail-info-row-caption {
+    float: left;
+    margin-right: 5px;
 }
+
 .Detail-input:hover {
     border: 1px solid black;
     background-color: gray;
 }
-    .Detail-input:focus, .Detail-input:active {
-        border: 1px solid #310064;
-        background-color: transparent;
-    }
-    .Detail-input:disabled, .Detail-input:disabled:hover{
-        border: none;
-        background-color: transparent;
-    }
+
+.Detail-input:focus, .Detail-input:active {
+    border: 1px solid #310064;
+    background-color: transparent;
+}
+
+.Detail-input:disabled, .Detail-input:disabled:hover {
+    border: none;
+    background-color: transparent;
+}
 /*Colors
 */
 .our-light-green {
     background-color: #359A68 !important;
     color: white !important;
 }
+
 .our-dark-blue {
     background-color: #310064 !important;
 }
-.margin-top{
-    margin-top:25px;
+
+.margin-top {
+    margin-top: 25px;
 }
