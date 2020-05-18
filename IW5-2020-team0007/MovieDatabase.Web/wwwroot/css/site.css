@@ -285,8 +285,11 @@ th{
     width: 120px;
     height: 200px;
     float: left;
-    margin-right:20px;
-    margin-left:10px;
+    margin-right: 20px;
+    margin-left: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .Detail-info-photo-img {
