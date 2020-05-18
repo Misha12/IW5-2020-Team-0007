@@ -139,7 +139,7 @@
 </form>
 
 <div class="card mt-2">
-    <h5 class="card-header">Actors</h5>
+    <h5 class="card-header our-light-green">Actors</h5>
 
     <form class="card-body d-flex flex-wrap" asp-controller="Movie" asp-action="UpdateActors" method="post">
         <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
@@ -149,7 +149,7 @@
             <div class="card mr-3" style="width: 13rem;">
                 <input type="hidden" name="actors" value="@actor.Id" />
                 <img class="card-img-top" src="@actor.ProfilePictureUrl" alt="@actor.Name @actor.Surname">
-                <div class="card-body">
+                <div class="card-body our-light-green">
                     <h5 class="card-title">@actor.Name @actor.Surname</h5>
 
                     @if (string.IsNullOrEmpty(disabled))
@@ -167,7 +167,7 @@
             @if (nonActingPersons.Count > 0)
             {
                 <div class="card" style="width: 17rem;">
-                    <div class="card-body">
+                    <div class="card-body our-light-green">
                         <div class="form-group">
                             <select class="form-control" name="actors">
                                 <option value="">Select actor</option>
@@ -187,9 +187,9 @@
 </div>
 
 <div class="card mt-2">
-    <h5 class="card-header">Directors</h5>
+    <h5 class="card-header our-light-green">Directors</h5>
 
-    <form class="card-body d-flex flex-wrap" asp-controller="Movie" asp-action="UpdateDirectors" method="post">
+    <form class="card-body d-flex flex-wrap " asp-controller="Movie" asp-action="UpdateDirectors" method="post">
         <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
 
         @foreach (var director in Model.DetailMovieModel.Directors)
@@ -197,7 +197,7 @@
             <div class="card mr-3" style="width: 13rem;">
                 <input type="hidden" name="directors" value="@director.Id" />
                 <img class="card-img-top" src="@director.ProfilePictureUrl" alt="@director.Name @director.Surname">
-                <div class="card-body">
+                <div class="card-body our-light-green">
                     <h5 class="card-title">@director.Name @director.Surname</h5>
 
                     @if (string.IsNullOrEmpty(disabled))
@@ -215,7 +215,7 @@
             @if (nonDirectingPersons.Count > 0)
             {
                 <div class="card" style="width: 17rem;">
-                    <div class="card-body">
+                    <div class="card-body our-light-green">
                         <div class="form-group">
                             <select class="form-control" name="directors">
                                 <option value="">Select director</option>
@@ -235,7 +235,7 @@
 </div>
 
 <div class="card mt-3">
-    <h5 class="card-header">
+    <h5 class="card-header our-light-green">
         <div class="d-flex justify-content-between">
             <div>Ratings</div>
             <div>
@@ -264,7 +264,7 @@
             @foreach (var rating in Model.ListRatingModel.Data)
             {
                 <div class="card bg-transparent mb-2">
-                    <div class="card-header bg-transparent">
+                    <div class="card-header bg-transparent  our-light-green">
                         <div class="d-flex justify-content-between">
                             <div>@(rating.Author == null ? "Anonymous user" : rating.Author.Username)</div>
                             <div>
@@ -278,17 +278,17 @@
                                 }
                                 else
                                 {
-                                    <span class="badge badge-success">@rating.Score %</span>
+                                    <span class="badge badge-success our-dark-green">@rating.Score %</span>
                                 }
 
                                 @if (string.IsNullOrEmpty(disabled) || (rating.Author != null && rating.Author.Id == userId))
                                 {
-                                    <a asp-controller="Movie" asp-action="DeleteRate" asp-route-id="@rating.Id" asp-route-movieId="@Model.DetailMovieModel.Id" class="btn btn-sm btn-danger">Delete</a>
+                                    <a asp-controller="Movie" asp-action="DeleteRate" asp-route-id="@rating.Id" asp-route-movieId="@Model.DetailMovieModel.Id" class="btn btn-sm btn-delete">Delete</a>
                                 }
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body ">
                         @rating.Text
                     </div>
                 </div>
@@ -323,7 +323,7 @@
 
         <form method="post" asp-controller="Movie" asp-action="CreateRate">
             <div class="card bg-transparent mb-2">
-                <div class="card-body">
+                <div class="card-body our-light-green">
                     <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
 
                     <div class="form-group">
