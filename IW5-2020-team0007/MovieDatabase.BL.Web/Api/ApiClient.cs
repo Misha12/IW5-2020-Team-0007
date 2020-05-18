@@ -17,7 +17,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class AuthControllerClient 
     {
-        private string _baseUrl = "https://iw5.zakladna.eu/";
+        private string _baseUrl = "http://localhost:5000";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -371,7 +371,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class GenresControllerClient 
     {
-        private string _baseUrl = "https://iw5.zakladna.eu/";
+        private string _baseUrl = "http://localhost:5000";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -815,7 +815,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class MoviesControllerClient 
     {
-        private string _baseUrl = "https://iw5.zakladna.eu/";
+        private string _baseUrl = "http://localhost:5000";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -1370,7 +1370,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class PersonsControllerClient 
     {
-        private string _baseUrl = "https://iw5.zakladna.eu/";
+        private string _baseUrl = "http://localhost:5000";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -1970,7 +1970,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class RatesControllerClient 
     {
-        private string _baseUrl = "https://iw5.zakladna.eu/";
+        private string _baseUrl = "http://localhost:5000";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -2452,7 +2452,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class SearchControllerClient 
     {
-        private string _baseUrl = "https://iw5.zakladna.eu/";
+        private string _baseUrl = "http://localhost:5000";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -2667,7 +2667,7 @@ namespace MovieDatabase.Web
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.5.0.0 (NJsonSchema v10.1.15.0 (Newtonsoft.Json v11.0.0.0))")]
     public partial class UsersControllerClient 
     {
-        private string _baseUrl = "https://iw5.zakladna.eu/";
+        private string _baseUrl = "http://localhost:5000";
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
     
@@ -3883,6 +3883,9 @@ namespace MovieDatabase.Web
     
         [Newtonsoft.Json.JsonProperty("directors", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.IList<SimplePerson> Directors { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Description { get; set; }
     
     
     }
