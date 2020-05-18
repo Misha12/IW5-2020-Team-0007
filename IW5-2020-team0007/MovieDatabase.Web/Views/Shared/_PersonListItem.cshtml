@@ -3,16 +3,26 @@
     ViewData["Title"] = "_PersonListItem";
 }
 
-    <tr class="Movie-List-Item">
+    <tr class="List-Item">
         <a></a>
-        <td class="List-Item-Photo"> <img class="List-Item-Photo-img" src="@Model.ProfilePictureUrl" /> </td>
-        <td class="Movie-List-Item-Caption">@Model.Name</td>
-        <td class="Movie-List-Item-Caption">@Model.Surname</td>
-        <td>
+        <td class="List-Item-Photo" background="@Model.ProfilePictureUrl"></td>
+        <td class="List-Item-Caption">@Model.Name</td>
+        <td class="List-Item-Caption">@Model.Surname</td>
+        <td class="List-Item-Btn">
             <form asp-controller="Person" asp-action="Detail" method="get" role="form">
                 <input type="hidden" name="Id" value="@Model.Id" />
-                <input type="submit" class="btn btn-primary" value="Detail" />
+                <input type="submit" class="btn btn-detail" value="Detail" />
             </form>
         </td>
+
+        @if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+        {
+            <td class="List-Item-Btn">
+                <form asp-controller="Person" asp-action="DeletePerson" method="get" role="form">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <input type="submit" class="btn btn-delete" value="Delete" />
+                </form>
+            </td>
+        }
     </tr>
 

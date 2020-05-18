@@ -19,7 +19,12 @@ a {
     margin-top: 10px;
     align-self: center;
 }
-
+.btn-detail {
+    color: #fff;
+    background-color: #310064;
+    border-color: #310064;
+    align-self: center;
+}
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #1b6ec2;
@@ -193,6 +198,9 @@ body {
 }
 /* List CSS
 --------------------------------------------------*/
+th{
+    padding:20px;
+}
 .List {
     width: -webkit-fill-available;
     margin-top: 15px;
@@ -228,18 +236,22 @@ body {
     width: 100px;
     text-align: center;
 }
-
+.List-Item-Caption {
+    padding-left: 20px;
+}
 .List-Item-Photo {
     width: 60px;
     text-align: center;
     margin-right: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .List-Item-Photo-img {
     width: 60px;
     height: inherit;
     border: none;
-    margin-right: 20px;
 }
 
 .List-Item-Btn {

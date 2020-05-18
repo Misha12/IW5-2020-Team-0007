@@ -1,16 +1,21 @@
 ﻿@model MovieDatabase.Web.ViewModels.PersonListViewModel
-<p class="Page-Title">Movies</p>
-@if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
-{
-    <a class="btn btn-primary" asp-area="" asp-controller="Person" asp-action="New">Create person</a>
-}
-
+<p class="Page-Title">
+    Persons
+    @if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+    {
+        <a class="btn btn-detail  float-right" asp-area="" asp-controller="Person" asp-action="New">Create person</a>
+    }
+</p>
 <table class="List">
     <tr>
         <th> </th>
         <th>Title</th>
         <th>Length</th>
         <th></th>
+        @if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+        {
+            <th></th>
+        }
     </tr>
     @{
         foreach (var person in Model.listPerson.Data)
