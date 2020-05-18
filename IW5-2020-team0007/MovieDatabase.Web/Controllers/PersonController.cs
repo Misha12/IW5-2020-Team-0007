@@ -55,9 +55,8 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> NewPerson(CreatePersonRequest createPerson)
         {
-
             await _personFacade.CreatePersonAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, createPerson);
-            return RedirectToAction(nameof(New));
+            return RedirectToAction(nameof(List));
         }
 
         [HttpPost]
