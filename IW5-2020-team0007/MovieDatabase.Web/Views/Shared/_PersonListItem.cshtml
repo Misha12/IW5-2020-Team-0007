@@ -1,0 +1,18 @@
+﻿@model SimplePerson
+@{
+    ViewData["Title"] = "_PersonListItem";
+}
+
+    <tr class="Movie-List-Item">
+        <a></a>
+        <td class="List-Item-Photo"> <img class="List-Item-Photo-img" src="@Model.ProfilePictureUrl" /> </td>
+        <td class="Movie-List-Item-Caption">@Model.Name</td>
+        <td class="Movie-List-Item-Caption">@Model.Surname</td>
+        <td>
+            <form asp-controller="Person" asp-action="Detail" method="post" role="form">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="submit" class="btn btn-primary" value="Detail" />
+            </form>
+        </td>
+    </tr>
+

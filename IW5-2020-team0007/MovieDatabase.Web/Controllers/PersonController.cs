@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieDatabase.BL.Web.Facades;
+using MovieDatabase.Web.ViewModels;
 
 namespace MovieDatabase.Web.Controllers
 {
@@ -22,11 +23,31 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> List(int page)
+        {
+
+            var MovieListViewModel = new PersonListViewModel()
+            {
+                listPerson = await GetPersonList(null, 5, page)
+            };
+            return View(MovieListViewModel);
+        }
+        [HttpGet]
+        public IActionResult New()
+        {
+            var personNewViewModel = new PersonNewViewModel
+            {
+                PersonModel = new CreatePersonRequest()
+            };
+            return View(personNewViewModel);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> NewPerson(CreatePersonRequest createPerson)
         {
 
             await _personFacade.CreatePersonAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, createPerson);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(New));
         }
 
         [HttpPost]
