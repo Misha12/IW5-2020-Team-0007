@@ -19,7 +19,7 @@
         @if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
         {
             <td class="List-Item-Btn">
-                <form asp-controller="Movie" asp-action="DeleteMovie" method="get" role="form">
+                <form asp-controller="Movie" asp-action="DeleteMovie" method="post" role="form">
                     <input type="hidden" name="Id" value="@Model.Id" />
                     <input type="submit" class="btn btn-delete" value="Delete" />
                 </form>

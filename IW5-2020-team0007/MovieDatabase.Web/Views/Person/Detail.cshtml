@@ -19,9 +19,7 @@
 
 
     <div class="Detail-info">
-        <div class="Detail-info-photo">
-            <img class="Detail-info-photo-img " src="@Model.PersonDetailModel.ProfilePictureUrl" />
-        </div>
+        <div class="Detail-info-photo" style="background-image: url('@Model.PersonDetailModel.ProfilePictureUrl')" ></div>
         <div class="Detail-info-basic">
             @if (disabled == "")
             {
@@ -32,11 +30,11 @@
             }
             <div class="Detail-info-row">
                 <text class="Detail-info-row-caption">Age:</text>
-                <input @disabled class="Detail-input" type="text" maxlength="5" name="EditPerson.Age" value="@Model.PersonDetailModel.Age" placeholder="Age" />
+                <input disabled class="Detail-input" type="text" maxlength="5" name="EditPerson.Age" value="@Model.PersonDetailModel.Age" placeholder="Age" />
             </div>
             <div class="Detail-info-row">
                 <text class="Detail-info-row-caption">Birthdate:</text>
-                <input @disabled class="Detail-input" type="date" name="EditPerson.Birthdate" value="@Model.PersonDetailModel.Birthdate" placeholder="Birthdate" />
+                <input @disabled class="Detail-input" type="date" name="EditPerson.Birthdate" value="@Model.PersonDetailModel.Birthdate.ToString("yyyy-MM-dd")" placeholder="Birthdate" />
             </div>
             @if (disabled == "")
             {
