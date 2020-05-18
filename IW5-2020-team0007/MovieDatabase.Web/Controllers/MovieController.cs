@@ -14,10 +14,13 @@ namespace MovieDatabase.Web.Controllers
     {
         private protected MovieFacade movieFacade;
         private protected RateFacade rateFacade;
-        public MovieController(MovieFacade facade, RateFacade _rateFacade)
+        private readonly GenreFacade genreFacade;
+
+        public MovieController(MovieFacade facade, RateFacade _rateFacade, GenreFacade _genreFacade)
         {
             movieFacade = facade;
             rateFacade = _rateFacade;
+            genreFacade = _genreFacade;
         }
 
         [HttpPost]
@@ -78,12 +81,17 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Detail(long ID, int page)
         {
-            var temp = await rateFacade.GetRatingsListAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, new List<long> { ID }, null, null, null, 10, page);
+            var token = HttpContext.User.FindFirst(ClaimTypes.Hash)?.Value;
+            var ratings = await rateFacade.GetRatingsListAsync(token, new List<long> { ID }, null, null, null, 10, page);
+            var genres = await genreFacade.GetGenresListAsync(null);
+
             var MovieDetailViewModel = new MovieDetailViewModel()
             {
                 DetailMovieModel = await GetMovieDetail(ID),
-                ListRatingModel = temp
+                ListRatingModel = ratings,
+                Genres = genres.ToList()
             };
+            
             return View(MovieDetailViewModel);
         }
     }

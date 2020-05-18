@@ -9,5 +9,6 @@ namespace MovieDatabase.Web.ViewModels
     {
         public Movie DetailMovieModel { get; set; }
         public PaginatedDataOfRating ListRatingModel { get; set; }
+        public List<Genre> Genres { get; set; }
     }
 }

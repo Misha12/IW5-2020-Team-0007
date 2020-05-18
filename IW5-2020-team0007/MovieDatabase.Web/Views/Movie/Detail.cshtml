@@ -14,7 +14,108 @@
         disabled = "disabled";
     }
 }
-<form asp-controller="Movie" asp-action="UpdateMovie" method="post" role="form">
+
+<form asp-controller="Movie" asp-action="UpdateMovie" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="col-md-2">
+                        <img class="bg-placeholder-img rounded-left" width="100%" height="250" src="@Model.DetailMovieModel.TitleImageUrl" alt="@Model.DetailMovieModel.OriginalName" />
+                    </div>
+                    <div class="col-md">
+                        <div class="card-body">
+                            <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+                            <div class="form-group">
+                                <input @disabled type="text" class="form-control form-control-lg pl-2" name="MovieRequest.OriginalName" value="@Model.DetailMovieModel.OriginalName" />
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Country</label>
+                                        <input @disabled type="text" class="form-control form-control-sm" name="MovieRequest.Country" value="@Model.DetailMovieModel.Country" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Release year</label>
+                                        <input @disabled type="number" class="form-control form-control-sm" name="MovieRequest.CreatedYear" value="@Model.DetailMovieModel.CreatedYear" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Length</label>
+                                        <input @disabled type="time" class="form-control form-control-sm" name="MovieRequest.Length" value="@TimeSpan.FromMinutes(Model.DetailMovieModel.Length)" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="mb-0">Image URL</label>
+                                        <input @disabled type="url" class="form-control form-control-sm" name="MovieRequest.TitleImageUrl" value="@Model.DetailMovieModel.TitleImageUrl" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="d-block mb-0">Žánry</label>
+                                @if (string.IsNullOrEmpty(disabled))
+                                {
+                                    @foreach (var genre in Model.Genres)
+                                    {
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            @if (Model.DetailMovieModel.Genres.Any(o => o.Id == genre.Id))
+                                            {
+                                                <input checked type="checkbox" class="custom-control-input" name="MovieRequest.GenreIds" value="@genre.Id" id="Genre-@genre.Id" />
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="custom-control-input" name="MovieRequest.GenreIds" value="@genre.Id" id="Genre-@genre.Id" />
+                                            }
+
+                                            <label class="custom-control-label" for="Genre-@genre.Id">@genre.Name</label>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    @foreach (var genre in Model.DetailMovieModel.Genres)
+                                    {
+                                        <span class="badge badge-primary">@genre.Name</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        TODO Tady někde bychom dali edit na herce a režiséry
+
+        @if (string.IsNullOrEmpty(disabled))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end">
+                        <input type="submit" class="btn btn-primary" value="Save changes" />
+                    </div>
+                </div>
+            </div>
+        }
+</form>
+
+<form style="margin-top: 500px" asp-controller="Movie" asp-action="UpdateMovie" method="post" role="form">
     <input @disabled class="Page-Title Detail-input" type="text" name="MovieRequest.OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
     <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
 
@@ -41,7 +142,7 @@
             </div>
             <div class="Detail-info-row">
                 <text class="Detail-info-row-caption">Length of movie:</text>
-                <input @disabled class="Detail-input" type="number" name="MovieRequest.Length" value="@Model.DetailMovieModel.Length" placeholder="Length of movie"/>
+                <input @disabled class="Detail-input" type="number" name="MovieRequest.Length" value="@Model.DetailMovieModel.Length" placeholder="Length of movie" />
             </div>
             @if (disabled == "")
             {
@@ -137,4 +238,3 @@
             }
         </ul>
     </nav>
-</div>
