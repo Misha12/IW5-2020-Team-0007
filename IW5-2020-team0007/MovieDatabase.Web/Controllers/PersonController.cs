@@ -71,9 +71,8 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletePerson(String ID)
         {
-
             await _personFacade.DeletePersonAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]
