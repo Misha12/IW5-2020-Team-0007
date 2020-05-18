@@ -22,7 +22,7 @@ namespace MovieDatabase.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> List(int page)
         {
 
