@@ -16,9 +16,8 @@ namespace MovieDatabase.BL.Web.Facades
             this.httpClient = httpClient;
         }
 
-        public async Task<PaginatedDataOfSearchResult> SearchAsync(String token,String keyword,int? limit, int? page)
+        public async Task<PaginatedDataOfSearchResult> SearchAsync(String keyword,int? limit, int? page)
         {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             SearchControllerClient searchControllerClient = new SearchControllerClient(httpClient);
             return await searchControllerClient.SearchAsync(keyword, limit, page);
         }

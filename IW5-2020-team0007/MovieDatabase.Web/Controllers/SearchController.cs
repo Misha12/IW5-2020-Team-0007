@@ -30,7 +30,7 @@ namespace MovieDatabase.Web.Controllers
         [HttpGet]
         public async Task<PaginatedDataOfSearchResult> Find(String name, int? page)
         {
-            return await _searchFacade.SearchAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, name, 10, page);
+            return await _searchFacade.SearchAsync(name, 10, page);
         }
 
     }
