@@ -51,6 +51,12 @@ namespace MovieDatabase.API.Services
             return true;
         }
 
+        public List<PersonFilterItem> GetPersonsFilterData()
+        {
+            var entities = PersonsRepository.GetPersons(null);
+            return Mapper.Map<List<PersonFilterItem>>(entities);
+        }
+
         public void Dispose()
         {
             PersonsRepository.Dispose();

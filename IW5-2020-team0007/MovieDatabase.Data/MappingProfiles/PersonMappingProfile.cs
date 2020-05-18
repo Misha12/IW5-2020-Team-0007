@@ -17,6 +17,9 @@ namespace MovieDatabase.Data.MappingProfiles
                 .MapMember(dst => dst.Age, src => src.Birthdate.ComputeAge())
                 .MapMember(dst => dst.ActingIn, src => src.Movies.Where(o => o.Type == MoviePersonType.Actor))
                 .MapMember(dst => dst.DirectedIn, src => src.Movies.Where(o => o.Type == MoviePersonType.Director));
+
+            CreateMap<PersonEntity, PersonFilterItem>()
+                .MapMember(dst => dst.NameSurname, src => $"{src.Name} {src.Surname}");
         }
     }
 }
