@@ -17,5 +17,10 @@ namespace MovieDatabase.Data.Models.Movies
         /// Collection of persons, who direct the film.
         /// </summary>
         public List<SimplePerson> Directors { get; set; }
+
+        /// <summary>
+        /// Description of movie.
+        /// </summary>
+        public string Description { get; set; }
     }
 }
