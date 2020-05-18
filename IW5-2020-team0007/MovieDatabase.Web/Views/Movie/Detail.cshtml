@@ -7,14 +7,27 @@
 <p class="Page-Title">Movie detail</p>
 
 <hr />
-
+@{string disabled;
+    if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+    {
+        disabled = "";
+    }
+    else
+    {
+        disabled = "disabled";
+    }
+    }
 <form asp-controller="Movie" asp-action="CreateMovie" method="post" role="form">
-    <input disabled="disabled" class="Register-input" type="text" name="OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
+    <input @disabled class="Register-input" type="text" name="OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
     <img src="@Model.DetailMovieModel.TitleImageUrl" />
-    <input disabled="disabled" class="Register-input" type="url" name="TitleImageUrl" value="@Model.DetailMovieModel.TitleImageUrl" placeholder="URL of image" />
-    <input disabled="disabled" class="Register-input" type="text" maxlength="5" name="Country" value="@Model.DetailMovieModel.Country" placeholder="Country" />
-    <input disabled="disabled" class="Register-input" type="number" name="createdYear" value="@Model.DetailMovieModel.CreatedYear" placeholder="Year created" />
-    <input disabled="disabled" class="Register-input" type="number" name="length" placeholder="@Model.DetailMovieModel.Length" />
+    <input @disabled class="Register-input" type="url" name="TitleImageUrl" value="@Model.DetailMovieModel.TitleImageUrl" placeholder="URL of image" />
+    <input @disabled class="Register-input" type="text" maxlength="5" name="Country" value="@Model.DetailMovieModel.Country" placeholder="Country" />
+    <input @disabled class="Register-input" type="number" name="createdYear" value="@Model.DetailMovieModel.CreatedYear" placeholder="Year created" />
+    <input @disabled class="Register-input" type="number" name="length" placeholder="@Model.DetailMovieModel.Length" />
+    @if (disabled == "")
+    {
+        <input type="submit" class="btn btn-primary" value="Submit" />
+    }
 </form>
 <p>
     @foreach (var actor in Model.DetailMovieModel.Actors)
