@@ -49,8 +49,19 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label class="mb-0">Role</label>
-                                        <select @disabled class="browser-default custom-select" asp-for="UserModel.Role" asp-items="Html.GetEnumSelectList<Roles>()">
-                                        </select>
+                                        @{ if (string.IsNullOrEmpty(disabled))
+                                            {
+                                                <select class="browser-default custom-select" asp-for="UserModel.Role" asp-items="Html.GetEnumSelectList<Roles>()">
+                                                </select>
+                                            }
+                                            else
+                                            {
+                                                <select disabled class="browser-default custom-select" asp-for="UserModel.Role" asp-items="Html.GetEnumSelectList<Roles>()">
+                                                </select>
+                                            }
+
+                                        }
+
                                     </div>
                                 </div>
                                 <div class="col-md-4">
