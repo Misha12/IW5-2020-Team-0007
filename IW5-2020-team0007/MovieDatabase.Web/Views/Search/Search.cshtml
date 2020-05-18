@@ -3,5 +3,31 @@
     ViewData["Title"] = "Search";
 }
 
-<h1>Search</h1>
+<h2>Movies</h2>
+<table class="List">
+    <tr>
+        <th></th>
+        <th>OriginalName</th>
+        <th>Length</th>
+        <th></th>
+    </tr>
+    @{
+        foreach (var result in Model.SearchResultBase.Data)
+        {
+            if (result.Type == SearchResultType.Movie)
+            {
+                var movie = (MovieSearchResult)result;
+                <tr class="List-Item">
+                    <td class="List-Item-Caption">@movie.OriginalName</td>
+                    <td class="List-Item-Caption">@movie.Country</td>
+                    <td class="List-Item-Caption">@movie.Length</td>
+                    <td class="List-Item-Btn">
+                        <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@movie.Id" class="btn btn-detail">Detail</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    }
+</table>
 
