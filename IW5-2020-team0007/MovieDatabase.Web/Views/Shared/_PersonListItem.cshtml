@@ -3,11 +3,11 @@
     ViewData["Title"] = "_PersonListItem";
 }
 
-    <tr class="Movie-List-Item">
+    <tr class="List-Item">
         <a></a>
         <td class="List-Item-Photo"> <img class="List-Item-Photo-img" src="@Model.ProfilePictureUrl" /> </td>
-        <td class="Movie-List-Item-Caption">@Model.Name</td>
-        <td class="Movie-List-Item-Caption">@Model.Surname</td>
+        <td class="List-Item-Caption">@Model.Name</td>
+        <td class="List-Item-Caption">@Model.Surname</td>
         <td>
             <form asp-controller="Person" asp-action="Detail" method="get" role="form">
                 <input type="hidden" name="Id" value="@Model.Id" />
