@@ -76,11 +76,11 @@ namespace MovieDatabase.Web.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> DeleteMovie(long ID)
         {
             await movieFacade.DeleteMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID);
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return Redirect("/");
         }
 
         [HttpGet]

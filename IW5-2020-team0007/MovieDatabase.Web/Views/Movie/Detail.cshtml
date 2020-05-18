@@ -63,7 +63,7 @@
                                 <label class="d-block mb-0">
                                     Genres
 
-                                    @if (Model.DetailMovieModel.Genres.Count > 0)
+                                    @if (Model.DetailMovieModel.Genres.Count > 0 && string.IsNullOrEmpty(disabled))
                                     {
                                         <a asp-controller="Movie" asp-action="ClearAllGenres" asp-route-id="@Model.DetailMovieModel.Id" class="badge badge-danger">Clear all</a>
                                     }
