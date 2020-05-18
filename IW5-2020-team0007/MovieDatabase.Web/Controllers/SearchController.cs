@@ -28,7 +28,7 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<PaginatedDataOfSearchResultBase> Find(String name, int? page)
+        public async Task<PaginatedDataOfSearchResult> Find(String name, int? page)
         {
             return await _searchFacade.SearchAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, name, 10, page);
         }

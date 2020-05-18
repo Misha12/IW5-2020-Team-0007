@@ -1,33 +1,77 @@
 ﻿@model MovieDatabase.Web.ViewModels.SearchViewModel
 @{
+    List<MovieSearchResult> movies = new List<MovieSearchResult>();
+    List<PersonSearchResult> person = new List<PersonSearchResult>();
+    List<RatingSearchResult> rates = new List<RatingSearchResult>();
     ViewData["Title"] = "Search";
-}
-
-<h2>Movies</h2>
-<table class="List">
-    <tr>
-        <th></th>
-        <th>OriginalName</th>
-        <th>Length</th>
-        <th></th>
-    </tr>
-    @{
-        foreach (var result in Model.SearchResultBase.Data)
+    foreach (var member in Model.SearchResultBase.Data)
+    {
+        if (member.Type == SearchResultType.Movie)
         {
-            if (result.Type == SearchResultType.Movie)
-            {
-                var movie = (MovieSearchResult)result;
-                <tr class="List-Item">
-                    <td class="List-Item-Caption">@movie.OriginalName</td>
-                    <td class="List-Item-Caption">@movie.Country</td>
-                    <td class="List-Item-Caption">@movie.Length</td>
-                    <td class="List-Item-Btn">
-                        <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@movie.Id" class="btn btn-detail">Detail</a>
-                    </td>
-                </tr>
-            }
+            movies.Add(member.MovieResult);
         }
-
+        else if (member.Type == SearchResultType.Person)
+        {
+            person.Add(member.PersonResult);
+        }
+        else if (member.Type == SearchResultType.Rating)
+        {
+            rates.Add(member.RatingResult);
+        }
     }
-</table>
 
+    if (!movies.Count().Equals(0))
+    {
+        <p class="Page-Title">Movies</p>
+        <table class="List">
+            <tr>
+                <th></th>
+                <th>OriginalName</th>
+                <th>Length</th>
+                <th></th>
+            </tr>
+            @{
+                foreach (var result in movies)
+                {
+                    <tr class="List-Item">
+                        <td class="List-Item-Caption">@result.OriginalName</td>
+                        <td class="List-Item-Caption">@result.Country</td>
+                        <td class="List-Item-Caption">@result.Length</td>
+                        <td class="List-Item-Btn">
+                            <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@result.Id" class="btn btn-detail">Detail</a>
+                        </td>
+                    </tr>
+                }
+
+            }
+        </table>
+    }
+    if (!person.Count().Equals(0))
+    {
+        <p class="Page-Title">Person</p>
+        <table class="List">
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th></th>
+            </tr>
+            @{
+                foreach (var result in person)
+                {
+
+                    <tr class="List-Item">
+                        <td class="List-Item-Photo" background="@result.ProfilePictureUrl"></td>
+                        <td class="List-Item-Caption">@(result.Name + " " + result.Surname)</td>
+                        <td class="List-Item-Caption">@result.Age</td>
+                        <td class="List-Item-Btn">
+                            <a asp-controller="Person" asp-action="Detail" asp-route-ID="@result.Id" class="btn btn-detail">Detail</a>
+                        </td>
+                    </tr>
+                }
+
+            }
+        </table>
+    }
+
+}
