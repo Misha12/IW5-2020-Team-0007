@@ -25,7 +25,7 @@
                 if (Model.listUser.CanPrev)
                 {
                     <li class="page-item">
-                        <form asp-controller="Movie" asp-action="List" method="post" role="form">
+                        <form asp-controller="User" asp-action="List" method="get" role="form">
                             <input class="Login-input" type="hidden" name="page" value="@temp" />
                             <button type="submit" class="page-link" href="#">Previous</button>
                         </form>
@@ -34,7 +34,7 @@
 
 
                     <li class="page-item">
-                        <form asp-controller="Movie" asp-action="List" method="post" role="form">
+                        <form asp-controller="User" asp-action="List" method="get" role="form">
                             <input class="Login-input" type="hidden" name="page" value="@temp" />
                             <button type="submit" class="page-link" href="#">@temp</button>
                         </form>
@@ -54,13 +54,13 @@
                 if (Model.listUser.CanNext)
                 {
                     <li class="page-item">
-                        <form asp-controller="Movie" asp-action="List" method="post" role="form">
+                        <form asp-controller="User" asp-action="List" method="get" role="form">
                             <input class="Login-input" type="hidden" name="page" value="@temp" />
                             <button type="submit" class="page-link" href="#">@temp</button>
                         </form>
                     </li>
                     <li class="page-item">
-                        <form asp-controller="Movie" asp-action="List" method="post" role="form">
+                        <form asp-controller="User" asp-action="List" method="get" role="form">
                             <input class="Login-input" type="hidden" name="page" value="@temp" />
                             <button type="submit" class="page-link" href="#">Next</button>
                         </form>

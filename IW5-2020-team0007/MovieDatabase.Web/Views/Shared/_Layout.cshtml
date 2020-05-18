@@ -28,7 +28,7 @@
                             </form>
                         </li>
                         <li class="nav-Item">
-                            <form asp-controller="Person" asp-action="List" method="post" role="form">
+                            <form asp-controller="Person" asp-action="List" method="get" role="form">
                                 <input class="Login-input" type="hidden" name="page" value="1" />
                                 <input type="submit" class="nav-Link" value="Persons" />
                             </form>
@@ -41,17 +41,24 @@
                                     <input type="submit" class="nav-Link" value="User List" />
                                 </form>
                                 @*<li class="nav-Item">
-                                        <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
-                                    </li>*@
+                            <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
+                        </li>*@
                             }
                         }
                     </ul>
+                </div>
+
+                <div class="input-group mb col-md-4">
+                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search bar" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary btn-search" type="button"></button>
+                    </div>
                 </div>
                 <div class="User-button">
                     @{
                         if (User.Claims.Count() == 0)
                         {
-                            <text>Unlogged user</text>
+                            <text>User</text>
                             <div class="User-button-dropdown">
                                 <form asp-controller="User" asp-action="Login" method="post" role="form">
                                     <input class="Login-input" type="text" name="Username" placeholder="Username" />

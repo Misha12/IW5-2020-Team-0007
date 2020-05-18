@@ -75,5 +75,12 @@ namespace MovieDatabase.BL.Web.Facades
             UsersControllerClient _userClient = new UsersControllerClient(httpClient);
             await _userClient.DeleteUserAsync(ID);
         }
+
+        public async Task UpdateUserAsync(String token, long ID, UserEditRequest userEditRequest)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            UsersControllerClient _userClient = new UsersControllerClient(httpClient);
+            await _userClient.UpdateUserAsync(ID, userEditRequest);
+        }
     }
 }

@@ -50,7 +50,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="mb-0">Date of birth</label>
-                                        <input @disabled type="date" class="form-control form-control-sm" name="EditPerson.Birthdate" value="@Model.PersonDetailModel.Birthdate.ToString("yyyy-MM-dd")" />
+                                        <input @disabled type="date" class="form-control form-control-sm" name="EditPerson.Birthday" value="@Model.PersonDetailModel.Birthdate.ToString("yyyy-MM-dd")" />
                                     </div>
                                 </div>
 
@@ -68,17 +68,17 @@
                 </div>
             </div>
         </div>
+    </div>
 
-
-        @if (string.IsNullOrEmpty(disabled))
-        {
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex justify-content-end">
-                        <input type="submit" class="btn btn-primary" value="Save changes" />
-                    </div>
+    @if (string.IsNullOrEmpty(disabled))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-end">
+                    <input type="submit" class="btn btn-primary" value="Save changes" />
                 </div>
             </div>
-        }
+        </div>
+    }
 </form>
 
