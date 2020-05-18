@@ -4,9 +4,6 @@
     ViewData["Title"] = "Detail";
 }
 
-<p class="Page-Title">Movie detail</p>
-
-<hr />
 @{string disabled;
     if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
     {
@@ -16,18 +13,42 @@
     {
         disabled = "disabled";
     }
-    }
+}
 <form asp-controller="Movie" asp-action="CreateMovie" method="post" role="form">
-    <input @disabled class="Register-input" type="text" name="OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
-    <img src="@Model.DetailMovieModel.TitleImageUrl" />
-    <input @disabled class="Register-input" type="url" name="TitleImageUrl" value="@Model.DetailMovieModel.TitleImageUrl" placeholder="URL of image" />
-    <input @disabled class="Register-input" type="text" maxlength="5" name="Country" value="@Model.DetailMovieModel.Country" placeholder="Country" />
-    <input @disabled class="Register-input" type="number" name="createdYear" value="@Model.DetailMovieModel.CreatedYear" placeholder="Year created" />
-    <input @disabled class="Register-input" type="number" name="length" placeholder="@Model.DetailMovieModel.Length" />
-    @if (disabled == "")
-    {
-        <input type="submit" class="btn btn-primary" value="Submit" />
-    }
+    <input @disabled class="Page-Title Detail-input" type="text" name="OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
+
+
+
+    <div class="Detail-info">
+        <div class="Detail-info-photo">
+            <img class="Detail-info-photo-img " src="@Model.DetailMovieModel.TitleImageUrl" />
+        </div>
+        <div class="Detail-info-basic">
+            @if (disabled == "")
+            {
+                <div class="Detail-info-row">
+                    <text class="Detail-info-row-caption">Image URL:</text>
+                    <input @disabled class="Detail-input" type="url" name="TitleImageUrl" value="@Model.DetailMovieModel.TitleImageUrl" placeholder="URL of image" />
+                </div>
+            }
+            <div class="Detail-info-row">
+                <text class="Detail-info-row-caption">Country:</text>
+                <input @disabled class="Detail-input" type="text" maxlength="5" name="Country" value="@Model.DetailMovieModel.Country" placeholder="Country" />
+            </div>
+            <div class="Detail-info-row">
+                <text class="Detail-info-row-caption">Created year:</text>
+                <input @disabled class="Detail-input" type="number" name="createdYear" value="@Model.DetailMovieModel.CreatedYear" placeholder="Year created" />
+            </div>
+            <div class="Detail-info-row">
+                <text class="Detail-info-row-caption">Length of movie:</text>
+                <input @disabled class="Detail-input" type="number" name="length" placeholder="@Model.DetailMovieModel.Length" />
+            </div>
+            @if (disabled == "")
+            {
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            }
+        </div>
+    </div>
 </form>
 <p>
     @foreach (var actor in Model.DetailMovieModel.Actors)
