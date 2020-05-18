@@ -38,7 +38,7 @@ a {
     background: url(https://i.ya-webdesign.com/images/glass-button-png.png);
     background-size: 27px;
     background-repeat: no-repeat;
-    background-position: center ;
+    background-position: center;
     width: 40px;
 }
 
@@ -155,24 +155,22 @@ body {
  --------------------------------------------------*/
 .User-button {
     display: block;
-    padding: 0.5rem 1rem;
+    padding: 10px 160px 10px 16px;
     color: white;
     float: right;
     width: 200px;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
 }
 
     .User-button:hover {
         background-color: #006431;
-        border-top-left-radius: 0.25rem;
-        border-top-right-radius: 0.25rem;
-        color: white;
     }
 
-        .User-button:hover .User-button-dropdown {
-            display: block;
-            transition-delay: 2s;
-            width: 200px;
-        }
+
+    .User-button     > span {
+        cursor: pointer;
+    }
 
 .User-button-dropdown {
     display: none;
@@ -184,6 +182,7 @@ body {
     border-bottom-right-radius: 0.25rem;
     margin-top: 0.5rem;
     margin-left: -1rem;
+    width:200px;
 }
 
 .Login-input {
