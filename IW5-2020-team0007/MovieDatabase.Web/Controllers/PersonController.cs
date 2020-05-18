@@ -61,11 +61,11 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdatePerson(String ID, EditPersonRequest editPerson)
+        public async Task<IActionResult> UpdatePerson(PersonUpdateViewModel personUpdate)
         {
 
-            await _personFacade.UpdatePersonAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID, editPerson);
-            return RedirectToAction(nameof(Index));
+            await _personFacade.UpdatePersonAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, personUpdate.ID.ToString(), personUpdate.EditPerson);
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]

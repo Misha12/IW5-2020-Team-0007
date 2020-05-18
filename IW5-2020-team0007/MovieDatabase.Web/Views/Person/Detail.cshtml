@@ -27,16 +27,16 @@
             {
                 <div class="Detail-info-row">
                     <text class="Detail-info-row-caption">Image URL:</text>
-                    <input @disabled class="Detail-input" type="url" name="EditPersonRequest.ProfilePictureUrl" value="@Model.PersonDetailModel.ProfilePictureUrl" placeholder="URL of image" />
+                    <input @disabled class="Detail-input" type="url" name="EditPerson.ProfilePictureUrl" value="@Model.PersonDetailModel.ProfilePictureUrl" placeholder="URL of image" />
                 </div>
             }
             <div class="Detail-info-row">
                 <text class="Detail-info-row-caption">Age:</text>
-                <input @disabled class="Detail-input" type="text" maxlength="5" name="EditPersonRequest.Age" value="@Model.PersonDetailModel.Age" placeholder="Country" />
+                <input @disabled class="Detail-input" type="text" maxlength="5" name="EditPerson.Age" value="@Model.PersonDetailModel.Age" placeholder="Age" />
             </div>
             <div class="Detail-info-row">
                 <text class="Detail-info-row-caption">Birthdate:</text>
-                <input @disabled class="Detail-input" type="date" name="EditPersonRequest.Birthdate" value="@Model.PersonDetailModel.Birthdate" placeholder="Birthdate" />
+                <input @disabled class="Detail-input" type="date" name="EditPerson.Birthdate" value="@Model.PersonDetailModel.Birthdate" placeholder="Birthdate" />
             </div>
             @if (disabled == "")
             {
