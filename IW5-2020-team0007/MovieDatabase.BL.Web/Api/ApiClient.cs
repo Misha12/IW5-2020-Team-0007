@@ -2484,7 +2484,7 @@ namespace MovieDatabase.Web
     
         /// <summary>Global search.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<PaginatedDataOfSearchResultBase> SearchAsync(string keyword, int? limit, int? page)
+        public System.Threading.Tasks.Task<PaginatedDataOfSearchResult> SearchAsync(string keyword, int? limit, int? page)
         {
             return SearchAsync(keyword, limit, page, System.Threading.CancellationToken.None);
         }
@@ -2492,7 +2492,7 @@ namespace MovieDatabase.Web
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Global search.</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<PaginatedDataOfSearchResultBase> SearchAsync(string keyword, int? limit, int? page, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<PaginatedDataOfSearchResult> SearchAsync(string keyword, int? limit, int? page, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/search?");
@@ -2538,7 +2538,7 @@ namespace MovieDatabase.Web
                         var status_ = ((int)response_.StatusCode).ToString();
                         if (status_ == "200") 
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<PaginatedDataOfSearchResultBase>(response_, headers_).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PaginatedDataOfSearchResult>(response_, headers_).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -2554,7 +2554,7 @@ namespace MovieDatabase.Web
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(PaginatedDataOfSearchResultBase);
+                        return default(PaginatedDataOfSearchResult);
                     }
                     finally
                     {
@@ -4272,10 +4272,10 @@ namespace MovieDatabase.Web
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class PaginatedDataOfSearchResultBase 
+    public partial class PaginatedDataOfSearchResult 
     {
         [Newtonsoft.Json.JsonProperty("data", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IList<SearchResultBase> Data { get; set; }
+        public System.Collections.Generic.IList<SearchResult> Data { get; set; }
     
         [Newtonsoft.Json.JsonProperty("page", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public int Page { get; set; }
@@ -4293,11 +4293,23 @@ namespace MovieDatabase.Web
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class SearchResultBase 
+    public partial class SearchResult 
     {
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public SearchResultType Type { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("movieResult", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public MovieSearchResult MovieResult { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("personResult", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PersonSearchResult PersonResult { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("userResult", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public UserSearchResult UserResult { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("ratingResult", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public RatingSearchResult RatingResult { get; set; }
     
     
     }
@@ -4320,7 +4332,7 @@ namespace MovieDatabase.Web
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class MovieSearchResult : SearchResultBase
+    public partial class MovieSearchResult 
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long Id { get; set; }
@@ -4341,7 +4353,7 @@ namespace MovieDatabase.Web
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class PersonSearchResult : SearchResultBase
+    public partial class PersonSearchResult 
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long Id { get; set; }
@@ -4362,7 +4374,22 @@ namespace MovieDatabase.Web
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class RatingSearchResult : SearchResultBase
+    public partial class UserSearchResult 
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public long Id { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("username", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Username { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("memberFrom", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.DateTimeOffset MemberFrom { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
+    public partial class RatingSearchResult 
     {
         [Newtonsoft.Json.JsonProperty("shortText", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string ShortText { get; set; }
@@ -4375,21 +4402,6 @@ namespace MovieDatabase.Web
     
         [Newtonsoft.Json.JsonProperty("user", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public SimpleUser User { get; set; }
-    
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.15.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class UserSearchResult : SearchResultBase
-    {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public long Id { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("username", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Username { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("memberFrom", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset MemberFrom { get; set; }
     
     
     }
