@@ -98,7 +98,7 @@ namespace MovieDatabase.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult DeleteMovie(long id)
         {
-            var success = Service.DeletePerson(id);
+            var success = Service.DeleteMovie(id);
 
             if (!success)
                 return NotFound();

@@ -141,6 +141,7 @@ namespace MovieDatabase.API
                     };
                 })
                 .UseSwaggerUi3()
+                .UseMiddleware<RequestResponseLoggingMiddleware>()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }

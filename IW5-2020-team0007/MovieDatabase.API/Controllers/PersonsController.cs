@@ -4,6 +4,7 @@ using MovieDatabase.API.Services;
 using MovieDatabase.Data.Models.Common;
 using MovieDatabase.Data.Models.Persons;
 using NSwag.Annotations;
+using System.Collections.Generic;
 using System.Net;
 
 namespace MovieDatabase.API.Controllers
@@ -103,6 +104,19 @@ namespace MovieDatabase.API.Controllers
                 return NotFound();
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Gets list of all persons as filtering data source.
+        /// </summary>
+        [HttpGet("filter")]
+        [AllowAnonymous]
+        [OpenApiOperation(nameof(PersonsController) + "_" + nameof(GetPersonsFilterData))]
+        [ProducesResponseType(typeof(List<PersonFilterItem>), (int)HttpStatusCode.OK)]
+        public IActionResult GetPersonsFilterData()
+        {
+            var persons = PersonService.GetPersonsFilterData();
+            return Ok(persons);
         }
 
         protected override void Dispose(bool disposing)

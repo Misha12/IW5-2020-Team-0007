@@ -51,7 +51,7 @@ namespace MovieDatabase.API.Services
             return Mapper.Map<Movie>(entity);
         }
 
-        public bool DeletePerson(long id)
+        public bool DeleteMovie(long id)
         {
             if (!MoviesRepository.ExistsMovie(id))
                 return false;
