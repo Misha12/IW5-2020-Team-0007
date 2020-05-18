@@ -9,11 +9,7 @@
         <td class="List-Item-Caption">@Model.OriginalName</td>
         <td class="List-Item-Rating">@Model.Length</td>
         <td class="List-Item-Btn">
-            <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
-                <input type="hidden" name="page" value="1" />
-                <input type="hidden" name="Id" value="@Model.Id" />
-                <input type="submit" class="btn btn-detail" value="Detail" />
-            </form>
+            <a asp-controller="Movie" asp-action="Detail" asp-route-page="1" asp-route-ID="@Model.Id" class="btn btn-detail">Detail</a>
         </td>
 
         @if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))

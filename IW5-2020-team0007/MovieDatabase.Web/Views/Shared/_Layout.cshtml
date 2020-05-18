@@ -14,7 +14,7 @@
     <header>
         <nav class="top-navbar navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">Super Cool Movie Database</a>
+                <a class="navbar-brand text-light" href="/">Super Cool Movie Database</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-Item">
-                            <form asp-controller="Movie" asp-action="List" method="post" role="form">
+                            <form asp-controller="Movie" asp-action="List" method="get" role="form">
                                 <input class="Login-input" type="hidden" name="page" value="1" />
                                 <input type="submit" class="nav-Link" value="Movies" />
                             </form>
@@ -51,7 +51,7 @@
                     @{
                         if (User.Claims.Count() == 0)
                         {
-                            <text>User</text>
+                            <text>Unlogged user</text>
                             <div class="User-button-dropdown">
                                 <form asp-controller="User" asp-action="Login" method="post" role="form">
                                     <input class="Login-input" type="text" name="Username" placeholder="Username" />
