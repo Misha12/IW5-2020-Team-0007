@@ -1,0 +1,47 @@
+﻿@model MovieDatabase.Web.ViewModels.PersonDetailViewModel
+@{
+    ViewData["Title"] = "Detail";
+}
+
+@{string disabled;
+    if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+    {
+        disabled = "";
+    }
+    else
+    {
+        disabled = "disabled";
+    }
+}
+<form asp-controller="Person" asp-action="UpdatePerson" method="post" role="form">
+    <input @disabled class="Page-Title Detail-input" type="text" name="EditPersonRequest.OriginalName" value="@Model.PersonDetailModel.Name @Model.PersonDetailModel.Surname" placeholder="Original name" />
+    <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
+
+
+    <div class="Detail-info">
+        <div class="Detail-info-photo">
+            <img class="Detail-info-photo-img " src="@Model.PersonDetailModel.ProfilePictureUrl" />
+        </div>
+        <div class="Detail-info-basic">
+            @if (disabled == "")
+            {
+                <div class="Detail-info-row">
+                    <text class="Detail-info-row-caption">Image URL:</text>
+                    <input @disabled class="Detail-input" type="url" name="EditPersonRequest.ProfilePictureUrl" value="@Model.PersonDetailModel.ProfilePictureUrl" placeholder="URL of image" />
+                </div>
+            }
+            <div class="Detail-info-row">
+                <text class="Detail-info-row-caption">Age:</text>
+                <input @disabled class="Detail-input" type="text" maxlength="5" name="EditPersonRequest.Age" value="@Model.PersonDetailModel.Age" placeholder="Country" />
+            </div>
+            <div class="Detail-info-row">
+                <text class="Detail-info-row-caption">Birthdate:</text>
+                <input @disabled class="Detail-input" type="date" name="EditPersonRequest.Birthdate" value="@Model.PersonDetailModel.Birthdate" placeholder="Birthdate" />
+            </div>
+            @if (disabled == "")
+            {
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            }
+        </div>
+    </div>
+</form>

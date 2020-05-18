@@ -42,6 +42,16 @@ namespace MovieDatabase.Web.Controllers
             return View(personNewViewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Detail(string ID)
+        {
+            var PersonDetailViewModel = new PersonDetailViewModel
+            {
+                PersonDetailModel = await GetPersonDetail(ID)
+            };
+            return View(PersonDetailViewModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> NewPerson(CreatePersonRequest createPerson)
         {
