@@ -20,17 +20,42 @@ a {
     align-self: center;
 }
 
+    .btn-primary:hover {
+        color: #310064;
+        background-color: lightgray;
+        border: 1px solid #310064;
+        align-self: center;
+    }
+
 .btn-detail {
     color: #fff;
+    font-weight:600;
     background-color: #310064;
     border: 1px solid #310064;
     align-self: center;
 }
 
     .btn-detail:hover {
-        color: #fff;
-        background-color: #310064;
-        border: 1px solid white;
+        color: #310064;
+        font-weight: 600;
+        background-color: lightgray;
+        border: 1px solid #310064;
+        align-self: center;
+    }
+
+.btn-delete {
+    color: #fff;
+    font-weight: 600;
+    background-color: #640900;
+    border-color: #640900;
+    align-self: center;
+}
+
+    .btn-delete:hover {
+        color: #640900;
+        font-weight: 600;
+        background-color: lightgray;
+        border: 1px solid #640900;
         align-self: center;
     }
 
@@ -168,7 +193,7 @@ body {
     }
 
 
-    .User-button     > span {
+    .User-button > span {
         cursor: pointer;
     }
 
@@ -182,7 +207,7 @@ body {
     border-bottom-right-radius: 0.25rem;
     margin-top: 0.5rem;
     margin-left: -1rem;
-    width:200px;
+    width: 200px;
 }
 
 .Login-input {
@@ -363,10 +388,18 @@ th {
     background-color: #359A68 !important;
     color: white !important;
 }
-
+.our-dark-green {
+    background-color: #359A68 !important;
+    color: white !important;
+}
 .our-dark-blue {
     background-color: #310064 !important;
 }
+
+.our-light-gray {
+    background-color: lightgray !important;
+}
+
 
 .margin-top {
     margin-top: 25px;
