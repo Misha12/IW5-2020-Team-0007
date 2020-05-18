@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MovieDatabase.BL.Web;
 using MovieDatabase.BL.Web.Facades;
 using MovieDatabase.Web.Models;
@@ -47,13 +48,13 @@ namespace MovieDatabase.Web.Controllers
             return View(loginViewModel);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> List()
+        [HttpPost]
+        public async Task<IActionResult> List(int page)
         {
 
             var UserListViewModel = new UserListViewModel()
             {
-                listUser = await GetUserSSListAsync()
+                listUser = await GetUserSSListAsync(page)
             };
             return View(UserListViewModel);
         }
@@ -135,18 +136,18 @@ namespace MovieDatabase.Web.Controllers
             await _clientFacade.RefreshAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, HttpContext.User.FindFirst(ClaimTypes.SerialNumber).Value);
             return RedirectToAction(nameof(Login));
         }
-
+        /*
         [HttpPost]
         public async Task<IActionResult> GetUsersListAsync()
         {
             var a = await GetUserSSListAsync();
             return RedirectToAction(nameof(Login));
-        }
+        }*/
 
         [HttpPost]
-        public async Task<PaginatedDataOfSimpleUser> GetUserSSListAsync()
+        public async Task<PaginatedDataOfSimpleUser> GetUserSSListAsync(int page)
         {
-            var a = await _userFacade.GetUsersListAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, null, 5, 1);
+            var a = await _userFacade.GetUsersListAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, null, 5, page);
             return a;
         }
 

@@ -31,9 +31,13 @@
                         @{
                             if (User.Claims.Count() != 0 && User.FindFirst(ClaimTypes.Role).Value == "Administrator")
                             {
-                                <li class="nav-Item">
+                                <form asp-controller="User" asp-action="List" method="post" role="form">
+                                    <input class="Login-input" type="hidden" name="page" value="1" />
+                                    <input type="submit" class="nav-Link" value="User List" />
+                                </form>
+                                @*<li class="nav-Item">
                                     <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
-                                </li>
+                                </li>*@
                             }
                         }
                     </ul>
