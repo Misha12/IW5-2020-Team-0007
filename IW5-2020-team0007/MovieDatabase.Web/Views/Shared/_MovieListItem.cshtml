@@ -10,6 +10,7 @@
     <td class="Movie-List-Item-Rating">@Model.Length</td>
     <td>
         <form asp-controller="Movie" asp-action="Detail" method="post" role="form">
+            <input type="hidden" name="page" value="1" />
             <input type="hidden" name="Id" value="@Model.Id" />
             <input type="submit" class="btn btn-primary" value="Detail" />
         </form>

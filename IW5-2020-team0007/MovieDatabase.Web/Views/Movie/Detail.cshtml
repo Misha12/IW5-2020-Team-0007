@@ -15,7 +15,7 @@
     }
 }
 <form asp-controller="Movie" asp-action="UpdateMovie" method="post" role="form">
-    <input @disabled class="Page-Title Detail-input" type="text" name="OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
+    <input @disabled class="Page-Title Detail-input" type="text" name="MovieRequest.OriginalName" value="@Model.DetailMovieModel.OriginalName" placeholder="Original name" />
     <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
 
 
@@ -66,5 +66,13 @@
     @foreach (var Genres in Model.DetailMovieModel.Genres)
     {
         <text>@Genres</text>
+    }
+</p>
+<p>
+    @foreach (var rating in Model.ListRatingModel.Data)
+    {
+        <text>@rating.Author wrote:\n</text>
+        <text>@rating.Text</text>
+        <text>@rating.Score</text>
     }
 </p>
