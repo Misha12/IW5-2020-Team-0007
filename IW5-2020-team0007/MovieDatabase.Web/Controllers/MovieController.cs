@@ -50,10 +50,10 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<Movie> UpdateMovie(MovieUpdateViewModel updateMovie)
+        public async Task<IActionResult> UpdateMovie(MovieUpdateViewModel updateMovie)
         {
-            var a = await movieFacade.UpdateMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, updateMovie.ID, updateMovie.MovieRequest);
-            return a;
+            await movieFacade.UpdateMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, updateMovie.ID, updateMovie.MovieRequest);
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]
