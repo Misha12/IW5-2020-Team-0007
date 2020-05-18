@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using MovieDatabase.BL.Web.Facades;
 using MovieDatabase.Web.ViewModels;
 
@@ -26,10 +25,12 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMovie(CreateMovieRequest movie)
+        public async Task<IActionResult> CreateMovie(CreateMovieRequest movie, TimeSpan movieLength)
         {
+            movie.Length = Convert.ToInt64(movieLength.TotalMinutes);
+
             await movieFacade.CreateMovieAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, movie);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(List));
         }
 
         [HttpGet]
@@ -39,21 +40,8 @@ namespace MovieDatabase.Web.Controllers
             {
                 MovieModel = new CreateMovieRequest()
             };
+
             return View(movieNewViewModel);
-        }
-
-        [HttpPost]
-        public async Task<PaginatedDataOfSimpleMovie> GetMoviesList(String name, IEnumerable<int> genresIds, String country, long? lengthFrom, long? lengthTo, int? limit, int? page)
-        {
-            var a = await movieFacade.GetMoviesListAsync(name, genresIds, country, lengthFrom, lengthTo, limit, page);
-            return a;
-        }
-
-        [HttpPost]
-        public async Task<Movie> GetMovieDetail(long ID)
-        {
-            var a = await movieFacade.GetMovieDetailAsync(ID);
-            return a;
         }
 
         [HttpPost]
@@ -86,12 +74,12 @@ namespace MovieDatabase.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> List(int page = 1)
         {
-            var MovieListViewModel = new MovieListViewModel()
+            var viewModel = new MovieListViewModel()
             {
-                listMovie = await GetMoviesList(null, null, null, null, null, 5, page)
+                listMovie = await movieFacade.GetMoviesListAsync(null, null, null, null, null, 5, page)
             };
 
-            return View(MovieListViewModel);
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -111,7 +99,7 @@ namespace MovieDatabase.Web.Controllers
 
             var MovieDetailViewModel = new MovieDetailViewModel()
             {
-                DetailMovieModel = await GetMovieDetail(ID),
+                DetailMovieModel = await movieFacade.GetMovieDetailAsync(ID),
                 ListRatingModel = ratings,
                 Genres = genres.ToList(),
                 Persons = persons,
