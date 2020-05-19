@@ -36,7 +36,7 @@
                         @{
                             if (User.Claims.Count() != 0 && User.FindFirst(ClaimTypes.Role).Value == "Administrator")
                             {
-                                <form asp-controller="User" asp-action="List" method="post" role="form">
+                                <form asp-controller="User" asp-action="List" method="get" role="form">
                                     <input class="Login-input" type="hidden" name="page" value="1" />
                                     <input type="submit" class="nav-Link" value="User List" />
                                 </form>
@@ -61,7 +61,7 @@
                     @{
                         if (User.Claims.Count() == 0)
                         {
-                            <text>User</text>
+                            <text>Not logged ▼</text>
                             <div class="User-button-dropdown">
                                 <form asp-controller="User" asp-action="Login" method="post" role="form">
                                     <input class="Login-input" type="text" name="Username" placeholder="Username" />

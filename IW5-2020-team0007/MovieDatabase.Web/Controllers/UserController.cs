@@ -61,7 +61,7 @@ namespace MovieDatabase.Web.Controllers
             return View(loginViewModel);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> List(int page)
         {
 
