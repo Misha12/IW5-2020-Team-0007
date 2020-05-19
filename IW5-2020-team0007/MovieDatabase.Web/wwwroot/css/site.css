@@ -178,6 +178,14 @@ body {
     text-decoration: none;
     border: none;
 }
+.Login-err {
+    border: 1px solid #640900;
+    background-color: lightgray ;
+    color: #640900;
+    margin-top:10px;
+    padding: 5px;
+    border-radius: 0.25rem;
+}
 /*User CSS
  --------------------------------------------------*/
 .User-button {

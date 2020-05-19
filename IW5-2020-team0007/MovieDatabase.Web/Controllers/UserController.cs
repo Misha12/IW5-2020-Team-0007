@@ -54,11 +54,13 @@ namespace MovieDatabase.Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+
             var loginViewModel = new LoginViewModel()
             {
                 LoginModel = new LoginRequest()
             };
             return View(loginViewModel);
+
         }
 
         [HttpGet]
@@ -120,12 +122,13 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest loginModel)
         {
+            try
+            {
+                var a = await _clientFacade.LoginAsync(loginModel);
 
-            var a = await _clientFacade.LoginAsync(loginModel);
+                User thisUser = await _userFacade.CurrentUserAsync(a.AccessToken);
 
-            User thisUser = await _userFacade.CurrentUserAsync(a.AccessToken);
-
-            var claims = new List<Claim>
+                var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, thisUser.Id.ToString()),
                 new Claim(ClaimTypes.Name, thisUser.Username),
@@ -136,17 +139,24 @@ namespace MovieDatabase.Web.Controllers
                 new Claim(ClaimTypes.SerialNumber, a.RefreshToken)
             };
 
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties()
-                {
-                    ExpiresUtc = a.ExpiresAt,
-                    IssuedUtc = DateTimeOffset.UtcNow
-                });
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties()
+                    {
+                        ExpiresUtc = a.ExpiresAt,
+                        IssuedUtc = DateTimeOffset.UtcNow
+                    });
 
-            return Redirect("/");
+                TempData["LoginSuccess"] = true;
+                return Redirect("/");
+            }
+            catch (ApiException)
+            {
+                TempData["LoginSuccess"] = false;
+                return Redirect("/");
+            }
         }
 
         [HttpGet]

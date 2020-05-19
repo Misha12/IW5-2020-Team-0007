@@ -40,12 +40,13 @@
                                     <input class="Login-input" type="hidden" name="page" value="1" />
                                     <input type="submit" class="nav-Link" value="User List" />
                                 </form>
-                                @*<li class="nav-Item">
-                                        <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
-                                    </li>*@
-                            }
-                        }
-                    </ul>
+                                
+                                        @*<li class="nav-Item">
+                            <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
+                        </li>*@
+                                    }
+                                }
+                            </ul>
                 </div>
                 <div class="input-group mb col-md-4">
                     <form asp-controller="Search" asp-action="Search" method="get" role="form" style="width:100%;">
@@ -62,16 +63,26 @@
                         if (User.Claims.Count() == 0)
                         {
                             <text>Not logged ▼</text>
-                            <div class="User-button-dropdown">
-                                <form asp-controller="User" asp-action="Login" method="post" role="form">
-                                    <input class="Login-input" type="text" name="Username" placeholder="Username" />
-                                    <input class="Login-input" type="password" name="Password" placeholder="Password" />
-                                    <div class="Detail-info-row">
-                                        <input type="submit" class="btn btn-detail" value="Login" />
-                                        <a class="btn btn-detail" asp-area="" asp-controller="User" asp-action="New">Register</a>
+                    <div class="User-button-dropdown">
+                        <form asp-controller="User" asp-action="Login" method="post" role="form">
+                            <input class="Login-input" type="text" name="Username" placeholder="Username" />
+                            <input class="Login-input" type="password" name="Password" placeholder="Password" />
+                            @if (Model.LoginSuccess != null)
+                            {
+                                if (Model.LoginSuccess == false)
+                                {
+                                    <div class="Login-err">
+                                        Failed to login
                                     </div>
-                                </form>
+                                }
+                            }
+                            <div class="Detail-info-row">
+                                <input type="submit" class="btn btn-detail" value="Login" />
+                                <a class="btn btn-detail" asp-area="" asp-controller="User" asp-action="New">Register</a>
                             </div>
+                        </form>
+                        
+                    </div>
                         }
                         else
                         {

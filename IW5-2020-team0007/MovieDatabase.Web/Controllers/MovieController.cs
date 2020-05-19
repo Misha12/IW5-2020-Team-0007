@@ -79,6 +79,12 @@ namespace MovieDatabase.Web.Controllers
                 listMovie = await movieFacade.GetMoviesListAsync(null, null, null, null, null, 5, page)
             };
 
+            if (TempData.ContainsKey("LoginSuccess"))
+            {
+                viewModel.LoginSuccess = (bool)TempData["LoginSuccess"];
+                TempData.Remove("LoginSuccess");
+                
+            }
             return View(viewModel);
         }
 

@@ -8,5 +8,7 @@ namespace MovieDatabase.Web.ViewModels
     public class MovieListViewModel
     {
         public PaginatedDataOfSimpleMovie listMovie { get; set; }
+
+        public bool? LoginSuccess { get; set; }
     }
 }

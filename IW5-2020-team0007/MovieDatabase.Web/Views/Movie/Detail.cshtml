@@ -65,7 +65,7 @@
 
                                     @if (Model.DetailMovieModel.Genres.Count > 0 && string.IsNullOrEmpty(disabled))
                                     {
-                                        <a asp-controller="Movie" asp-action="ClearAllGenres" asp-route-id="@Model.DetailMovieModel.Id" class="badge badge-danger">Clear all</a>
+                                        <a asp-controller="Movie" asp-action="ClearAllGenres" asp-route-id="@Model.DetailMovieModel.Id" class="badge badge-danger our-dark-red">Clear all</a>
                                     }
                                 </label>
                                 @if (string.IsNullOrEmpty(disabled))
@@ -82,7 +82,7 @@
                                                 <input type="checkbox" class="custom-control-input" name="MovieRequest.GenreIds" value="@genre.Id" id="Genre-@genre.Id" />
                                             }
 
-                                            <label class="custom-control-label" for="Genre-@genre.Id">@genre.Name</label>
+                                            <label class="custom-control-label " for="Genre-@genre.Id">@genre.Name</label>
                                         </div>
                                     }
                                 }
