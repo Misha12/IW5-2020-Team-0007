@@ -3,9 +3,11 @@
 @{
     ViewData["Title"] = "Detail";
 
-    bool canEdit = User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager");
+    bool isLogged = User.Claims.Count() != 0;
+    bool canEdit = isLogged && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager");
     long userId = Convert.ToInt64(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
     string disabled = canEdit ? "" : "disabled";
+    string rateDisabled = !isLogged ? "disabled" : "";
 }
 
 <form asp-controller="Movie" asp-action="UpdateMovie" method="post">
@@ -146,20 +148,20 @@
 
         @foreach (var actor in Model.DetailMovieModel.Actors)
         {
-    <div class="card mr-3" style="width: 13rem;">
-        <input type="hidden" name="actors" value="@actor.Id" />
-        <div class="card-img-top" style="background: url('@actor.ProfilePictureUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
-        <div class="card-body our-light-green">
-            <h5 class="card-title">
-                <a asp-controller="Person" asp-action="Detail" asp-route-id="@actor.Id" class="text-white">@actor.Name @actor.Surname</a>
-            </h5>
+            <div class="card mr-3" style="width: 13rem;">
+                <input type="hidden" name="actors" value="@actor.Id" />
+                <div class="card-img-top" style="background: url('@actor.ProfilePictureUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
+                <div class="card-body our-light-green">
+                    <h5 class="card-title">
+                        <a asp-controller="Person" asp-action="Detail" asp-route-id="@actor.Id" class="text-white">@actor.Name @actor.Surname</a>
+                    </h5>
 
-            @if (string.IsNullOrEmpty(disabled))
-            {
-                <button class="btn btn-primary" name="toRemoveActor" value="@actor.Id" type="submit">Remove</button>
-            }
-        </div>
-    </div>
+                    @if (string.IsNullOrEmpty(disabled))
+                    {
+                        <button class="btn btn-primary" name="toRemoveActor" value="@actor.Id" type="submit">Remove</button>
+                    }
+                </div>
+            </div>
         }
 
         @if (string.IsNullOrEmpty(disabled))
@@ -331,26 +333,33 @@
                     <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
 
                     <div class="form-group">
-                        <textarea class="form-control" required style="height: 250px; resize: none" name="text"></textarea>
+                        <textarea @disabled class="form-control" required style="height: 250px; resize: none" name="text"></textarea>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-8">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="anonymous" name="anonymous">
-                                <label class="custom-control-label" for="anonymous">Anonymous</label>
-                            </div>
+                        <div class="col-md-8 @(isLogged ? "" : "d-flex align-items-center")">
+                            @if (isLogged)
+                            {
+                                <div class="custom-control custom-checkbox">
+                                    <input @disabled type="checkbox" class="custom-control-input" id="anonymous" name="anonymous">
+                                    <label class="custom-control-label" for="anonymous">Anonymous</label>
+                                </div>
+                            }
+                            else
+                            {
+                                <h3>Only logged in users can add ratings.</h3>
+                            }
                         </div>
 
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Score (%)</label>
-                                <input type="number" class="form-control" min="0" max="100" value="0" name="score" />
+                                <input @disabled type="number" class="form-control" min="0" max="100" value="0" name="score" />
                             </div>
                         </div>
 
                         <div class="col-md-2 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Create rate</button>
+                            <button type="submit" @disabled class="btn btn-primary">Create rate</button>
                         </div>
                     </div>
                 </div>
