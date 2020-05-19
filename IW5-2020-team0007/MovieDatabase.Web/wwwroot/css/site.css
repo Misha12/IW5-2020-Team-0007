@@ -140,7 +140,9 @@ body {
     margin: 0 0 20px 0;
     width: 100%;
     color: #000000;
-    border-bottom: 1px solid rgba(0,0,0,.1) !important;
+    padding-left:15px;
+    border-bottom: 2px solid rgba(32,0,64,0.7) !important;
+    border-radius: 0.25rem;
 }
 
 .btn-delete {
