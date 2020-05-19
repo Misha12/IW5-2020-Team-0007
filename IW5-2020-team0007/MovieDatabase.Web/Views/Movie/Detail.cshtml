@@ -146,18 +146,20 @@
 
         @foreach (var actor in Model.DetailMovieModel.Actors)
         {
-            <div class="card mr-3" style="width: 13rem;">
-                <input type="hidden" name="actors" value="@actor.Id" />
-                <img class="card-img-top" src="@actor.ProfilePictureUrl" alt="@actor.Name @actor.Surname">
-                <div class="card-body our-light-green">
-                    <h5 class="card-title">@actor.Name @actor.Surname</h5>
+    <div class="card mr-3" style="width: 13rem;">
+        <input type="hidden" name="actors" value="@actor.Id" />
+        <div class="card-img-top" style="background: url('@actor.ProfilePictureUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
+        <div class="card-body our-light-green">
+            <h5 class="card-title">
+                <a asp-controller="Person" asp-action="Detail" asp-route-id="@actor.Id" class="text-white">@actor.Name @actor.Surname</a>
+            </h5>
 
-                    @if (string.IsNullOrEmpty(disabled))
-                    {
-                        <button class="btn btn-primary" name="toRemoveActor" value="@actor.Id" type="submit">Remove</button>
-                    }
-                </div>
-            </div>
+            @if (string.IsNullOrEmpty(disabled))
+            {
+                <button class="btn btn-primary" name="toRemoveActor" value="@actor.Id" type="submit">Remove</button>
+            }
+        </div>
+    </div>
         }
 
         @if (string.IsNullOrEmpty(disabled))
@@ -196,9 +198,11 @@
         {
             <div class="card mr-3" style="width: 13rem;">
                 <input type="hidden" name="directors" value="@director.Id" />
-                <img class="card-img-top" src="@director.ProfilePictureUrl" alt="@director.Name @director.Surname">
+                <div class="card-img-top" style="background: url('@director.ProfilePictureUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
                 <div class="card-body our-light-green">
-                    <h5 class="card-title">@director.Name @director.Surname</h5>
+                    <h5 class="card-title">
+                        <a asp-controller="Person" asp-action="Detail" asp-route-id="@director.Id" class="text-white">@director.Name @director.Surname</a>
+                    </h5>
 
                     @if (string.IsNullOrEmpty(disabled))
                     {
