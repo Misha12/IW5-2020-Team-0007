@@ -35,6 +35,19 @@ namespace MovieDatabase.Web.Controllers
             {
                 UserModel = new RegisterRequest()
             };
+
+            if (TempData.ContainsKey("Messages"))
+            {
+                userNewViewModel.Messages = TempData["Messages"] as List<string> ?? (TempData["Messages"] as string[]).ToList() ?? new List<string>() { "" };
+                TempData.Remove("Messages");
+            }
+
+            if (TempData.ContainsKey("Success"))
+            {
+                userNewViewModel.Success = (bool)TempData["Success"];
+                TempData.Remove("Success");
+            }
+
             return View(userNewViewModel);
         }
 
@@ -79,8 +92,29 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert(RegisterRequest personModel)
         {
-            await _userFacade.InsertAsync(personModel);
-            return RedirectToAction(nameof(New));
+            try
+            {
+                await _userFacade.InsertAsync(personModel);
+
+                TempData["Messages"] = new List<string>() { "Registration was successful. Verify your account with a message sent to your email." };
+                TempData["Success"] = true;
+                return RedirectToAction(nameof(New));
+            }
+            catch (ApiException<ValidationProblemDetails> validationError)
+            {
+                var messages = validationError.Result.Errors.SelectMany(o => o.Value).ToList();
+                messages.Insert(0, "Registration failed. Inserted data not valid.");
+
+                TempData["Messages"] = messages;
+                TempData["Success"] = false;
+                return RedirectToAction(nameof(New));
+            }
+            catch (ApiException)
+            {
+                TempData["Messages"] = new List<string>() { "Registration failed. Internal server error occured." };
+                TempData["Success"] = false;
+                return RedirectToAction(nameof(New));
+            }
         }
 
         [HttpPost]
@@ -159,9 +193,9 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<User> ChangePassword(long ID,UserPassViewModel userPassViewModel)
+        public async Task<User> ChangePassword(long ID, UserPassViewModel userPassViewModel)
         {
-            var a = await _userFacade.ChangePasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID,userPassViewModel.PasswordModel);
+            var a = await _userFacade.ChangePasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID, userPassViewModel.PasswordModel);
             return a;
         }
 
@@ -181,7 +215,7 @@ namespace MovieDatabase.Web.Controllers
         [HttpPost]
         public async Task<User> GetUserDetail(long ID)
         {
-            return await _userFacade.GetUserDetailAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value,ID);
+            return await _userFacade.GetUserDetailAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID);
         }
 
         [HttpGet]

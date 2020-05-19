@@ -4,20 +4,69 @@
     ViewData["Title"] = "Registration";
 }
 
-    <p class="Page-Title">Registration</p>
-
-
+<p class="Page-Title">Registration</p>
 
 <form asp-controller="User" asp-action="Insert" method="post" role="form">
-    <input class="Register-input" asp-for="UserModel.Email" type="email" name="Email" placeholder="Email" />
-    <input class="Register-input" asp-for="UserModel.Username" type="text" name="Username" placeholder="Username" />
-    <input class="Register-input" asp-for="UserModel.Password" type="password" name="Password" placeholder="Password" />
-    <input class="Register-input" asp-for="UserModel.PasswordConfirm" type="password" name="PasswordConfirm" placeholder="Confirm Password" />
-    <input type="submit" class="btn btn-primary" value="Register" />
+    @if (Model.Success != null)
+    {
+        <div class="alert @(Model.Success == true ? "alert-success" : "alert-danger")">
+            @foreach (var message in Model.Messages)
+            {
+                <span>@message</span><br />
+            }
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 our-light-green border-0">
+                <div class="row no-gutters">
+                    <div class="col-md">
+                        <div class="card-body pb-0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="mb-0">Email</label>
+                                        <input type="email" class="form-control form-control-sm" name="Email" placeholder="Email" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="mb-0">Username</label>
+                                        <input type="text" class="form-control form-control-sm" name="Username" placeholder="Username" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="mb-0">Password</label>
+                                        <input type="password" class="form-control form-control-sm" name="Password" placeholder="Password" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="mb-0">Password confirm</label>
+                                        <input type="password" class="form-control form-control-sm" name="PasswordConfirm" placeholder="PasswordConfirm" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2 mr-1 ml-1">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-primary mr-2" href="/">Back to homepage</a>
+                            <input type="submit" class="btn btn-primary" value="Register" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
-
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
