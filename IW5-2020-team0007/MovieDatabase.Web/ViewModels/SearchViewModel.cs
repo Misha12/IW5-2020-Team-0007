@@ -9,5 +9,6 @@ namespace MovieDatabase.Web.ViewModels
     {
         public String keyword { get; set; }
         public PaginatedDataOfSearchResult SearchResultBase { get; set; }
+        public bool? LoginSuccess { get; set; }
     }
 }
