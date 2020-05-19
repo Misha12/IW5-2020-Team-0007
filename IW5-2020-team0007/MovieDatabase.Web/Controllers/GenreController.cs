@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieDatabase.BL.Web.Facades;
+using MovieDatabase.Web.ViewModels;
 
 namespace MovieDatabase.Web.Controllers
 {
@@ -16,40 +15,30 @@ namespace MovieDatabase.Web.Controllers
             _genreFacade = facade;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var viewModel = new GenresViewModel()
+            {
+                Genres = (await _genreFacade.GetGenresListAsync(null)).ToList()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> NewGenre(CreateGenreRequest createGenre)
+        public async Task<IActionResult> Create(CreateGenreRequest createGenre)
         {
-
-            await _genreFacade.CreateGenreAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, createGenre);
+            var token = HttpContext.User.FindFirst(ClaimTypes.Hash).Value;
+            await _genreFacade.CreateGenreAsync(token, createGenre);
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateGenre(String ID, EditGenreRequest editGenre)
+        [HttpGet]
+        public async Task<IActionResult> DeleteGenre(int id)
         {
-
-            await _genreFacade.UpdateGenreAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value,int.Parse(ID), editGenre);
+            var token = HttpContext.User.FindFirst(ClaimTypes.Hash).Value;
+            await _genreFacade.DeleteGenreAsync(token, id);
             return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteGenre(String ID)
-        {
-
-            await _genreFacade.DeleteGenreAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, int.Parse(ID));
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public async Task<ICollection<Genre>> GetGenres(String search)
-        {
-            var a = await _genreFacade.GetGenresListAsync(search);
-            return a;
         }
     }
 }

@@ -255,6 +255,10 @@ th {
     padding: 20px;
 }
 
+th.sm {
+    padding: 10px
+}
+
 .List {
     width: -webkit-fill-available;
     background-color: #359A68 !important;
@@ -279,6 +283,10 @@ th {
     width: 60px;
     height: 90px;
     padding: 10px;
+}
+
+.List-Item.sm {
+    height: 40px;
 }
 
     .List-Item:nth-child(2n+1) {
