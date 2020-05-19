@@ -191,9 +191,9 @@ body {
  --------------------------------------------------*/
 .User-button {
     display: block;
-    padding: 10px 80px 10px 16px;
     color: white;
     float: right;
+    padding: 1rem;
     width: 200px;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
@@ -226,7 +226,7 @@ body {
     border-radius: 0.25rem;
     margin-top: 10px;
     padding: 0.2rem;
-    width:190px;
+    width:180px;
 }
 
     .Login-input::placeholder {
