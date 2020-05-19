@@ -42,7 +42,13 @@ a {
         border: 1px solid #310064;
         align-self: center;
     }
-
+    .btn-detail:disabled {
+        color: lightgray;
+        font-weight: 600;
+        background-color: #310064;
+        border: 1px solid #310064;
+        align-self: center;
+    }
 .btn-delete {
     color: #fff;
     font-weight: 600;
@@ -442,6 +448,9 @@ th.sm {
     border: none !important;
 }
 
+.margin-top-10 {
+    margin-top: 10px;
+}
 .margin-top {
     margin-top: 25px;
 }
