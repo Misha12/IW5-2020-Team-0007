@@ -8,5 +8,6 @@ namespace MovieDatabase.Web.ViewModels
     public class UserListViewModel
     {
         public PaginatedDataOfSimpleUser listUser { get; set; }
+        public bool? LoginSuccess { get; set; }
     }
 }

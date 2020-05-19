@@ -10,5 +10,6 @@ namespace MovieDatabase.Web.ViewModels
         public long ID { get; set; }
         public TimeSpan Length { get; set; }
         public EditMovieRequest MovieRequest { get; set; }
+        public bool? LoginSuccess { get; set; }
     }
 }

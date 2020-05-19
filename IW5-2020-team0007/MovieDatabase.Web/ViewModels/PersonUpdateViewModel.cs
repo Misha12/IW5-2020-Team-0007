@@ -9,5 +9,6 @@ namespace MovieDatabase.Web.ViewModels
     {
         public long ID { get; set; }
         public EditPersonRequest EditPerson { get; set; }
+        public bool? LoginSuccess { get; set; }
     }
 }

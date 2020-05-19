@@ -8,5 +8,6 @@ namespace MovieDatabase.Web.ViewModels
     public class UserPassViewModel
     {
         public PasswordChangeRequest PasswordModel { get; set; }
+        public bool? LoginSuccess { get; set; }
     }
 }

@@ -8,5 +8,6 @@ namespace MovieDatabase.Web.ViewModels
     public class DetailUserViewModel
     {
         public User UserModel { get; set; }
+        public bool? LoginSuccess { get; set; }
     }
 }
