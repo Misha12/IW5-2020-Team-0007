@@ -225,7 +225,7 @@ body {
     border: thin solid #007bff;
     border-radius: 0.25rem;
     margin-top: 10px;
-    padding: 0.1rem;
+    padding: 0.2rem;
 }
 
     .Login-input::placeholder {

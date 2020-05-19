@@ -20,7 +20,7 @@
                 <td>@genre.Name</td>
                 <td>@genre.MoviesCount</td>
                 <td>
-                    <a asp-controller="Genre" asp-action="DeleteGenre" asp-route-id="@genre.Id" class="btn our-dark-red btn-sm">Delete</a>
+                    <a asp-controller="Genre" asp-action="DeleteGenre" asp-route-id="@genre.Id" class="btn btn-delete btn-sm">Delete</a>
                 </td>
             </tr>
         }
@@ -32,7 +32,7 @@
             </td>
             <td>&nbsp;</td>
             <td>
-                <button type="submit" class="btn our-dark-blue btn-sm">Create</button>
+                <button type="submit" class="btn btn-detail btn-sm">Create</button>
             </td>
         </tr>
     </table>
