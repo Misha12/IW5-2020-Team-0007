@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MovieDatabase.API.Models;
 using MovieDatabase.API.Services;
-using MovieDatabase.Domain.DTO;
+using MovieDatabase.Common.Extensions;
+using MovieDatabase.Data.Models.Common;
+using MovieDatabase.Data.Models.Ratings;
 using NSwag.Annotations;
+using System;
+using System.Net;
 
 namespace MovieDatabase.API.Controllers
 {
     [ApiController]
-    [Route("movies/{movieID}/rates")]
-    public class RatesController : ControllerBase
+    [Route("rates")]
+    public class RatesController : Controller
     {
         private RatesService Service { get; }
 
@@ -21,94 +22,94 @@ namespace MovieDatabase.API.Controllers
         }
 
         /// <summary>
-        /// Get all rates for movie.
-        /// </summary>
-        /// <param name="movieID">Unique ID of movie.</param>
-        /// <param name="scoreFrom">Optional parametr for minimal rate.</param>
-        /// <param name="scoreTo">Optional parametr for maximal rate.</param>
-        [HttpGet]
-        [ProducesResponseType(typeof(List<Rate>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetMovieRates(long movieID, int? scoreFrom = null, int? scoreTo = null)
-        {
-            var list = Service.GetRateList(movieID, scoreFrom, scoreTo);
-
-            if (list == null)
-                return NotFound(new ErrorModel("Requested movie was not found."));
-
-            return Ok(list);
-        }
-
-        /// <summary>
-        /// Get rate with information about movie.
-        /// </summary>
-        /// <param name="movieID">Unique ID of movie.</param>
-        /// <param name="rateID">Unique ID of rate.</param>
-        /// <returns></returns>
-        [HttpGet("{rateID}")]
-        [ProducesResponseType(typeof(RateDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult GetMovieRateByRateID(long movieID, long rateID)
-        {
-            var rate = Service.FindRateByID(movieID, rateID);
-            return rate == null ? (IActionResult)NotFound(new ErrorModel("Requested movie rate was not found.")) : Ok(rate);
-        }
-
-        /// <summary>
         /// Create rate.
         /// </summary>
-        /// <param name="movieID">Unique ID of movie.</param>
-        /// <param name="data"></param>
         [HttpPost]
-        [ProducesResponseType(typeof(RateDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult CreateMovieRate(long movieID, [FromBody] RateInput data)
+        [Authorize(Roles = "User,ContentManager,Administrator")]
+        [OpenApiOperation(nameof(RatesController) + "_" + nameof(CreateRate))]
+        [ProducesResponseType(typeof(Rating), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult CreateRate([FromBody] CreateRateRequest request)
         {
-            if (!data.IsValid())
-                return BadRequest(new ErrorModel("Rates description was not specified."));
+            var currentUserID = HttpContext.User.GetUserID();
+            var rating = Service.CreateRate(request, currentUserID);
+            return Ok(rating);
+        }
 
-            var rate = Service.CreateRate(movieID, data);
-            return rate == null ? (IActionResult)NotFound(new ErrorModel("Movie rate couldn't be added, because the movie is not in database.")) : Ok(rate);
+        /// <summary>
+        /// Get all rates.
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        [OpenApiOperation(nameof(RatesController) + "_" + nameof(GetRatingsList))]
+        [ProducesResponseType(typeof(PaginatedData<Rating>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public IActionResult GetRatingsList([FromQuery] RatingSearchRequest request)
+        {
+            var ratings = Service.GetRateList(request);
+            return Ok(ratings);
         }
 
         /// <summary>
         /// Change rate.
         /// </summary>
-        /// <param name="movieID">Unique ID of movie.</param>
-        /// <param name="rateID">Unique ID of rate.</param>
-        /// <param name="data"></param>
-        [HttpPut("{rateID}")]
-        [ProducesResponseType(typeof(RateDetail), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorModel), (int)HttpStatusCode.NotFound)]
-        public IActionResult UpdateMovieRate(long movieID, long rateID, RateInput data)
+        [HttpPut("{id}")]
+        [Authorize(Roles = "User,ContentManager,Administrator")]
+        [OpenApiOperation(nameof(RatesController) + "_" + nameof(UpdateRate))]
+        [ProducesResponseType(typeof(Rating), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        public IActionResult UpdateRate(long id, [FromBody] EditRatingRequest request)
         {
-            var rate = Service.UpdateRate(movieID, rateID, data);
-            return rate == null ? (IActionResult)NotFound(new ErrorModel("Movie rate couldn't be changed, because it's not in database.")) : Ok(rate);
+            try
+            {
+                var rating = Service.UpdateRate(id, request, HttpContext.User);
+
+                if (rating == null)
+                    return NotFound();
+
+                return Ok(rating);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
+            }
         }
 
         /// <summary>
         /// Delete rate.
         /// </summary>
-        /// <param name="movieID">Unique ID of movie.</param>
-        /// <param name="rateID">Unique ID of rate.</param>
-        [HttpDelete("{rateID}")]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.NotFound)]
-        public IActionResult DeleteMovieName(long movieID, long rateID)
+        /// <param name="id">Unique ID of rate.</param>
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "User,ContentManager,Administrator")]
+        [OpenApiOperation(nameof(RatesController) + "_" + nameof(DeleteRate))]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        public IActionResult DeleteRate(long id)
         {
-            var success = Service.DeleteRate(movieID, rateID);
-            return success ? Ok(null) : (IActionResult)NotFound(null);
+            try
+            {
+                var success = Service.DeleteRate(id, HttpContext.User);
+
+                if (!success)
+                    return NotFound();
+
+                return Ok();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Forbid();
+            }
         }
 
-        /// <summary>
-        /// Get all rates fo all movies.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("/rates")]
-        [ProducesResponseType(typeof(List<Rate>), (int)HttpStatusCode.OK)]
-        public IActionResult GetAllRates(int? scoreFrom = null, int? scoreTo = null)
+        protected override void Dispose(bool disposing)
         {
-            return Ok(Service.GetRateList(null, scoreFrom, scoreTo));
+            if (disposing)
+                Service.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

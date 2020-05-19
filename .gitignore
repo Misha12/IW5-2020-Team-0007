@@ -328,4 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-/IW5-2020-team0007/MovieDatabase.API/MovieDatabase.API.xml
+[aA]ppSettings.development.json
+MovieDatabase.*.xml

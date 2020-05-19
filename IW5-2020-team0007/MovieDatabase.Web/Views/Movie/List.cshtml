@@ -1,0 +1,52 @@
+﻿@model MovieDatabase.Web.ViewModels.MovieListViewModel
+
+@{
+    bool isAdmin = User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager");
+}
+
+<p class="Page-Title">
+    Movies
+
+    @if (isAdmin)
+    {
+        <a class="btn btn-detail float-right" asp-controller="Movie" asp-action="New">Create movie</a>
+    }
+</p>
+
+<table class="List">
+    <tr>
+        <th>&nbsp;</th>
+        <th>Title</th>
+        <th>Length</th>
+        <th>&nbsp;</th>
+    </tr>
+    @foreach (var user in Model.listMovie.Data)
+    {
+        <partial name="_MovieListItem" model="user" />
+    }
+</table>
+
+<div class="page-switcher">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <form asp-controller="Movie" asp-action="List" method="get" role="form">
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.listMovie.Page - 1)" />
+                    <button @(Model.listMovie.CanPrev ? "" : "disabled") type="submit" class="page-link" href="#">Previous</button>
+                </form>
+            </li>
+
+            <li class="page-item">
+                <span class="page-link">@Model.listMovie.Page</span>
+            </li>
+
+            <li class="page-item">
+                <form asp-controller="Movie" asp-action="List" method="get" role="form">
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.listMovie.Page + 1)" />
+                    <button @(Model.listMovie.CanNext ? "" : "disabled") type="submit" class="page-link" href="#">Next</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</div>
+

@@ -1,0 +1,360 @@
+﻿@model MovieDatabase.Web.ViewModels.MovieDetailViewModel
+
+@{
+    ViewData["Title"] = "Detail";
+
+    bool canEdit = User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager");
+    long userId = Convert.ToInt64(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
+    string disabled = canEdit ? "" : "disabled";
+}
+
+<form asp-controller="Movie" asp-action="UpdateMovie" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 our-light-green border-0">
+                <div class="row no-gutters">
+                    <div class="col-md-2">
+                        <div class="bg-placeholder-img rounded-left" style="border-bottom-left-radius: 0 !important; background: url('@Model.DetailMovieModel.TitleImageUrl'); height: 250px; width: 100%; background-size: cover; background-position: center center"></div>
+                    </div>
+                    <div class="col-md">
+                        <div class="card-body">
+                            <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+                            <div class="form-group">
+                                <input @disabled type="text" class="form-control form-control-lg pl-2" name="MovieRequest.OriginalName" value="@Model.DetailMovieModel.OriginalName" />
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Country</label>
+                                        <input @disabled type="text" class="form-control form-control-sm" name="MovieRequest.Country" value="@Model.DetailMovieModel.Country" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Release year</label>
+                                        <input @disabled type="number" class="form-control form-control-sm" name="MovieRequest.CreatedYear" value="@Model.DetailMovieModel.CreatedYear" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Length</label>
+                                        <input @disabled type="time" class="form-control form-control-sm" name="Length" value="@TimeSpan.FromMinutes(Model.DetailMovieModel.Length)" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="mb-0">Image URL</label>
+                                        <input @disabled type="url" class="form-control form-control-sm" name="MovieRequest.TitleImageUrl" value="@Model.DetailMovieModel.TitleImageUrl" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="d-block mb-0">
+                                    Genres
+
+                                    @if (Model.DetailMovieModel.Genres.Count > 0 && string.IsNullOrEmpty(disabled))
+                                    {
+                                        <a asp-controller="Movie" asp-action="ClearAllGenres" asp-route-id="@Model.DetailMovieModel.Id" class="badge badge-danger our-dark-red">Clear all</a>
+                                    }
+                                </label>
+                                @if (string.IsNullOrEmpty(disabled))
+                                {
+                                    @foreach (var genre in Model.Genres)
+                                    {
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            @if (Model.DetailMovieModel.Genres.Any(o => o.Id == genre.Id))
+                                            {
+                                                <input checked type="checkbox" class="custom-control-input" name="MovieRequest.GenreIds" value="@genre.Id" id="Genre-@genre.Id" />
+                                            }
+                                            else
+                                            {
+                                                <input type="checkbox" class="custom-control-input" name="MovieRequest.GenreIds" value="@genre.Id" id="Genre-@genre.Id" />
+                                            }
+
+                                            <label class="custom-control-label " for="Genre-@genre.Id">@genre.Name</label>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    @foreach (var genre in Model.DetailMovieModel.Genres)
+                                    {
+                                        <span class="badge badge-primary our-dark-blue">@genre.Name</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row no-gutters d-flex justify-content-center mt-2">
+                    <div class="col-md-11">
+                        <div class="form-group " style="height: 200px">
+                            <textarea class="form-control" style="resize: none; height: 200px" @disabled name="MovieRequest.Description">@Model.DetailMovieModel.Description</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                @if (string.IsNullOrEmpty(disabled))
+                {
+                    <div class="row mb-2 mr-1 ml-1">
+                        <div class="col-md-9">
+                            @if (Model.SaveSuccess != null)
+                            {
+                                if (Model.SaveSuccess == true)
+                                {
+                                    <div class="alert alert-success" role="alert">
+                                        Movie saved successfully.
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        Failed to save movie.
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex justify-content-end">
+                                <input type="submit" class="btn btn-primary" value="Save changes" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card mt-2">
+    <h5 class="card-header our-light-green">Actors</h5>
+
+    <form class="card-body d-flex flex-wrap" asp-controller="Movie" asp-action="UpdateActors" method="post">
+        <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+
+        @foreach (var actor in Model.DetailMovieModel.Actors)
+        {
+    <div class="card mr-3" style="width: 13rem;">
+        <input type="hidden" name="actors" value="@actor.Id" />
+        <div class="card-img-top" style="background: url('@actor.ProfilePictureUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
+        <div class="card-body our-light-green">
+            <h5 class="card-title">
+                <a asp-controller="Person" asp-action="Detail" asp-route-id="@actor.Id" class="text-white">@actor.Name @actor.Surname</a>
+            </h5>
+
+            @if (string.IsNullOrEmpty(disabled))
+            {
+                <button class="btn btn-primary" name="toRemoveActor" value="@actor.Id" type="submit">Remove</button>
+            }
+        </div>
+    </div>
+        }
+
+        @if (string.IsNullOrEmpty(disabled))
+        {
+            var nonActingPersons = Model.Persons.Where(o => !Model.DetailMovieModel.Actors.Any(x => x.Id == o.Id)).ToList();
+
+            @if (nonActingPersons.Count > 0)
+            {
+                <div class="card" style="width: 17rem;">
+                    <div class="card-body our-light-green">
+                        <div class="form-group">
+                            <select class="form-control" name="actors">
+                                <option value="">Select actor</option>
+                                @foreach (var person in nonActingPersons)
+                                {
+                                    <option value="@person.Id">@person.NameSurname</option>
+                                }
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Add</button>
+                    </div>
+                </div>
+            }
+        }
+    </form>
+</div>
+
+<div class="card mt-2">
+    <h5 class="card-header our-light-green">Directors</h5>
+
+    <form class="card-body d-flex flex-wrap " asp-controller="Movie" asp-action="UpdateDirectors" method="post">
+        <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+
+        @foreach (var director in Model.DetailMovieModel.Directors)
+        {
+            <div class="card mr-3" style="width: 13rem;">
+                <input type="hidden" name="directors" value="@director.Id" />
+                <div class="card-img-top" style="background: url('@director.ProfilePictureUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
+                <div class="card-body our-light-green">
+                    <h5 class="card-title">
+                        <a asp-controller="Person" asp-action="Detail" asp-route-id="@director.Id" class="text-white">@director.Name @director.Surname</a>
+                    </h5>
+
+                    @if (string.IsNullOrEmpty(disabled))
+                    {
+                        <button class="btn btn-primary" name="toRemoveDirector" value="@director.Id" type="submit">Remove</button>
+                    }
+                </div>
+            </div>
+        }
+
+        @if (string.IsNullOrEmpty(disabled))
+        {
+            var nonDirectingPersons = Model.Persons.Where(o => !Model.DetailMovieModel.Directors.Any(x => x.Id == o.Id)).ToList();
+
+            @if (nonDirectingPersons.Count > 0)
+            {
+                <div class="card" style="width: 17rem;">
+                    <div class="card-body our-light-green">
+                        <div class="form-group">
+                            <select class="form-control" name="directors">
+                                <option value="">Select director</option>
+                                @foreach (var person in nonDirectingPersons)
+                                {
+                                    <option value="@person.Id">@person.NameSurname</option>
+                                }
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Add</button>
+                    </div>
+                </div>
+            }
+        }
+    </form>
+</div>
+
+<div class="card mt-3">
+    <h5 class="card-header our-light-green">
+        <div class="d-flex justify-content-between">
+            <div>Ratings</div>
+            <div>
+                @if (Model.ListRatingModel.Data.Count > 0)
+                {
+                    @if (Model.AvgRatingScore < 50)
+                    {
+                        <span class="badge badge-danger">@Model.AvgRatingScore %</span>
+                    }
+                    else if (Model.AvgRatingScore >= 50 && Model.AvgRatingScore < 80)
+                    {
+                        <span class="badge badge-warning">@Model.AvgRatingScore %</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-success our-dark-green">@Model.AvgRatingScore %</span>
+                    }
+                }
+            </div>
+        </div>
+    </h5>
+
+    <div class="card-body">
+        @if (Model.ListRatingModel.Data.Count > 0)
+        {
+            @foreach (var rating in Model.ListRatingModel.Data)
+            {
+                <div class="card bg-transparent mb-2">
+                    <div class="card-header bg-transparent  our-light-green">
+                        <div class="d-flex justify-content-between">
+                            <div>@(rating.Author == null ? "Anonymous user" : rating.Author.Username)</div>
+                            <div>
+                                @if (rating.Score < 50)
+                                {
+                                    <span class="badge badge-danger">@rating.Score %</span>
+                                }
+                                else if (rating.Score >= 50 && rating.Score < 80)
+                                {
+                                    <span class="badge badge-warning">@rating.Score %</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-success our-dark-green">@rating.Score %</span>
+                                }
+
+                                @if (string.IsNullOrEmpty(disabled) || (rating.Author != null && rating.Author.Id == userId))
+                                {
+                                    <a asp-controller="Movie" asp-action="DeleteRate" asp-route-id="@rating.Id" asp-route-movieId="@Model.DetailMovieModel.Id" class="btn btn-sm btn-delete">Delete</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body ">
+                        @rating.Text
+                    </div>
+                </div>
+            }
+
+            <div class="page-switcher">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <form asp-controller="Movie" asp-action="Detail" method="get" role="form">
+                                <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+                                <input class="Login-input" type="hidden" name="page" value="@(Model.ListRatingModel.Page - 1)" />
+                                <button @(Model.ListRatingModel.CanPrev ? "" : "disabled") type="submit" class="page-link" href="#">Previous</button>
+                            </form>
+                        </li>
+
+                        <li class="page-item">
+                            <span class="page-link">@Model.ListRatingModel.Page</span>
+                        </li>
+
+                        <li class="page-item">
+                            <form asp-controller="Movie" asp-action="Detail" method="get" role="form">
+                                <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+                                <input class="Login-input" type="hidden" name="page" value="@(Model.ListRatingModel.Page + 1)" />
+                                <button @(Model.ListRatingModel.CanNext ? "" : "disabled") type="submit" class="page-link" href="#">Next</button>
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        }
+
+        <form method="post" asp-controller="Movie" asp-action="CreateRate">
+            <div class="card bg-transparent mb-2">
+                <div class="card-body our-light-green">
+                    <input type="hidden" name="ID" value="@Model.DetailMovieModel.Id" />
+
+                    <div class="form-group">
+                        <textarea class="form-control" required style="height: 250px; resize: none" name="text"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="anonymous" name="anonymous">
+                                <label class="custom-control-label" for="anonymous">Anonymous</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>Score (%)</label>
+                                <input type="number" class="form-control" min="0" max="100" value="0" name="score" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Create rate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

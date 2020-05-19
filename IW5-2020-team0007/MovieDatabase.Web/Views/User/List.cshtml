@@ -1,0 +1,43 @@
+﻿
+@model MovieDatabase.Web.ViewModels.UserListViewModel
+
+<p class="Page-Title">User list</p>
+
+
+<table class="List">
+    <tr>
+        <th>Id</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @{
+        foreach (var user in Model.listUser.Data)
+        {
+            <partial name="_UserListItem" model="user" />
+        } }
+</table>
+<div class="page-switcher">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <form asp-controller="User" asp-action="List" method="get" role="form">
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.listUser.Page - 1)" />
+                    <button @(Model.listUser.CanPrev ? "" : "disabled") type="submit" class="page-link" href="#">Previous</button>
+                </form>
+            </li>
+
+            <li class="page-item">
+                <span class="page-link">@Model.listUser.Page</span>
+            </li>
+
+            <li class="page-item">
+                <form asp-controller="User" asp-action="List" method="get" role="form">
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.listUser.Page + 1)" />
+                    <button @(Model.listUser.CanNext ? "" : "disabled") type="submit" class="page-link" href="#">Next</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</div>

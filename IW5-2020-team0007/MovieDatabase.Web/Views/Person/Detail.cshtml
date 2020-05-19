@@ -1,0 +1,128 @@
+﻿@model MovieDatabase.Web.ViewModels.PersonDetailViewModel
+@{
+    ViewData["Title"] = "Detail";
+}
+
+@{string disabled;
+    if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+    {
+        disabled = "";
+    }
+    else
+    {
+        disabled = "disabled";
+    }
+}
+
+
+<form asp-controller="Person" asp-action="UpdatePerson" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 our-light-green">
+                <div class="row no-gutters">
+                    <div class="col-md-2">
+                        <div class="bg-placeholder-img rounded-left" style="border-bottom-left-radius: 0 !important; background: url('@Model.PersonDetailModel.ProfilePictureUrl'); height: 250px; width: 100%; background-size: cover; background-position: center center"></div>
+                    </div>
+                    <div class="col-md">
+                        <div class="card-body">
+                            <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input @disabled type="text" class="form-control form-control-lg " name="EditPerson.Name" value="@Model.PersonDetailModel.Name" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input @disabled type="text" class="form-control form-control-lg " name="EditPerson.Surname" value="@Model.PersonDetailModel.Surname" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Age</label>
+                                        <input disabled type="text" class="form-control form-control-sm" name="EditPerson.Age" value="@Model.PersonDetailModel.Age" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Date of birth</label>
+                                        <input @disabled type="date" class="form-control form-control-sm" name="EditPerson.Birthday" value="@Model.PersonDetailModel.Birthdate.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="mb-0">Image URL</label>
+                                        <input @disabled type="url" class="form-control form-control-sm" name="EditPerson.ProfilePictureUrl" value="@Model.PersonDetailModel.ProfilePictureUrl" />
+                                    </div>
+                                </div>
+                                @if (string.IsNullOrEmpty(disabled))
+                                {
+                                    <div class="col-md-4" style="margin-top:10px;">
+                                        <div class="d-flex">
+                                            <input type="submit" class="btn btn-primary" value="Save changes" />
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<div class="card mt-2">
+    <h5 class="card-header our-light-green">Acts in</h5>
+
+    <form class="card-body d-flex flex-wrap" asp-controller="Movie" asp-action="UpdateActors" method="post">
+        <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
+
+        @foreach (var movie in Model.PersonDetailModel.ActingIn)
+        {
+            <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@movie.Id" class="card-link">
+                <div class="card mr-3" style="width: 13rem; height: 23.5rem;">
+
+                    <input type="hidden" name="actors" value="@movie.Id" />
+                    <div class="card-img-top" style="background: url('@movie.TitleImageUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
+                    <div class="card-body our-light-green">
+                        <h5 class="card-title">@movie.OriginalName</h5>
+
+                    </div>
+
+                </div>
+            </a>
+        }
+    </form>
+</div>
+
+<div class="card mt-2">
+    <h5 class="card-header our-light-green">Directs</h5>
+
+    <form class="card-body d-flex flex-wrap" asp-controller="Movie" asp-action="UpdateActors" method="post">
+        <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
+
+        @foreach (var movie in Model.PersonDetailModel.DirectedIn)
+        {
+            <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@movie.Id" class="card-link">
+                <div class="card mr-3" style="width: 13rem; height: 23.5rem;">
+                    <input type="hidden" name="actors" value="@movie.Id" />
+                    <div class="card-img-top" style="background: url('@movie.TitleImageUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
+                    <div class="card-body our-light-green">
+                        <h5 class="card-title">@movie.OriginalName</h5>
+                    </div>
+                </div>
+            </a>
+        }
+    </form>
+</div>

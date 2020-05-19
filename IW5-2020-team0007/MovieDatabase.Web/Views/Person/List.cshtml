@@ -1,0 +1,51 @@
+﻿@model MovieDatabase.Web.ViewModels.PersonListViewModel
+<p class="Page-Title">
+    Persons
+    @if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+    {
+        <a class="btn btn-detail  float-right" asp-area="" asp-controller="Person" asp-action="New">Create person</a>
+    }
+</p>
+<table class="List">
+    <tr class="List-Col-Captions">
+        <th> </th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th></th>
+        @if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+        {
+            <th></th>
+        }
+    </tr>
+    @{
+        foreach (var person in Model.listPerson.Data)
+        {
+            <partial name="_PersonListItem" model="person" />
+        } }
+
+
+</table>
+<div class="page-switcher">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <form asp-controller="Person" asp-action="List" method="get" role="form">
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.listPerson.Page - 1)" />
+                    <button @(Model.listPerson.CanPrev ? "" : "disabled") type="submit" class="page-link" href="#">Previous</button>
+                </form>
+            </li>
+
+            <li class="page-item">
+                <span class="page-link">@Model.listPerson.Page</span>
+            </li>
+
+            <li class="page-item">
+                <form asp-controller="Person" asp-action="List" method="get" role="form">
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.listPerson.Page + 1)" />
+                    <button @(Model.listPerson.CanNext ? "" : "disabled") type="submit" class="page-link" href="#">Next</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</div>
+

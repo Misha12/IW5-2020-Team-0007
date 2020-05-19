@@ -1,0 +1,59 @@
+﻿@model MovieDatabase.Web.ViewModels.PersonNewViewModel
+@{
+    ViewData["Title"] = "New";
+}
+
+<p class="Page-Title">Create a Person</p>
+
+<form asp-controller="Person" asp-action="NewPerson" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 our-light-green border-0">
+                <div class="row no-gutters">
+                    <div class="col-md">
+                        <div class="card-body pb-0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-lg pl-2" name="Name" placeholder="Name" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-lg pl-2" name="Surname" placeholder="Surname" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Birthdate</label>
+                                        <input type="date" class="form-control form-control-sm" name="Birthday" placeholder="Birthdate" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="mb-0">Image URL</label>
+                                        <input type="url" class="form-control form-control-sm" name="ProfilePictureUrl" placeholder="Image URL" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2 mr-1 ml-1">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-primary mr-2" href="/Person">Back to list</a>
+                            <input type="submit" class="btn btn-primary" value="Create person" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

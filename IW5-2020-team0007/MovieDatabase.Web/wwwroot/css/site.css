@@ -1,0 +1,446 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #310064;
+    border-color: #310064;
+    margin-top: 10px;
+    align-self: center;
+}
+
+    .btn-primary:hover {
+        color: #310064;
+        background-color: lightgray;
+        border: 1px solid #310064;
+        align-self: center;
+    }
+
+.btn-detail {
+    color: #fff;
+    font-weight: 600;
+    background-color: #310064;
+    border: 1px solid #310064;
+    align-self: center;
+}
+
+    .btn-detail:hover {
+        color: #310064;
+        font-weight: 600;
+        background-color: lightgray;
+        border: 1px solid #310064;
+        align-self: center;
+    }
+
+.btn-delete {
+    color: #fff;
+    font-weight: 600;
+    background-color: #640900;
+    border-color: #640900;
+    align-self: center;
+}
+
+    .btn-delete:hover {
+        color: #640900;
+        font-weight: 600;
+        background-color: lightgray;
+        border: 1px solid #640900;
+        align-self: center;
+    }
+
+.btn-search {
+    background: url(https://i.ya-webdesign.com/images/glass-button-png.png);
+    background-size: 27px;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 50px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+header {
+    background-color: lightgray;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(90, 95, 99, 0.10);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    background-color: lightgray;
+    margin-bottom: 60px;
+}
+
+.footer {
+    background-color: #359A68;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    color: white;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.dark-blue-link {
+    color: #310064;
+}
+/* General styles
+--------------------------------------------------*/
+.Page-Title {
+    font-family: 'Arial Narrow Bold', sans-serif;
+    font-size: 30px;
+    margin: 0 0 20px 0;
+    width: 100%;
+    color: #000000;
+    padding-left:15px;
+    border-bottom: 2px solid rgba(32,0,64,0.7) !important;
+    border-radius: 0.25rem;
+}
+
+.btn-delete {
+    color: #fff;
+    background-color: #640900;
+    border-color: #640900;
+    align-self: center;
+}
+
+.top-navbar {
+    border-bottom: 1px solid #359A68;
+    background-color: #359A68 !important;
+}
+
+.nav-Item {
+    color: white;
+}
+
+.nav-Link:hover {
+    color: white;
+    background-color: #006431;
+    text-decoration: none;
+    border-radius: 0.25rem;
+}
+
+.nav-Link {
+    color: white;
+    display: block;
+    padding: .5rem 1rem;
+    padding-right: .5rem;
+    padding-left: .5rem;
+    background-color: transparent;
+    text-decoration: none;
+    border: none;
+}
+.Login-err {
+    border: 1px solid #640900;
+    background-color: lightgray ;
+    color: #640900;
+    margin-top:10px;
+    padding: 5px;
+    border-radius: 0.25rem;
+    text-align:center;
+}
+/*User CSS
+ --------------------------------------------------*/
+.User-button {
+    display: block;
+    padding: 10px 80px 10px 16px;
+    color: white;
+    float: right;
+    width: 200px;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+    .User-button:hover {
+        background-color: #006431;
+    }
+
+
+    .User-button > span {
+        cursor: pointer;
+    }
+
+.User-button-dropdown {
+    display: none;
+    z-index: 2;
+    position: absolute;
+    padding: 0.5rem;
+    background-color: #006431;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    margin-top: 0.5rem;
+    margin-left: -1rem;
+    width: 200px;
+}
+
+.Login-input {
+    border: thin solid #007bff;
+    border-radius: 0.25rem;
+    margin-top: 10px;
+    padding: 0.2rem;
+}
+
+    .Login-input::placeholder {
+        color: black;
+    }
+
+.Register-input {
+    border: thin solid #007bff;
+    border-radius: 0.25rem;
+    margin-top: 10px;
+    padding: 0.1rem;
+    width: 20px;
+    min-width: 250px;
+    margin-right: 80%;
+}
+
+    .Register-input::placeholder {
+        color: black;
+    }
+
+.Login-input::placeholder {
+    color: black;
+}
+/* List CSS
+--------------------------------------------------*/
+th {
+    padding: 20px;
+}
+
+th.sm {
+    padding: 10px
+}
+
+.List {
+    width: -webkit-fill-available;
+    background-color: #359A68 !important;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    margin-top: 15px;
+}
+
+    .List caption {
+        font-family: 'Arial Narrow Bold', sans-serif;
+        font-size: 30px;
+        margin: 0;
+        width: max-content;
+        float: left;
+        color: #000000;
+    }
+.List-Col-Captions {
+}
+.List-Item {
+    background: linear-gradient(to right,lightgray,#e0e0e0);
+    text-align: left;
+    width: 60px;
+    height: 90px;
+    padding: 10px;
+}
+
+.List-Item.sm {
+    height: 40px;
+}
+
+    .List-Item:nth-child(2n+1) {
+        background: linear-gradient(to right,lightgray, #c6c6c6);
+    }
+
+.List-Item-Rating {
+    width: 60px;
+    text-align: center;
+}
+
+.List-Item-Date {
+    width: 100px;
+    text-align: center;
+}
+
+.List-Item-Caption {
+    padding-left: 20px;
+}
+
+.List-Item-Photo {
+    width: 60px;
+    text-align: center;
+    margin-right: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.List-Item-Photo-img {
+    width: 60px;
+    height: inherit;
+    border: none;
+}
+
+.List-Item-Btn {
+    width: 100px;
+    text-align: center;
+}
+
+.page-switcher {
+    margin: 20px;
+    align-self: center;
+}
+
+.page-item.disabled .page-link {
+    border: 1px solid grey;
+}
+
+.page-link {
+    background-color: #359A68 !important;
+    color: white !important;
+    border: 1px solid grey;
+}
+
+    .page-link:hover {
+        background-color: #006431 !important;
+        color: white !important;
+        border: 1px solid grey;
+    }
+
+    .page-link:disabled {
+        background-color: #006331 !important;
+    }
+/* Detail CSS
+--------------------------------------------------*/
+.Detail-info-photo {
+    width: 120px;
+    height: 200px;
+    float: left;
+    margin-right: 20px;
+    margin-left: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.Detail-info-photo-img {
+    width: inherit;
+    height: inherit;
+}
+
+.Detail-info-basic {
+    float: left;
+    padding-right: 50px;
+}
+
+.Detail-input {
+    border: 1px solid transparent;
+    background-color: transparent;
+    float: left;
+    color: black;
+}
+
+.Detail-info-row {
+    width: 100%;
+    margin: 10px;
+}
+
+.Detail-info-row-caption {
+    float: left;
+    margin-right: 5px;
+}
+
+.Detail-input:hover {
+    border: 1px solid black;
+    background-color: gray;
+}
+
+.Detail-input:focus, .Detail-input:active {
+    border: 1px solid #310064;
+    background-color: transparent;
+}
+
+.Detail-input:disabled, .Detail-input:disabled:hover {
+    border: none;
+    background-color: transparent;
+}
+/*Colors
+*/
+.our-light-green {
+    background-color: #359A68 !important;
+    color: white !important;
+}
+
+.our-dark-green {
+    background-color: #006431 !important;
+    color: white !important;
+}
+
+.our-dark-blue {
+    background-color: #310064 !important;
+    color: white !important;
+}
+
+.our-light-gray {
+    background-color: lightgray !important;
+    color: black !important;
+}
+
+.our-dark-gray {
+    background-color: grey !important;
+    color: white !important;
+}
+
+.our-dark-red {
+    background-color: #640900 !important;
+    color: white !important;
+}
+
+.border-none {
+    border: none !important;
+}
+
+.margin-top {
+    margin-top: 25px;
+}

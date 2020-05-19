@@ -1,0 +1,33 @@
+﻿@model SimpleMovie
+
+@{
+    ViewData["Title"] = "_MovieListItem";
+
+    bool isAdmin = User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager");
+}
+
+<tr class="List-Item">
+    <td class="List-Item-Photo" background="@Model.TitleImageUrl">&nbsp;</td>
+    <td class="List-Item-Caption">
+        <h3 class="font-weight-light">
+            @Model.OriginalName
+            <small class="d-flex align-items-start">
+                @foreach(var genre in Model.Genres)
+                {
+                    <span style="font-size: 13px" class="mr-1 badge our-dark-blue text-white">@genre.Name</span>
+                }
+            </small>
+        </h3>
+        @Model.Country, @Model.CreatedYear
+    </td>
+    <td class="List-Item-Rating">@Model.Length min</td>
+    <td class="List-Item-Btn w-25 text-right pr-4">
+        <a asp-controller="Movie" asp-action="Detail" asp-route-page="1" asp-route-ID="@Model.Id" class="btn btn-detail">Detail</a>
+
+        @if (isAdmin)
+        {
+            <a asp-controller="Movie" asp-action="DeleteMovie" asp-route-id="@Model.Id" class="btn btn-delete">Delete</a>
+        }
+    </td>
+</tr>
+

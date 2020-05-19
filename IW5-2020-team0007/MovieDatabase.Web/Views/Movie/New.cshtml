@@ -1,0 +1,74 @@
+﻿@model MovieDatabase.Web.ViewModels.MovieNewViewModel
+
+@{
+    ViewData["Title"] = "New";
+}
+
+<p class="Page-Title">Create a movie</p>
+
+<form asp-controller="Movie" asp-action="CreateMovie" method="post">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 our-light-green border-0">
+                <div class="row no-gutters">
+                    <div class="col-md">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-lg pl-2" name="OriginalName" placeholder="Original name" />
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Country</label>
+                                        <input type="text" maxlength="50" class="form-control form-control-sm" name="Country" placeholder="Country" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Release year</label>
+                                        <input type="number" min="0" max="2100" class="form-control form-control-sm" name="CreatedYear" placeholder="Release year" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="mb-0">Length</label>
+                                        <input type="time" class="form-control form-control-sm" name="MovieLength" placeholder="Length" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="mb-0">Image URL</label>
+                                        <input type="url" class="form-control form-control-sm" name="TitleImageUrl" placeholder="Image URL" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row no-gutters d-flex justify-content-center mt-2">
+                    <div class="col-md-11">
+                        <div class="form-group " style="height: 200px">
+                            <textarea class="form-control" style="resize: none; height: 200px" name="Description" placeholder="Description"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2 mr-1 ml-1">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-primary mr-2" href="/">Back to list</a>
+                            <input type="submit" class="btn btn-primary" value="Create movie" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

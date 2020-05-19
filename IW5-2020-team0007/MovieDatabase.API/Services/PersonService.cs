@@ -1,102 +1,65 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using MovieDatabase.API.Models;
-using MovieDatabase.Domain;
-using MovieDatabase.Domain.DTO;
+using MovieDatabase.Data.Models.Common;
+using MovieDatabase.Data.Models.Persons;
+using MovieDatabase.Data.Repository;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using DBPerson = MovieDatabase.Domain.Entity.Person;
-using MoviePersonType = MovieDatabase.Domain.Entity.MoviePersonType;
 
 namespace MovieDatabase.API.Services
 {
-    public class PersonService
+    public class PersonService : IDisposable
     {
-        private MovieDatabaseContext Context { get; }
+        private PersonsRepository PersonsRepository { get; }
         private IMapper Mapper { get; }
 
-        public PersonService(MovieDatabaseContext context, IMapper mapper)
+        public PersonService(IMapper mapper, PersonsRepository personsRepository)
         {
-            Context = context;
             Mapper = mapper;
+            PersonsRepository = personsRepository;
         }
 
-        public List<Person> GetPersons(string search = null)
+        public PaginatedData<SimplePerson> GetPersonList(PersonSearchRequest request)
         {
-            var query = Context.Persons.AsQueryable();
-
-            if (!string.IsNullOrEmpty(search))
-                query = query.Where(o => o.Name.Contains(search) || o.Surname.Contains(search));
-
-            var data = query.ToList();
-            return Mapper.Map<List<Person>>(data);
+            var query = PersonsRepository.GetPersons(request.NameSurname);
+            return PaginatedData<SimplePerson>.Create(query, request, entityList => Mapper.Map<List<SimplePerson>>(entityList));
         }
 
-        public PersonDetail FindPersonByID(long id)
+        public SimplePerson CreatePerson(CreatePersonRequest request)
         {
-            var person = Context.Persons
-                .Include(o => o.InMovies)
-                .ThenInclude(o => o.Movie)
-                .FirstOrDefault(o => o.ID == id);
-
-            var mapped = Mapper.Map<PersonDetail>(person);
-
-            if(person.InMovies?.Count > 0)
-            {
-                mapped.ActingIn = person.InMovies.Where(o => o.Type == MoviePersonType.Actor).Select(o => Mapper.Map<Movie>(o.Movie)).ToList();
-                mapped.DirectedIn = person.InMovies.Where(o => o.Type == MoviePersonType.Director).Select(o => Mapper.Map<Movie>(o.Movie)).ToList();
-            }
-
-            return mapped;
+            var entity = PersonsRepository.CreatePerson(request.Name, request.Surname, request.ProfilePictureUrl, request.Birthday);
+            return Mapper.Map<SimplePerson>(entity);
         }
 
-        public Person CreatePerson(PersonInput data)
+        public Person GetPersonDetail(long id)
         {
-            var entity = new DBPerson()
-            {
-                Name = data.Name,
-                ProfilePicture = data.ProfilePictureUrl,
-                Surname = data.Surname
-            };
+            var person = PersonsRepository.FindPersonById(id);
+            return Mapper.Map<Person>(person);
+        }
 
-            Context.Persons.Add(entity);
-            Context.SaveChanges();
-
-            return Mapper.Map<Person>(entity);
+        public Person UpdatePerson(long id, EditPersonRequest request)
+        {
+            var person = PersonsRepository.UpdatePerson(id, request.Name, request.Surname, request.ProfilePictureUrl, request.Birthday);
+            return Mapper.Map<Person>(person);
         }
 
         public bool DeletePerson(long id)
         {
-            var person = Context.Persons.Include(o => o.InMovies).FirstOrDefault(o => o.ID == id);
-
-            if (person == null)
+            if (!PersonsRepository.PersonExists(id))
                 return false;
 
-            person.InMovies.Clear();
-            Context.Persons.Remove(person);
-            Context.SaveChanges();
-
+            PersonsRepository.DeletePerson(id);
             return true;
         }
 
-        public Person UpdatePerson(long id, PersonInput data)
+        public List<PersonFilterItem> GetPersonsFilterData()
         {
-            var person = Context.Persons.FirstOrDefault(o => o.ID == id);
+            var entities = PersonsRepository.GetPersons(null);
+            return Mapper.Map<List<PersonFilterItem>>(entities);
+        }
 
-            if (person == null)
-                return null;
-
-            if (!string.IsNullOrEmpty(data.Name))
-                person.Name = data.Name;
-
-            if (!string.IsNullOrEmpty(data.Surname))
-                person.Surname = data.Surname;
-
-            if (!string.IsNullOrEmpty(data.ProfilePictureUrl))
-                person.ProfilePicture = data.ProfilePictureUrl;
-
-            Context.SaveChanges();
-            return Mapper.Map<Person>(person);
+        public void Dispose()
+        {
+            PersonsRepository.Dispose();
         }
     }
 }

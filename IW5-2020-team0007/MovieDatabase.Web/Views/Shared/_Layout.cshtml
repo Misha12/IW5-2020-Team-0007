@@ -1,0 +1,132 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Super Cool Movie Database</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+
+</head>
+<body>
+    <header>
+        <nav class="top-navbar navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand text-light text-wrap" href="/">Super Cool Movie Database</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-Item">
+                            <form asp-controller="Movie" asp-action="List" method="get" role="form">
+                                <input class="Login-input" type="hidden" name="page" value="1" />
+                                <input type="submit" class="nav-Link" value="Movies" />
+                            </form>
+                        </li>
+                        <li class="nav-Item">
+                            <form asp-controller="Person" asp-action="List" method="get" role="form">
+                                <input class="Login-input" type="hidden" name="page" value="1" />
+                                <input type="submit" class="nav-Link" value="Persons" />
+                            </form>
+                        </li>
+                        @{
+                            if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
+                            {
+                                <li class="nav-Item">
+                                    <form asp-controller="Genre" asp-action="Index" method="get" role="form">
+                                        <input type="submit" class="nav-Link" value="Genres" />
+                                    </form>
+                                </li>
+
+                                if (User.FindFirst(ClaimTypes.Role).Value == "Administrator")
+                                {
+                                    <li class="nav-Item">
+                                        <form asp-controller="User" asp-action="List" method="get" role="form">
+                                            <input class="Login-input" type="hidden" name="page" value="1" />
+                                            <input type="submit" class="nav-Link" value="User List" />
+                                        </form>
+                                    </li>
+                                }
+                            }
+
+                        }
+
+                    </ul>
+                </div>
+                <div class="input-group mb col-md-4">
+                    <form asp-controller="Search" asp-action="Search" method="get" role="form" style="width:100%;">
+                        <input type="hidden" style="display: none;" name="page" value="1" />
+                        <div class="row">
+                            <input type="text" class="form-control" style="width:80%;" placeholder="Search..." aria-label="search" name="search" aria-describedby="basic-addon2">
+
+                            <button class="btn btn-outline-secondary btn-search" type="submit"></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="User-button">
+                    @{
+                        if (User.Claims.Count() == 0)
+                        {
+                            <text>Not logged ▼</text>
+                            <div class="User-button-dropdown">
+                                <form asp-controller="User" asp-action="Login" method="post" role="form">
+                                    <input class="Login-input" type="text" name="Username" placeholder="Username" />
+                                    <input class="Login-input" type="password" name="Password" placeholder="Password" />
+                                    @if (Model.LoginSuccess != null)
+                                    {
+                                        if (Model.LoginSuccess == false)
+                                        {
+                                            <div class="Login-err">
+                                                Failed to login
+                                            </div>
+                                        }
+                                    }
+                                    <div class="Detail-info-row">
+                                        <input type="submit" class="btn btn-detail" value="Login" />
+                                        <a class="btn btn-detail" asp-area="" asp-controller="User" asp-action="New">Register</a>
+                                    </div>
+                                </form>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <text> @User.FindFirst(ClaimTypes.Name).Value</text>
+                            <div class="User-button-dropdown">
+                                <div class="Detail-info-row">
+                                    <text> @User.FindFirst(ClaimTypes.Role).Value</text>
+                                </div>
+                                <div class="Detail-info-row">
+                                    <a class="btn btn-detail" asp-area="" asp-controller="User" asp-action="Detail">Account</a>
+                                    <a class="btn btn-delete" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer">
+        <div class="container">
+            &copy; 2020 - Super Cool Movie Database - Tým Tu Kabel
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

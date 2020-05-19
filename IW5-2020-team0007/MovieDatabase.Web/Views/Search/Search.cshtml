@@ -1,0 +1,140 @@
+﻿@model MovieDatabase.Web.ViewModels.SearchViewModel
+@{
+    List<MovieSearchResult> movies = new List<MovieSearchResult>();
+    List<PersonSearchResult> person = new List<PersonSearchResult>();
+    List<RatingSearchResult> rates = new List<RatingSearchResult>();
+    ViewData["Title"] = "Search";
+    foreach (var member in Model.SearchResultBase.Data)
+    {
+        if (member.Type == SearchResultType.Movie)
+        {
+            movies.Add(member.MovieResult);
+        }
+        else if (member.Type == SearchResultType.Person)
+        {
+            person.Add(member.PersonResult);
+        }
+        else if (member.Type == SearchResultType.Rating)
+        {
+            rates.Add(member.RatingResult);
+        }
+    }
+    if (!movies.Count().Equals(0))
+    {
+        <p class="Page-Title">Movies</p>
+        <table class="List">
+            <tr>
+                <th>Title</th>
+                <th>Country</th>
+                <th>Length</th>
+                <th></th>
+            </tr>
+            @{
+                foreach (var result in movies)
+                {
+                    <tr class="List-Item">
+                        <td class="List-Item-Caption">@result.OriginalName</td>
+                        <td class="List-Item-Caption">@result.Country</td>
+                        <td class="List-Item-Caption">@TimeSpan.FromMinutes(result.Length)</td>
+                        <td class="List-Item-Btn">
+                            <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@result.Id" class="btn btn-detail">Detail</a>
+                        </td>
+                    </tr>
+                }
+
+            }
+        </table>
+    }
+    else
+    {
+        <p class="Page-Title">No match in movies.</p>
+    }
+    if (!person.Count().Equals(0))
+    {
+        <p class="Page-Title">Person</p>
+        <table class="List">
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Age</th>
+                <th></th>
+            </tr>
+            @{
+                foreach (var result in person)
+                {
+
+                    <tr class="List-Item">
+                        <td class="List-Item-Photo" background="@result.ProfilePictureUrl"></td>
+                        <td class="List-Item-Caption">@(result.Name + " " + result.Surname)</td>
+                        <td class="List-Item-Caption">@result.Age</td>
+                        <td class="List-Item-Btn">
+                            <a asp-controller="Person" asp-action="Detail" asp-route-ID="@result.Id" class="btn btn-detail">Detail</a>
+                        </td>
+                    </tr>
+                }
+
+            }
+        </table>
+    }
+    else
+    {
+        <p class="Page-Title">No match in persons.</p>
+    }
+    if (!rates.Count().Equals(0))
+    {
+        <p class="Page-Title">Rates</p>
+        <table class="List">
+            <tr>
+                <th>Movie</th>
+                <th>Name</th>
+                <th>Text</th>
+                <th>Score</th>
+                <th></th>
+            </tr>
+            @{
+                foreach (var result in rates)
+                {
+                    <tr class="List-Item">
+                        <td class="List-Item-Caption">@result.Movie.OriginalName</td>
+                        <td class="List-Item-Caption">@result.User.Username</td>
+                        <td class="List-Item-Caption">@(result.ShortText)...</td>
+                        <td class="List-Item-Caption">@(result.Score)%</td>
+                        <td class="List-Item-Btn">
+                            <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@result.Movie.Id" class="btn btn-detail">Detail</a>
+                        </td>
+                    </tr>
+                }
+
+            }
+        </table>
+    }
+    else
+    {
+        <p class="Page-Title">No match in ratings.</p>
+    }
+}
+<div class="page-switcher">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <form asp-controller="Search" asp-action="Search" method="get" role="form">
+                    <input type="hidden" name="search" value="@Model.keyword" />
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.SearchResultBase.Page - 1)" />
+                    <button @(Model.SearchResultBase.CanPrev ? "" : "disabled") type="submit" class="page-link" href="#">Previous</button>
+                </form>
+            </li>
+
+            <li class="page-item">
+                <span class="page-link">@Model.SearchResultBase.Page</span>
+            </li>
+
+            <li class="page-item">
+                <form asp-controller="Search" asp-action="Search" method="get" role="form">
+                    <input type="hidden" name="search" value="@Model.keyword" />
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.SearchResultBase.Page + 1)" />
+                    <button @(Model.SearchResultBase.CanNext ? "" : "disabled") type="submit" class="page-link" href="#">Next</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</div>
