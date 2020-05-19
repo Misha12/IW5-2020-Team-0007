@@ -82,3 +82,47 @@
 
 </form>
 
+<div class="card mt-2">
+    <h5 class="card-header our-light-green">Acts in</h5>
+
+    <form class="card-body d-flex flex-wrap" asp-controller="Movie" asp-action="UpdateActors" method="post">
+        <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
+
+        @foreach (var movie in Model.PersonDetailModel.ActingIn)
+        {
+            <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@movie.Id" class="card-link">
+                <div class="card mr-3" style="width: 13rem; height: 23.5rem;">
+
+                    <input type="hidden" name="actors" value="@movie.Id" />
+                    <img class="card-img-top" src="@movie.TitleImageUrl" alt="@movie.OriginalName">
+                    <div class="card-body our-light-green">
+                        <h5 class="card-title">@movie.OriginalName</h5>
+
+                    </div>
+
+                </div>
+            </a>
+        }
+    </form>
+</div>
+
+<div class="card mt-2">
+    <h5 class="card-header our-light-green">Directs</h5>
+
+    <form class="card-body d-flex flex-wrap" asp-controller="Movie" asp-action="UpdateActors" method="post">
+        <input type="hidden" name="ID" value="@Model.PersonDetailModel.Id" />
+
+        @foreach (var movie in Model.PersonDetailModel.DirectedIn)
+        {
+            <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@movie.Id" class="card-link">
+                <div class="card mr-3" style="width: 13rem; height: 23.5rem;">
+                    <input type="hidden" name="actors" value="@movie.Id" />
+                    <img class="card-img-top" src="@movie.TitleImageUrl" alt="@movie.OriginalName">
+                    <div class="card-body our-light-green">
+                        <h5 class="card-title">@movie.OriginalName</h5>
+                    </div>
+                </div>
+            </a>
+        }
+    </form>
+</div>

@@ -22,6 +22,7 @@ namespace MovieDatabase.Web.Controllers
         {
             var searchViewModel = new SearchViewModel
             {
+                keyword = search,
                 SearchResultBase = await Find(search,page)
             };
             return View(searchViewModel);
