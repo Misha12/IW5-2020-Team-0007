@@ -210,10 +210,11 @@ namespace MovieDatabase.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<User> ChangeRole(long ID, RoleChangeRequest roleChange)
+        public async Task<IActionResult> ChangeRole(long ID, RoleChangeRequest roleChange)
         {
             var a = await _userFacade.ChangeRoleAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, ID, roleChange);
-            return a;
+            return RedirectToAction("AdminDetail", new { ID = ID });
+
         }
 
         [HttpPost]
