@@ -24,8 +24,8 @@
         <p class="Page-Title">Movies</p>
         <table class="List">
             <tr>
-                <th></th>
-                <th>OriginalName</th>
+                <th>Title</th>
+                <th>Country</th>
                 <th>Length</th>
                 <th></th>
             </tr>
@@ -54,7 +54,7 @@
         <p class="Page-Title">Person</p>
         <table class="List">
             <tr>
-                <th>Photo</th>
+                <th></th>
                 <th>Name</th>
                 <th>Age</th>
                 <th></th>
@@ -89,6 +89,7 @@
                 <th>Name</th>
                 <th>Text</th>
                 <th>Score</th>
+                <th></th>
             </tr>
             @{
                 foreach (var result in rates)
@@ -96,8 +97,11 @@
                     <tr class="List-Item">
                         <td class="List-Item-Caption">@result.Movie.OriginalName</td>
                         <td class="List-Item-Caption">@result.User.Username</td>
-                        <td class="List-Item-Caption">@result.ShortText</td>
-                        <td class="List-Item-Caption">@result.Score</td>
+                        <td class="List-Item-Caption">@(result.ShortText)...</td>
+                        <td class="List-Item-Caption">@(result.Score)%</td>
+                        <td class="List-Item-Btn">
+                            <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@result.Movie.Id" class="btn btn-detail">Detail</a>
+                        </td>
                     </tr>
                 }
 
@@ -108,5 +112,29 @@
     {
         <p class="Page-Title">No match in ratings.</p>
     }
-
 }
+<div class="page-switcher">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <form asp-controller="Search" asp-action="Search" method="get" role="form">
+                    <input type="hidden" name="search" value="@Model.keyword" />
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.SearchResultBase.Page - 1)" />
+                    <button @(Model.SearchResultBase.CanPrev ? "" : "disabled") type="submit" class="page-link" href="#">Previous</button>
+                </form>
+            </li>
+
+            <li class="page-item">
+                <span class="page-link">@Model.SearchResultBase.Page</span>
+            </li>
+
+            <li class="page-item">
+                <form asp-controller="Search" asp-action="Search" method="get" role="form">
+                    <input type="hidden" name="search" value="@Model.keyword" />
+                    <input class="Login-input" type="hidden" name="page" value="@(Model.SearchResultBase.Page + 1)" />
+                    <button @(Model.SearchResultBase.CanNext ? "" : "disabled") type="submit" class="page-link" href="#">Next</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</div>

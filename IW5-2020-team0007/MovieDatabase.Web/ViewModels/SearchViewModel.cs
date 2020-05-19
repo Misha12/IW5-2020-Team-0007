@@ -7,6 +7,7 @@ namespace MovieDatabase.Web.ViewModels
 {
     public class SearchViewModel
     {
+        public String keyword { get; set; }
         public PaginatedDataOfSearchResult SearchResultBase { get; set; }
     }
 }
