@@ -40,9 +40,10 @@
                                     <input class="Login-input" type="hidden" name="page" value="1" />
                                     <input type="submit" class="nav-Link" value="User List" />
                                 </form>
-                                @*<li class="nav-Item">
-                                        <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
-                                    </li>*@
+
+                                <form asp-controller="Genre" asp-action="Index" method="get" role="form">
+                                    <input type="submit" class="nav-Link" value="Genres" />
+                                </form>
                             }
                         }
                     </ul>

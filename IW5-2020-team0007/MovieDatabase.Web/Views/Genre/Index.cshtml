@@ -1,0 +1,39 @@
+﻿@model MovieDatabase.Web.ViewModels.GenresViewModel;
+
+<p class="Page-Title">
+    Genres
+</p>
+
+<form asp-controller="Genre" asp-action="Create" method="post">
+    <table class="List">
+        <tr>
+            <th class="sm">#</th>
+            <th class="sm">Name</th>
+            <th class="sm">Count of movies</th>
+            <th class="sm">&nbsp;</th>
+        </tr>
+
+        @foreach (var genre in Model.Genres)
+        {
+            <tr class="List-Item sm">
+                <td>@genre.Id</td>
+                <td>@genre.Name</td>
+                <td>@genre.MoviesCount</td>
+                <td>
+                    <a asp-controller="Genre" asp-action="DeleteGenre" asp-route-id="@genre.Id" class="btn our-dark-red btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+
+        <tr class="List-Item sm">
+            <td>&nbsp;</td>
+            <td valign="middle">
+                <input type="text" name="Name" class="form-control form-control-sm" placeholder="Name of new genre" />
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <button type="submit" class="btn our-dark-blue btn-sm">Create</button>
+            </td>
+        </tr>
+    </table>
+</form>
