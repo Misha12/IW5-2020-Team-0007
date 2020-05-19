@@ -41,19 +41,19 @@
                                     <input type="submit" class="nav-Link" value="User List" />
                                 </form>
                                 @*<li class="nav-Item">
-                            <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
-                        </li>*@
+                                        <a class="nav-Link" asp-area="" asp-controller="User" asp-action="List">User List</a>
+                                    </li>*@
                             }
                         }
                     </ul>
                 </div>
                 <div class="input-group mb col-md-4">
-                    <form asp-controller="Search" asp-action="Search" method="get" role="form">
-                        <input type="hidden" name="page" value="1" />
-                        <input type="text" class="form-control" placeholder="Search..." aria-label="search" name="search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary btn-search" type="submit"></button>
+                    <form asp-controller="Search" asp-action="Search" method="get" role="form" style="width:100%;">
+                        <input type="hidden" style="display: none;" name="page" value="1" />
+                        <div class="row">
+                            <input type="text" class="form-control" style="width:80%;" placeholder="Search..." aria-label="search" name="search" aria-describedby="basic-addon2">
 
+                            <button class="btn btn-outline-secondary btn-search" type="submit"></button>
                         </div>
                     </form>
                 </div>

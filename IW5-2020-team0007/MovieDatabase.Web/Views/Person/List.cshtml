@@ -7,10 +7,10 @@
     }
 </p>
 <table class="List">
-    <tr>
+    <tr class="List-Col-Captions">
         <th> </th>
-        <th>Title</th>
-        <th>Length</th>
+        <th>Name</th>
+        <th>Surname</th>
         <th></th>
         @if (User.Claims.Count() != 0 && (User.FindFirst(ClaimTypes.Role).Value == "Administrator" || User.FindFirst(ClaimTypes.Role).Value == "ContentManager"))
         {

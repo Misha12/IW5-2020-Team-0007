@@ -64,7 +64,7 @@ a {
     background-size: 27px;
     background-repeat: no-repeat;
     background-position: center;
-    width: 40px;
+    width: 50px;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -246,6 +246,9 @@ th {
 
 .List {
     width: -webkit-fill-available;
+    background-color: #359A68 !important;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
     margin-top: 15px;
 }
 
@@ -257,7 +260,8 @@ th {
         float: left;
         color: #000000;
     }
-
+.List-Col-Captions {
+}
 .List-Item {
     background: linear-gradient(to right,lightgray,#e0e0e0);
     text-align: left;
@@ -396,18 +400,22 @@ th {
 
 .our-dark-blue {
     background-color: #310064 !important;
+    color: white !important;
 }
 
 .our-light-gray {
     background-color: lightgray !important;
+    color: black !important;
 }
 
 .our-dark-gray {
     background-color: grey !important;
+    color: white !important;
 }
 
 .our-dark-red {
     background-color: #640900 !important;
+    color: white !important;
 }
 
 .border-none {
