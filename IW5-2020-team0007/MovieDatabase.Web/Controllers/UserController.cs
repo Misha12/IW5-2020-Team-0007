@@ -146,21 +146,21 @@ namespace MovieDatabase.Web.Controllers
                     IssuedUtc = DateTimeOffset.UtcNow
                 });
 
-            return RedirectToAction(nameof(Login));
+            return Redirect("/");
         }
 
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Login");
+            return Redirect("/");
         }
 
         [HttpPost]
         public async Task<IActionResult> EditCurrentUser(UserEditRequest userEditRequest)
         {
             await _userFacade.CurrentUserUpdate(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userEditRequest);
-            return RedirectToAction(nameof(Login));
+            return Redirect("/");
         }
 
         [Authorize]
@@ -189,7 +189,7 @@ namespace MovieDatabase.Web.Controllers
         public async Task<IActionResult> ChangeMyPassword(PasswordChangeRequest userPassViewModel)
         {
             var a = await _userFacade.ChangeCurrentUserPasswordAsync(HttpContext.User.FindFirst(ClaimTypes.Hash).Value, userPassViewModel);
-            return RedirectToAction("Login");
+            return Redirect("/");
         }
 
         [HttpPost]
