@@ -94,7 +94,7 @@
                 <div class="card mr-3" style="width: 13rem; height: 23.5rem;">
 
                     <input type="hidden" name="actors" value="@movie.Id" />
-                    <img class="card-img-top" src="@movie.TitleImageUrl" alt="@movie.OriginalName">
+                    <div class="card-img-top" style="background: url('@movie.TitleImageUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
                     <div class="card-body our-light-green">
                         <h5 class="card-title">@movie.OriginalName</h5>
 
@@ -117,7 +117,7 @@
             <a asp-controller="Movie" asp-action="Detail" asp-route-ID="@movie.Id" class="card-link">
                 <div class="card mr-3" style="width: 13rem; height: 23.5rem;">
                     <input type="hidden" name="actors" value="@movie.Id" />
-                    <img class="card-img-top" src="@movie.TitleImageUrl" alt="@movie.OriginalName">
+                    <div class="card-img-top" style="background: url('@movie.TitleImageUrl'); width: 100%; height: 250px; background-size: cover; background-position: center center"></div>
                     <div class="card-body our-light-green">
                         <h5 class="card-title">@movie.OriginalName</h5>
                     </div>
