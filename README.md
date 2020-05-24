@@ -8,4 +8,4 @@
 
 - [Michal Halabica](https://github.com/Misha12)
 - Viktor Konupčík
-- Jakub Koudelka
+- [Jakub Koudelka](https://github.com/Were42)
